@@ -14,12 +14,12 @@ function wpmautic_settings()
 	add_options_page('WP Mautic Settings', 'WPMautic', 'manage_options', 'wpmautic', 'wpmautic_options_page');
 }
 
-// [tweetable]
+//
 function wpmautic_function( $atts, $content = null )
 {
 	$options = get_option('wpmautic_options');
 
-	$image   = '<img src="' . $options['base_url'] . '/p/page/tracker.gif' . '" />';
+	$image   = '<img src="' . $options['base_url'] . '/p/mtracking.gif' . '" />';
 
 	echo $image;
 }
