@@ -12,27 +12,32 @@ This plugin will allow you to add Mautic (Free Open Source Marketing Automation)
 
 == Description ==
 
-This is the long description.  No limit, and you can use Markdown (as well as in the following sections).
+[Mautic](http://mautic.org) [Wordpress](http://wordpress.org) Plugin inserts Mautic tracking image and forms to the WP website. Your Mautic instance will be able to track information about your visitors that way.
 
-For backwards compatibility, if this section is missing, the full length of the short description will be used, and
-Markdown parsed.
+== Installation ==
 
-A few notes about the sections above:
+1. Download ZIP package form right column of [this](https://github.com/mautic/mautic-wordpress) page.
+2. At your WP administration go to Plugins / Add New / Upload plugin.
+3. Select the ZIP package you downloaded in step 1.
+4. Go to Plugins and enable WP Mautic plugin.
+5. Go to Settings / WPMautic and fill in the Base URL of your Mautic instance.
 
-*   "Contributors" is a comma separated list of wp.org/wp-plugins.org usernames
-*   "Tags" is a comma separated list of tags that apply to the plugin
-*   "Requires at least" is the lowest version that the plugin will work on
-*   "Tested up to" is the highest version that you've *successfully used to test the plugin*. Note that it might work on
-higher versions... this is just the highest one you've verified.
-*   Stable tag should indicate the Subversion "tag" of the latest stable version, or "trunk," if you use `/trunk/` for
-stable.
+== Usage ==
 
-    Note that the `readme.txt` of the stable tag is the one that is considered the defining one for the plugin, so
-if the `/trunk/readme.txt` file says that the stable tag is `4.3`, then it is `/tags/4.3/readme.txt` that'll be used
-for displaying information about the plugin.  In this situation, the only thing considered from the trunk `readme.txt`
-is the stable tag pointer.  Thus, if you develop in trunk, you can update the trunk `readme.txt` to reflect changes in
-your in-development version, without having that information incorrectly disclosed about the current stable version
-that lacks those changes -- as long as the trunk's `readme.txt` points to the correct stable tag.
+### Mautic Tracking Image
 
-    If no stable tag is provided, it is assumed that trunk is stable, but you should specify "trunk" if that's where
-you put the stable version, in order to eliminate any doubt.
+Tracking image works right after you finish step 5 of Installation above. That means it will insert 1 px gif image loaded from your Mautic instance. You can check HTML source code (CTRL + U) of your WP website to make sure the plugin works. You should be able to find something like this:
+
+```html
+<img src="http://yourmautic.com/mtracking.gif" />
+```
+
+### Mautic Forms
+
+To load a Mautic Form to your WP post, insert this shortcode to the place you want the form to appear:
+
+```
+[mauticform id="1"]
+```
+
+Replace "1" with the form ID you want to load. To get the ID of the form, go to your Mautic, open the form detail and look at the URL. The ID is right there. For example in this URL: http://yourmautic.com/s/forms/view/3 the ID = 3.
