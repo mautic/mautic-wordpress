@@ -11,6 +11,7 @@
 
 add_action('admin_menu', 'wpmautic_settings');
 add_action('wp_footer', 'wpmautic_function');
+add_shortcode('mauticform', 'wpmautic_shortcode');
 
 function wpmautic_settings() 
 {
@@ -26,4 +27,14 @@ function wpmautic_function( $atts, $content = null )
 	$image   = '<img src="' . trim($options['base_url'], ' \t\n\r\0\x0B/') . '/mtracking.gif' . '" />';
 
 	echo $image;
+}
+
+// example: [mauticform id="1"]
+function wpmautic_shortcode( $atts )
+{
+    $options = get_option('wpmautic_options');
+    $base_url = trim($options['base_url'], ' \t\n\r\0\x0B/');
+    $mauticform = shortcode_atts(array('id'), $atts);
+
+    return '<script type="text/javascript" src="' . $base_url . '/p/form/generate.js?id=' . $atts['id'] . '"></script>';
 }
