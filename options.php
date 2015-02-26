@@ -1,4 +1,8 @@
 <?php
+/**
+ * Plugin Name: WP Mautic
+ * License: GPL2
+ */
 
 function wpmautic_options_page() 
 { ?>
