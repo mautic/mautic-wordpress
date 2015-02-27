@@ -16,6 +16,11 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
 
+// Store plugin directory
+define( 'VPMAUTIC_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+// Store plugin main file path
+define( 'VPMAUTIC_PLUGIN_FILE', __FILE__ );
+
 add_action('admin_menu', 'wpmautic_settings');
 add_action('wp_footer', 'wpmautic_function');
 add_shortcode('mauticform', 'wpmautic_shortcode');
@@ -25,6 +30,19 @@ function wpmautic_settings()
 	include_once(dirname(__FILE__) . '/options.php');
 	add_options_page('WP Mautic Settings', 'WPMautic', 'manage_options', 'wpmautic', 'wpmautic_options_page');
 }
+
+/**
+ * Settings Link in the ``Installed Plugins`` page
+ */
+function wpmautic_plugin_actions( $links, $file ) {
+    if( $file == plugin_basename( VPMAUTIC_PLUGIN_FILE ) && function_exists( "admin_url" ) ) {
+        $settings_link = '<a href="' . admin_url( 'options-general.php?page=wpmautic' ) . '">' . __('Settings') . '</a>';
+        // Add the settings link before other links
+        array_unshift( $links, $settings_link );
+    }
+    return $links;
+}
+add_filter( 'plugin_action_links', 'wpmautic_plugin_actions', 10, 2 );
 
 //
 function wpmautic_function( $atts, $content = null )
