@@ -11,9 +11,9 @@
 
 // Prevent direct access to this file.
 if ( ! defined( 'ABSPATH' ) ) {
-    header( 'HTTP/1.0 403 Forbidden' );
-    echo 'This file should not be accessed directly!';
-    exit; // Exit if accessed directly
+	header( 'HTTP/1.0 403 Forbidden' );
+	echo 'This file should not be accessed directly!';
+	exit; // Exit if accessed directly
 }
 
 // Store plugin directory
@@ -35,12 +35,12 @@ function wpmautic_settings()
  * Settings Link in the ``Installed Plugins`` page
  */
 function wpmautic_plugin_actions( $links, $file ) {
-    if( $file == plugin_basename( VPMAUTIC_PLUGIN_FILE ) && function_exists( "admin_url" ) ) {
-        $settings_link = '<a href="' . admin_url( 'options-general.php?page=wpmautic' ) . '">' . __('Settings') . '</a>';
-        // Add the settings link before other links
-        array_unshift( $links, $settings_link );
-    }
-    return $links;
+	if( $file == plugin_basename( VPMAUTIC_PLUGIN_FILE ) && function_exists( "admin_url" ) ) {
+		$settings_link = '<a href="' . admin_url( 'options-general.php?page=wpmautic' ) . '">' . __('Settings') . '</a>';
+		// Add the settings link before other links
+		array_unshift( $links, $settings_link );
+	}
+	return $links;
 }
 add_filter( 'plugin_action_links', 'wpmautic_plugin_actions', 10, 2 );
 
@@ -50,8 +50,8 @@ add_filter( 'plugin_action_links', 'wpmautic_plugin_actions', 10, 2 );
 function wpmautic_function( $atts, $content = null )
 {
 	$options = get_option('wpmautic_options');
-    $url_query = wpmautic_get_url_query();
-    $encoded_query = urlencode(base64_encode(serialize($url_query)));
+	$url_query = wpmautic_get_url_query();
+	$encoded_query = urlencode(base64_encode(serialize($url_query)));
 
 	$image   = '<img src="' . trim($options['base_url'], ' \t\n\r\0\x0B/') . '/mtracking.gif?d=' . $encoded_query . '" />';
 
@@ -67,11 +67,11 @@ function wpmautic_function( $atts, $content = null )
  */
 function wpmautic_shortcode( $atts )
 {
-    $options = get_option('wpmautic_options');
-    $base_url = trim($options['base_url'], ' \t\n\r\0\x0B/');
-    $mauticform = shortcode_atts(array('id'), $atts);
+	$options = get_option('wpmautic_options');
+	$base_url = trim($options['base_url'], ' \t\n\r\0\x0B/');
+	$mauticform = shortcode_atts(array('id'), $atts);
 
-    return '<script type="text/javascript" src="' . $base_url . '/form/generate.js?id=' . $atts['id'] . '"></script>';
+	return '<script type="text/javascript" src="' . $base_url . '/form/generate.js?id=' . $atts['id'] . '"></script>';
 }
 
 /**
@@ -81,15 +81,15 @@ function wpmautic_shortcode( $atts )
  */
 function wpmautic_get_url_query()
 {
-    global $wp;
-    $current_url = add_query_arg( $wp->query_string, '', home_url( $wp->request ) );
+	global $wp;
+	$current_url = add_query_arg( $wp->query_string, '', home_url( $wp->request ) );
 
-    $attrs = array();
-    $attrs['title']     = wpmautic_wp_title();
-    $attrs['language']  = get_locale();
-    $attrs['referrer']  = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $current_url;
-    $attrs['url']       = $current_url;
-    return $attrs;
+	$attrs = array();
+	$attrs['title']	 = wpmautic_wp_title();
+	$attrs['language']  = get_locale();
+	$attrs['referrer']  = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $current_url;
+	$attrs['url']	   = $current_url;
+	return $attrs;
 }
 
 /**
@@ -101,17 +101,17 @@ function wpmautic_get_url_query()
  * @return string Filtered title.
  */
 function wpmautic_wp_title( $title = '', $sep = '' ) {
-    global $paged, $page;
+	global $paged, $page;
 
-    if ( is_feed() )
-        return $title;
+	if ( is_feed() )
+		return $title;
 
-    // Add the site name.
-    $title .= trim(wp_title($sep, false));
+	// Add the site name.
+	$title .= trim(wp_title($sep, false));
 
-    // Add a page number if necessary.
-    if ( $paged >= 2 || $page >= 2 )
-        $title = "$title $sep " . sprintf( __( 'Page %s', 'twentytwelve' ), max( $paged, $page ) );
+	// Add a page number if necessary.
+	if ( $paged >= 2 || $page >= 2 )
+		$title = "$title $sep " . sprintf( __( 'Page %s', 'twentytwelve' ), max( $paged, $page ) );
 
-    return $title;
+	return $title;
 }
