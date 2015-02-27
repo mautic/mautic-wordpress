@@ -9,6 +9,13 @@
  * License: GPL2
  */
 
+// Prevent direct access to this file.
+if ( ! defined( 'ABSPATH' ) ) {
+    header( 'HTTP/1.0 403 Forbidden' );
+    echo 'This file should not be accessed directly!';
+    exit; // Exit if accessed directly
+}
+
 add_action('admin_menu', 'wpmautic_settings');
 add_action('wp_footer', 'wpmautic_function');
 add_shortcode('mauticform', 'wpmautic_shortcode');
