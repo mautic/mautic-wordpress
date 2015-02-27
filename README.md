@@ -21,6 +21,8 @@ Tracking image works right after you finish step 5 of Installation above. That m
 <img src="http://yourmautic.com/mtracking.gif" />
 ```
 
+Plugin adds more information (current url, referal url, page title, user language) to the image URL query encoded in base 64 (not humanly readable). This way your Mautic instance receives more valuable data.
+
 ### Mautic Forms
 
 To load a Mautic Form to your WP post, insert this shortcode to the place you want the form to appear:
