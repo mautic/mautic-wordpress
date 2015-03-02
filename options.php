@@ -1,19 +1,41 @@
 <?php
-/**
- * Plugin Name: WP Mautic
- * License: GPL2
- */
+
+// Prevent direct access to this file.
+if ( ! defined( 'ABSPATH' ) ) {
+	header( 'HTTP/1.0 403 Forbidden' );
+	echo 'This file should not be accessed directly!';
+	exit; // Exit if accessed directly
+}
 
 function wpmautic_options_page() 
 { ?>
 	 <div>
 		<h2>WP Mautic</h2>
-		Enable Base URL for Mautic Integration.
+		<p>Enable Base URL for Mautic Integration.</p>
 		<form action="options.php" method="post">
 			<?php settings_fields('wpmautic_options'); ?>
 			<?php do_settings_sections('wpmautic'); ?>
 			<input name="Submit" type="submit" value="<?php esc_attr_e('Save Changes'); ?>" />
 		</form>
+		<p>Shortcode example for Mautic Form Embed: <code>[mauticform id="1"]</code></p>
+		<h3>Quick Links</h3>
+		<ul>
+			<li>
+				<a href="https://github.com/mautic/mautic-wordpress#mautic-wordpress-plugin" target="_blank">Plugin docs</a>
+			</li>
+			<li>
+				<a href="https://github.com/mautic/mautic-wordpress/issues" target="_blank">Plugin support</a>
+			</li>
+			<li>
+				<a href="https://mautic.org" target="_blank">Mautic project</a>
+			</li>
+			<li>
+				<a href="http://docs.mautic.org/" target="_blank">Mautic docs</a>
+			</li>
+			<li>
+				<a href="https://www.mautic.org/community/" target="_blank">Mautic forum</a>
+			</li>
+		</ul>
 	</div>
 <?php
 }
