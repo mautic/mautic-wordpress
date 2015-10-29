@@ -53,7 +53,7 @@ function wpmautic_function( $atts, $content = null )
 	$url_query = wpmautic_get_url_query();
 	$encoded_query = urlencode(base64_encode(serialize($url_query)));
 
-	$image   = '<img style="display:none" src="' . trim($options['base_url'], ' \t\n\r\0\x0B/') . '/mtracking.gif?d=' . $encoded_query . '" />';
+	$image   = '<img style="display:none" src="' . trim($options['base_url'], " \t\n\r\0\x0B/") . '/mtracking.gif?d=' . $encoded_query . '" />';
 
 	echo $image;
 }
@@ -68,7 +68,7 @@ function wpmautic_function( $atts, $content = null )
 function wpmautic_shortcode( $atts )
 {
 	$options = get_option('wpmautic_options');
-	$base_url = trim($options['base_url'], ' \t\n\r\0\x0B/');
+	$base_url = trim($options['base_url'], " \t\n\r\0\x0B/");
 	$mauticform = shortcode_atts(array('id'), $atts);
 
 	return '<script type="text/javascript" src="' . $base_url . '/form/generate.js?id=' . $atts['id'] . '"></script>';
