@@ -3,7 +3,7 @@
  * Plugin Name: WP Mautic
  * Plugin URI: https://github.com/mautic/mautic-wordpress
  * Description: This plugin will allow you to add Mautic (Free Open Source Marketing Automation) tracking to your site
- * Version: 0.0.1
+ * Version: 1.0.1
  * Author: Mautic community
  * Author URI: http://mautic.org
  * License: GPL2
@@ -25,7 +25,7 @@ add_action('admin_menu', 'wpmautic_settings');
 add_action('wp_footer', 'wpmautic_function');
 add_shortcode('mauticform', 'wpmautic_shortcode');
 
-function wpmautic_settings() 
+function wpmautic_settings()
 {
 	include_once(dirname(__FILE__) . '/options.php');
 	add_options_page('WP Mautic Settings', 'WPMautic', 'manage_options', 'wpmautic', 'wpmautic_options_page');
@@ -53,7 +53,7 @@ function wpmautic_function( $atts, $content = null )
 	$url_query = wpmautic_get_url_query();
 	$encoded_query = urlencode(base64_encode(serialize($url_query)));
 
-	$image   = '<img style="display:none" src="' . trim($options['base_url'], " \t\n\r\0\x0B/") . '/mtracking.gif?d=' . $encoded_query . '" />';
+	$image   = '<img style="display:none" src="' . trim($options['base_url'], " \t\n\r\0\x0B/") . '/mtracking.gif?d=' . $encoded_query . '" alt="mautic is open source marketing automation" />';
 
 	echo $image;
 }
@@ -61,7 +61,7 @@ function wpmautic_function( $atts, $content = null )
 /**
  * Handle mauticform shortcode
  * example: [mauticform id="1"]
- * 
+ *
  * @param  array $atts
  * @return string
  */
@@ -76,7 +76,7 @@ function wpmautic_shortcode( $atts )
 
 /**
  * Builds and returns additional data for URL query
- * 
+ *
  * @return array
  */
 function wpmautic_get_url_query()
