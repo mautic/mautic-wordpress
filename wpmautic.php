@@ -87,7 +87,7 @@ function wpmautic_get_url_query()
 	$attrs = array();
 	$attrs['title']	 = wpmautic_wp_title();
 	$attrs['language']  = get_locale();
-	$attrs['referrer']  = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $current_url;
+	$attrs['referrer']  = isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $current_url;
 	$attrs['url']	   = $current_url;
 	return $attrs;
 }
