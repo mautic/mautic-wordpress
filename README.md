@@ -5,11 +5,24 @@ Mautic WordPress plugin
 
 ## Installation
 
-1. Download ZIP package form right column of [this](https://github.com/mautic/mautic-wordpress) page.
-2. At your WP administration go to Plugins / Add New / Upload plugin.
-3. Select the ZIP package you downloaded in step 1.
-4. Go to Plugins and enable WP Mautic plugin.
-5. Go to Settings / WPMautic and fill in the Base URL of your Mautic instance.
+### Via WP administration
+
+Mautic - WordPress plugin [is listed](https://wordpress.org/plugins/wp-mautic/) in the in the official WordPress plugin repository. That makes it very easy to install it directly form WP administration.
+
+1. Go to *Plugins* / *Add New*.
+2. Search for **WP Mautic** in the search box.
+3. The "WP Mautic" plugin should appear. Click on Install.
+4. Go to *Settings* / WP Mautic and fill in the Base URL of your Mautic instance.
+
+### Via ZIP package
+
+If the installation via official WP plugin repository doesn't work for you, follow these steps:
+
+1. [Download ZIP package](https://github.com/mautic/mautic-wordpress/archive/master.zip).
+2. At your WP administration go to *Plugins* / *Add New* / *Upload plugin*.
+3. Select the ZIP package you've downloaded in step 1.
+4. Go to *Plugins* and enable WP Mautic plugin.
+5. Go to *Settings* / WPMautic and fill in the Base URL of your Mautic instance.
 
 ## Usage
 
