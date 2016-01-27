@@ -3,7 +3,7 @@
  * Plugin Name: WP Mautic
  * Plugin URI: https://github.com/mautic/mautic-wordpress
  * Description: This plugin will allow you to add Mautic (Free Open Source Marketing Automation) tracking to your site
- * Version: 1.0.1
+ * Version: 1.0.2
  * Author: Mautic community
  * Author URI: http://mautic.org
  * License: GPL2
@@ -51,9 +51,15 @@ function wpmautic_function( $atts, $content = null )
 {
 	$options = get_option('wpmautic_options');
 	$url_query = wpmautic_get_url_query();
+	$user_query = wpmautic_get_user_query();
+
+	if ($user_query) {
+		$url_query = array_merge($url_query, $user_query);
+	}
+
 	$encoded_query = urlencode(base64_encode(serialize($url_query)));
 
-	$image   = '<img style="display:none" src="' . trim($options['base_url'], " \t\n\r\0\x0B/") . '/mtracking.gif?d=' . $encoded_query . '" alt="mautic is open source marketing automation" />';
+	$image   = '<img style="display:none" src="' . trim($options['base_url'], " \t\n\r\0\x0B/") . '/mtracking.gif?d=' . $encoded_query . '" alt="Mautic is open source marketing automation" />';
 
 	echo $image;
 }
@@ -114,4 +120,28 @@ function wpmautic_wp_title( $title = '', $sep = '' ) {
 		$title = "$title $sep " . sprintf( __( 'Page %s', 'twentytwelve' ), max( $paged, $page ) );
 
 	return $title;
+}
+
+/**
+ * Adds the user email, and other known elements about the user.
+ *
+ * @return array
+ */
+function wpmautic_get_user_query()
+{
+	global $wp;
+	$attrs = array();
+
+	if ( is_user_logged_in() ) {
+		$current_user = wp_get_current_user();
+		$attrs['email']	 = $current_user->user_email;
+		$attrs['firstname']  = $current_user->user_firstname;
+		$attrs['lastname']  = $current_user->user_lastname;
+		// Following Mautic fields has to be created manually and the fields must match these names
+		$attrs['wp_user']  = $current_user->user_login;
+		$attrs['hsbloguser']  = $current_user->display_name;
+		return $attrs;
+	} else {
+		return null;
+	}
 }

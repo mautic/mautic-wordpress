@@ -27,6 +27,8 @@ Tracking image works right after you finish step 5 of Installation above. That m
 
 There will be probably longer URL query string at the end of the tracking image URL. It is encoded additional data about the page (title, url, referrer, language).
 
+If a WP user is logged in, this plugin adds to the URL query also first name, last name, email, WP username and HS blog user name. Your Mautic must be configured to receive such information from public URL. You have to make the Mautic Lead Fields publicly updatable as mentioned in the [documentation](https://www.mautic.org/docs/leads/lead_monitoring.html#lead-fields). The *Publicly available* option is in the configuration of every lead field. The WP username and HS blog name fields are not the default Mautic fields so you'll have to create them manually. Make sure they will have aliases `wp_user` and `hsbloguser`.
+
 ### Mautic Forms
 
 To load a Mautic Form to your WP post, insert this shortcode to the place you want the form to appear:
