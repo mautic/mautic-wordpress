@@ -6,6 +6,8 @@
  * Version: 1.0.1
  * Author: Mautic community
  * Author URI: http://mautic.org
+ * Text Domain: mautic-wordpress
+ * Domain Path: /languages
  * License: GPL2
  */
 
