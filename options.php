@@ -10,30 +10,30 @@ if ( ! defined( 'ABSPATH' ) ) {
 function wpmautic_options_page()
 { ?>
 	 <div>
-		<h2>WP Mautic</h2>
-		<p>Enable Base URL for Mautic Integration.</p>
+		<h2><?php _e( 'WP Mautic', 'mautic-wordpress' ); ?></h2>
+		<p><?php _e( 'Enable Base URL for Mautic Integration.', 'mautic-wordpress' ); ?></p>
 		<form action="options.php" method="post">
 			<?php settings_fields('wpmautic_options'); ?>
 			<?php do_settings_sections('wpmautic'); ?>
 			<input name="Submit" type="submit" value="<?php esc_attr_e('Save Changes'); ?>" />
 		</form>
-		<p>Shortcode example for Mautic Form Embed: <code>[mauticform id="1"]</code></p>
-		<h3>Quick Links</h3>
+		<p><?php _e( 'Shortcode example for Mautic Form Embed:', 'mautic-wordpress' ); ?> <code>[mauticform id="1"]</code></p>
+		<h3><?php _e( 'Quick Links', 'mautic-wordpress' ); ?></h3>
 		<ul>
 			<li>
-				<a href="https://github.com/mautic/mautic-wordpress#mautic-wordpress-plugin" target="_blank">Plugin docs</a>
+				<a href="https://github.com/mautic/mautic-wordpress#mautic-wordpress-plugin" target="_blank"><?php _e( 'Plugin docs', 'mautic-wordpress' ); ?></a>
 			</li>
 			<li>
-				<a href="https://github.com/mautic/mautic-wordpress/issues" target="_blank">Plugin support</a>
+				<a href="https://github.com/mautic/mautic-wordpress/issues" target="_blank"><?php _e( 'Plugin support', 'mautic-wordpress' ); ?></a>
 			</li>
 			<li>
-				<a href="https://mautic.org" target="_blank">Mautic project</a>
+				<a href="https://mautic.org" target="_blank"><?php _e( 'Mautic project', 'mautic-wordpress' ); ?></a>
 			</li>
 			<li>
-				<a href="http://docs.mautic.org/" target="_blank">Mautic docs</a>
+				<a href="http://docs.mautic.org/" target="_blank"><?php _e( 'Mautic docs', 'mautic-wordpress' ); ?></a>
 			</li>
 			<li>
-				<a href="https://www.mautic.org/community/" target="_blank">Mautic forum</a>
+				<a href="https://www.mautic.org/community/" target="_blank"><?php _e( 'Mautic forum', 'mautic-wordpress' ); ?></a>
 			</li>
 		</ul>
 	</div>
