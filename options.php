@@ -18,34 +18,34 @@ if ( ! defined( 'ABSPATH' ) ) {
 function wpmautic_options_page() {
 	?>
 	<div>
-		<h2>WP Mautic</h2>
-		<p>Enable Base URL for Mautic Integration.</p>
+		<h2><?php esc_html_e( 'WP Mautic', 'mautic-wordpress' ); ?></h2>
+		<p><?php esc_html_e( 'Enable Base URL for Mautic Integration.', 'mautic-wordpress' ); ?></p>
 		<form action="options.php" method="post">
 			<?php settings_fields( 'wpmautic' ); ?>
 			<?php do_settings_sections( 'wpmautic' ); ?>
 			<?php submit_button(); ?>
 		</form>
-		<h3>Shortcode Examples:</h3>
+		<h3><?php esc_html_e( 'Shortcode Examples:', 'mautic-wordpress' ); ?></h3>
 		<ul>
-			<li>Mautic Form Embed: <code>[mautic type="form" id="1"]</code></li>
-			<li>Mautic Dynamic Content: <code>[mautic type="content" slot="slot_name"]Default Text[/mautic]</code></li>
+			<li><?php esc_html_e( 'Mautic Form Embed:', 'mautic-wordpress' ); ?> <code>[mautic type="form" id="1"]</code></li>
+			<li><?php esc_html_e( 'Mautic Dynamic Content:', 'mautic-wordpress' ); ?> <code>[mautic type="content" slot="slot_name"]<?php esc_html_e( 'Default Text', 'mautic-wordpress' ); ?>[/mautic]</code></li>
 		</ul>
-		<h3>Quick Links</h3>
+		<h3><?php esc_html_e( 'Quick Links', 'mautic-wordpress' ); ?></h3>
 		<ul>
 			<li>
-				<a href="https://github.com/mautic/mautic-wordpress#mautic-wordpress-plugin" target="_blank">Plugin docs</a>
+				<a href="https://github.com/mautic/mautic-wordpress#mautic-wordpress-plugin" target="_blank"><?php esc_html_e( 'Plugin docs', 'mautic-wordpress' ); ?></a>
 			</li>
 			<li>
-				<a href="https://github.com/mautic/mautic-wordpress/issues" target="_blank">Plugin support</a>
+				<a href="https://github.com/mautic/mautic-wordpress/issues" target="_blank"><?php esc_html_e( 'Plugin support', 'mautic-wordpress' ); ?></a>
 			</li>
 			<li>
-				<a href="https://mautic.org" target="_blank">Mautic project</a>
+				<a href="https://mautic.org" target="_blank"><?php esc_html_e( 'Mautic project', 'mautic-wordpress' ); ?></a>
 			</li>
 			<li>
-				<a href="http://docs.mautic.org/" target="_blank">Mautic docs</a>
+				<a href="http://docs.mautic.org/" target="_blank"><?php esc_html_e( 'Mautic docs', 'mautic-wordpress' ); ?></a>
 			</li>
 			<li>
-				<a href="https://www.mautic.org/community/" target="_blank">Mautic forum</a>
+				<a href="https://www.mautic.org/community/" target="_blank"><?php esc_html_e( 'Mautic forum', 'mautic-wordpress' ); ?></a>
 			</li>
 		</ul>
 	</div>
