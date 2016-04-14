@@ -15,7 +15,7 @@ function wpmautic_options_page()
 		<form action="options.php" method="post">
 			<?php settings_fields('wpmautic_options'); ?>
 			<?php do_settings_sections('wpmautic'); ?>
-			<input name="Submit" type="submit" value="<?php esc_attr_e('Save Changes'); ?>" />
+			<?php submit_button(); ?>
 		</form>
 		<p>Shortcode example for Mautic Form Embed: <code>[mauticform id="1"]</code></p>
 		<h3>Quick Links</h3>

@@ -1,5 +1,5 @@
 === WP Mautic ===
-Contributors: mautic
+Contributors: mautic,hideokamoto
 Donate link: http://mautic.org/
 Tags: marketing, automation
 Requires at least: 3.0.1
