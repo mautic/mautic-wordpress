@@ -16,6 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
+require_once __DIR__ . '/vendor/autoload.php';
+
 // Store plugin directory
 define( 'VPMAUTIC_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 // Store plugin main file path
@@ -24,6 +26,7 @@ define( 'VPMAUTIC_PLUGIN_FILE', __FILE__ );
 add_action('admin_menu', 'wpmautic_settings');
 add_action('wp_footer', 'wpmautic_function');
 add_shortcode('mauticform', 'wpmautic_shortcode');
+add_shortcode('mauticcontent', 'wpmautic_dwc_shortcode');
 
 function wpmautic_settings()
 {
@@ -74,6 +77,45 @@ function wpmautic_shortcode( $atts )
 	return '<script type="text/javascript" src="' . $base_url . '/form/generate.js?id=' . $atts['id'] . '"></script>';
 }
 
+function wpmautic_dwc_shortcode( $atts, $content = null )
+{
+	$options  = get_option('wpmautic_options');
+	$base_url = trim($options['base_url'], " \t\n\r\0\x0B/");
+	$atts     = shortcode_atts(array('slot' => ''), $atts, 'mauticcontent');
+	$http     = new \GuzzleHttp\Client(
+		array(
+			'base_uri' => $base_url,
+			'cookies'  => true,
+			'headers'  => array(
+				'HTTP_X_FORWARDED_FOR' => wpmautic_client_ip()
+			)
+		)
+	);
+
+	try {
+		// This loads the cookies
+		$http->get('/mtracking.gif');
+	} catch (\GuzzleHttp\Exception\BadResponseException $e) {
+		// If we don't have a mautic_session_id, we can't proceed
+		return $content;
+	}
+
+	try {
+		$response = $http->get('/dwc/' . $atts['slot']);
+	} catch (\GuzzleHttp\Exception\BadResponseException $e) {
+		// If we get a ServerException, just return original $content
+		return $content;
+	}
+
+	$dwcContent = $response->getBody();
+
+	if ($response->getStatusCode() === 200 && ! empty($dwcContent)) {
+		return $dwcContent;
+	}
+
+	return $content;
+}
+
 /**
  * Builds and returns additional data for URL query
  *
@@ -114,4 +156,18 @@ function wpmautic_wp_title( $title = '', $sep = '' ) {
 		$title = "$title $sep " . sprintf( __( 'Page %s', 'twentytwelve' ), max( $paged, $page ) );
 
 	return $title;
+}
+
+function wpmautic_client_ip() {
+	if (! empty( $_SERVER['HTTP_CLIENT_IP'])) {
+		//check ip from share internet
+		$ip = $_SERVER['HTTP_CLIENT_IP'];
+	} elseif (! empty( $_SERVER['HTTP_X_FORWARDED_FOR'])) {
+		//to check ip is pass from proxy
+		$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+	} else {
+		$ip = $_SERVER['REMOTE_ADDR'];
+	}
+
+	return apply_filters('wpb_get_ip', $ip);
 }

@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 function wpmautic_options_page()
 { ?>
-	 <div>
+	<div>
 		<h2>WP Mautic</h2>
 		<p>Enable Base URL for Mautic Integration.</p>
 		<form action="options.php" method="post">
@@ -17,7 +17,11 @@ function wpmautic_options_page()
 			<?php do_settings_sections('wpmautic'); ?>
 			<input name="Submit" type="submit" value="<?php esc_attr_e('Save Changes'); ?>" />
 		</form>
-		<p>Shortcode example for Mautic Form Embed: <code>[mauticform id="1"]</code></p>
+		<h3>Shortcode Examples:</h3>
+		<ul>
+			<li>Mautic Form Embed: <code>[mauticform id="1"]</code></li>
+			<li>Mautic Dynamic Content: <code>[mauticcontent slot="slot_name"]Default Text[/mauticcontent]</code></li>
+		</ul>
 		<h3>Quick Links</h3>
 		<ul>
 			<li>
@@ -37,7 +41,7 @@ function wpmautic_options_page()
 			</li>
 		</ul>
 	</div>
-<?php
+	<?php
 }
 
 add_action('admin_init', 'wpmautic_admin_init');
