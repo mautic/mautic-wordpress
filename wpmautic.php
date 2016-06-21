@@ -16,8 +16,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-require_once __DIR__ . '/vendor/autoload.php';
-
 // Store plugin directory
 define( 'VPMAUTIC_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 // Store plugin main file path
@@ -77,43 +75,16 @@ function wpmautic_shortcode( $atts )
 	return '<script type="text/javascript" src="' . $base_url . '/form/generate.js?id=' . $atts['id'] . '"></script>';
 }
 
-function wpmautic_dwc_shortcode( $atts, $content = null )
+function wpmautic_dwc_shortcode( $atts, $content = null)
 {
 	$options  = get_option('wpmautic_options');
 	$base_url = trim($options['base_url'], " \t\n\r\0\x0B/");
 	$atts     = shortcode_atts(array('slot' => ''), $atts, 'mauticcontent');
-	$http     = new \GuzzleHttp\Client(
-		array(
-			'base_uri' => $base_url,
-			'cookies'  => true,
-			'headers'  => array(
-				'HTTP_X_FORWARDED_FOR' => wpmautic_client_ip()
-			)
-		)
-	);
-
-	try {
-		// This loads the cookies
-		$http->get('/mtracking.gif');
-	} catch (\GuzzleHttp\Exception\BadResponseException $e) {
-		// If we don't have a mautic_session_id, we can't proceed
-		return $content;
-	}
-
-	try {
-		$response = $http->get('/dwc/' . $atts['slot']);
-	} catch (\GuzzleHttp\Exception\BadResponseException $e) {
-		// If we get a ServerException, just return original $content
-		return $content;
-	}
-
-	$dwcContent = $response->getBody();
-
-	if ($response->getStatusCode() === 200 && ! empty($dwcContent)) {
-		return $dwcContent;
-	}
-
-	return $content;
+	
+	$html  = '<script type="text/javascript" src="' . $base_url . '/dwc/generate.js?slot=' . $atts['slot'] .'"></script>';
+	$html .= '<div id="mautic-slot-' . $atts['slot'] . '">' . $content . '</div>';
+	
+	return $html;
 }
 
 /**
