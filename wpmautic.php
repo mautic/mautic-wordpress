@@ -22,9 +22,9 @@ define( 'VPMAUTIC_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'VPMAUTIC_PLUGIN_FILE', __FILE__ );
 
 add_action('admin_menu', 'wpmautic_settings');
-add_action('wp_footer', 'wpmautic_function');
-add_shortcode('mauticform', 'wpmautic_shortcode');
-add_shortcode('mauticcontent', 'wpmautic_dwc_shortcode');
+add_action('wp_head', 'wpmautic_function');
+add_shortcode('mautic', 'wpmautic_shortcode');
+add_shortcode('mauticform', 'wpmautic_form_shortcode');
 
 function wpmautic_settings()
 {
@@ -46,17 +46,53 @@ function wpmautic_plugin_actions( $links, $file ) {
 add_filter( 'plugin_action_links', 'wpmautic_plugin_actions', 10, 2 );
 
 /**
- * Writes Tracking image to the HTML source of WP
+ * Writes Tracking JS to the HTML source of WP head
  */
-function wpmautic_function( $atts, $content = null )
+function wpmautic_function()
 {
 	$options = get_option('wpmautic_options');
-	$url_query = wpmautic_get_url_query();
-	$encoded_query = urlencode(base64_encode(serialize($url_query)));
+	$base_url = trim($options['base_url'], " \t\n\r\0\x0B/");
 
-	$image   = '<img style="display:none" src="' . trim($options['base_url'], " \t\n\r\0\x0B/") . '/mtracking.gif?d=' . $encoded_query . '" alt="mautic is open source marketing automation" />';
+	$mauticTrackingJS = <<<JS
+<script>
+    (function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
+        w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
+        m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','{$base_url}/mtc.js','mt');
 
-	echo $image;
+    mt('send', 'pageview');
+</script>
+JS;
+
+	echo $mauticTrackingJS;
+}
+
+/**
+ * Handle mautic shortcode. Must include a type attribute.
+ * Allowable types are:
+ *  - form
+ *  - content
+ * example: [mautic type="form" id="1"]
+ * exmplae: [mautic type="content" slot="slot_name"]Default Content[/mautic]
+ *
+ * @param      $atts
+ * @param null $content
+ *
+ * @return string
+ */
+function wpmautic_shortcode( $atts, $content = null )
+{
+	$type = shortcode_atts(array('type'), $atts);
+
+	switch ($type)
+	{
+		case 'form':
+			return wpmautic_form_shortcode( $atts );
+		case 'content':
+			return wpmautic_dwc_shortcode( $atts, $content );
+	}
+
+	return false;
 }
 
 /**
@@ -66,11 +102,15 @@ function wpmautic_function( $atts, $content = null )
  * @param  array $atts
  * @return string
  */
-function wpmautic_shortcode( $atts )
+function wpmautic_form_shortcode( $atts )
 {
 	$options = get_option('wpmautic_options');
 	$base_url = trim($options['base_url'], " \t\n\r\0\x0B/");
-	$mauticform = shortcode_atts(array('id'), $atts);
+	$atts = shortcode_atts(array('id' => ''), $atts);
+
+	if (! $atts['id']) {
+		return false;
+	}
 
 	return '<script type="text/javascript" src="' . $base_url . '/form/generate.js?id=' . $atts['id'] . '"></script>';
 }
@@ -79,32 +119,10 @@ function wpmautic_dwc_shortcode( $atts, $content = null)
 {
 	$options  = get_option('wpmautic_options');
 	$base_url = trim($options['base_url'], " \t\n\r\0\x0B/");
-	$atts     = shortcode_atts(array('slot' => ''), $atts, 'mauticcontent');
-	
-	$html  = '<script type="text/javascript" src="' . $base_url . '/dwc/generate.js?slot=' . $atts['slot'] .'"></script>';
-	$html .= '<div id="mautic-slot-' . $atts['slot'] . '">' . $content . '</div>';
-	
-	return $html;
+	$atts     = shortcode_atts(array('slot' => ''), $atts, 'mautic');
+
+	return '<div class="mautic-slot" data-slot-name="' . $atts['slot'] . '">' . $content . '</div>';
 }
-
-/**
- * Builds and returns additional data for URL query
- *
- * @return array
- */
-function wpmautic_get_url_query()
-{
-	global $wp;
-	$current_url = add_query_arg( $wp->query_string, '', home_url( $wp->request ) );
-
-	$attrs = array();
-	$attrs['title']	 = wpmautic_wp_title();
-	$attrs['language']  = get_locale();
-	$attrs['referrer']  = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $current_url;
-	$attrs['url']	   = $current_url;
-	return $attrs;
-}
-
 /**
  * Creates a nicely formatted and more specific title element text
  * for output in head of document, based on current view.
@@ -127,18 +145,4 @@ function wpmautic_wp_title( $title = '', $sep = '' ) {
 		$title = "$title $sep " . sprintf( __( 'Page %s', 'twentytwelve' ), max( $paged, $page ) );
 
 	return $title;
-}
-
-function wpmautic_client_ip() {
-	if (! empty( $_SERVER['HTTP_CLIENT_IP'])) {
-		//check ip from share internet
-		$ip = $_SERVER['HTTP_CLIENT_IP'];
-	} elseif (! empty( $_SERVER['HTTP_X_FORWARDED_FOR'])) {
-		//to check ip is pass from proxy
-		$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-	} else {
-		$ip = $_SERVER['REMOTE_ADDR'];
-	}
-
-	return apply_filters('wpb_get_ip', $ip);
 }
