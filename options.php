@@ -19,8 +19,8 @@ function wpmautic_options_page()
 		</form>
 		<h3>Shortcode Examples:</h3>
 		<ul>
-			<li>Mautic Form Embed: <code>[mauticform id="1"]</code></li>
-			<li>Mautic Dynamic Content: <code>[mauticcontent slot="slot_name"]Default Text[/mauticcontent]</code></li>
+			<li>Mautic Form Embed: <code>[mautic type="form" id="1"]</code></li>
+			<li>Mautic Dynamic Content: <code>[mautic type="content" slot="slot_name"]Default Text[/mautic]</code></li>
 		</ul>
 		<h3>Quick Links</h3>
 		<ul>
