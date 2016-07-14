@@ -82,9 +82,9 @@ JS;
  */
 function wpmautic_shortcode( $atts, $content = null )
 {
-	$type = shortcode_atts(array('type'), $atts);
+	$atts = shortcode_atts(array('type' => null, 'id' => null, 'slot' => null), $atts);
 
-	switch ($type)
+	switch ($atts['type'])
 	{
 		case 'form':
 			return wpmautic_form_shortcode( $atts );
