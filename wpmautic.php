@@ -73,7 +73,8 @@ JS;
  *  - form
  *  - content
  * example: [mautic type="form" id="1"]
- * exmplae: [mautic type="content" slot="slot_name"]Default Content[/mautic]
+ * example: [mautic type="content" slot="slot_name"]Default Content[/mautic]
+ * example: [mautic type="video" gate-time="15" form-id="1" src="https://www.youtube.com/watch?v=QT6169rdMdk"]
  *
  * @param      $atts
  * @param null $content
@@ -82,7 +83,16 @@ JS;
  */
 function wpmautic_shortcode( $atts, $content = null )
 {
-	$atts = shortcode_atts(array('type' => null, 'id' => null, 'slot' => null), $atts);
+	$atts = shortcode_atts(array(
+	    'type' => null,
+        'id' => null,
+        'slot' => null,
+        'src' => null,
+        'width' => null,
+        'height' => null,
+        'form-id' => null,
+        'gate-time' => null
+    ), $atts);
 
 	switch ($atts['type'])
 	{
@@ -90,6 +100,8 @@ function wpmautic_shortcode( $atts, $content = null )
 			return wpmautic_form_shortcode( $atts );
 		case 'content':
 			return wpmautic_dwc_shortcode( $atts, $content );
+        case 'video':
+            return wpmautic_video_shortcode( $atts );
 	}
 
 	return false;
@@ -123,6 +135,52 @@ function wpmautic_dwc_shortcode( $atts, $content = null)
 
 	return '<div class="mautic-slot" data-slot-name="' . $atts['slot'] . '">' . $content . '</div>';
 }
+
+function wpmautic_video_shortcode( $atts )
+{
+    $video_type = '';
+    $atts = shortcode_atts(array(
+        'gate-time' => 15,
+        'form-id' => '',
+        'src' => '',
+        'width' => 640,
+        'height' => 360
+    ), $atts);
+
+    if (empty($atts['src']))
+    {
+        return 'You must provide a video source. Add a src="URL" attribute to your shortcode. Replace URL with the source url for your video.';
+    }
+
+    if (empty($atts['form-id']))
+    {
+        return 'You must provide a mautic form id. Add a form-id="#" attribute to your shortcode. Replace # with the id of the form you want to use.';
+    }
+
+    if (preg_match('/^.*((youtu.be)|(youtube.com))\/((v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))?\??v?=?([^#\&\?]*).*/', $atts['src']))
+    {
+        $video_type = 'youtube';
+    }
+
+    if (preg_match('/^.*(vimeo\.com\/)((channels\/[A-z]+\/)|(groups\/[A-z]+\/videos\/))?([0-9]+)/', $atts['src']))
+    {
+        $video_type = 'vimeo';
+    }
+
+    if (strtolower(substr($atts['src'], -3)) === 'mp4')
+    {
+        $video_type = 'mp4';
+    }
+
+    if (empty($video_type))
+    {
+        return 'Please use a supported video type. The supported types are youtube, vimeo, and MP4.';
+    }
+
+    return '<video height="' . $atts['height'] . '" width="' . $atts['width'] . '" data-form-id="' . $atts['form-id'] . '" data-gate-time="' . $atts['gate-time'] . '">' .
+            '<source type="video/' . $video_type . '" src="' . $atts['src'] . '" /></video>';
+}
+
 /**
  * Creates a nicely formatted and more specific title element text
  * for output in head of document, based on current view.

@@ -62,3 +62,21 @@ To load dynamic content into your WP content, insert this shortcode where you'd 
 ```
 
 Replace the "slot_name" with the slot name you'd like to load. This corresponds to the slot name you defined when building your campaign and adding the "Request Dynamic Content" contact decision.
+
+### Mautic Gated Videos
+
+Mautic supports gated videos with Youtube, Vimeo, and MP4 as sources.
+
+To load gated videos into your WP content, insert this shortcode where you'd like it to appear:
+
+```
+[mautic type="video" gate-time="#" form-id="#" src="URL"]
+```
+
+Replace the # signs with the appropriate number. For gate-time, enter the time
+ (in seconds) where you want to pause the video and show the mautic form. For 
+ form-id, enter the id of the mautic form that you'd like to display as the 
+ gate. Replace URL with the browser URL to view the video. In the case of 
+ Youtube or Vimeo, you can simply use the URL as it appears in your address 
+ bar when viewing the video normally on the providing website. For MP4 videos,
+ enter the full http URL to the MP4 file on the server.
