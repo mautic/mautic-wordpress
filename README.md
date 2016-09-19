@@ -1,7 +1,10 @@
 Mautic WordPress plugin
 =======================
 
-[Mautic](http://mautic.org) [Wordpress Plugin](https://wordpress.org/plugins/wp-mautic/) inserts Mautic tracking image and forms to the WP website. Your Mautic instance will be able to track information about your visitors that way.
+[Mautic](http://mautic.org) [Wordpress Plugin](https://wordpress.org/plugins/wp-mautic/) 
+inserts Mautic tracking, forms and dynamic content to the WP website. 
+Your Mautic instance will be able to track information about your visitors that way.
+You can also update your contacts via [Mautic API](https://github.com/mautic/api-library).
 
 ## Installation
 
@@ -92,6 +95,6 @@ for updating contacts (previously called leads). Follow these steps:
 
 1. In your Mautic installation create API credentials with correct callback (you can copy this from plugin's settings page).
 2. Fill in Mautic instance URL, Client key and Client secret and click on "Save changes" button.
-3. Click on "Authorize" button. Log into your Mautic if required and authorize plugin.
+3. Click on "Authorize" button. Log into your Mautic instance if required and authorize plugin.
 
 Refactoring and API connection support were sponsored by www.svetzitrka.cz
