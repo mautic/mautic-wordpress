@@ -1,0 +1,244 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Mautic Pro\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-09-16 19:20+0000\n"
+"PO-Revision-Date: 2016-09-16 19:22+0000\n"
+"Last-Translator: Róbert Jurinek <jurinek@vitixcompany.cz>\n"
+"Language-Team: Czech\n"
+"Language: cs-CZ\n"
+"Plural-Forms: nplurals=3; plural=( n == 1 ) ? 0 : ( n >= 2 && n <= 4 ) ? 1 : "
+"2\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
+"__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;__ngettext_noop:1,2;"
+"_x:1,2c;_ex:1,2c;_nx:1,2,4c;_nx_noop:1,2,3c;_n_js:1,2;_nx_js:1,2,3c;"
+"esc_attr__:1;esc_html__:1;esc_attr_e:1;esc_html_e:1;esc_attr_x:1,2c;"
+"esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;transChoice:1,2\n"
+"X-Generator: Loco - https://localise.biz/\n"
+"X-Loco-Target-Locale: cs_CZ"
+
+#. section ID
+#: wpmautic.php:109 screens/settings.php:109
+msgid "Tracking settings"
+msgstr "Nastavení sledování"
+
+#: screens/settings.php:231
+msgid "Shortcode example for Dynamic Content:"
+msgstr "Příklad shortcode pro Dynamic Content:"
+
+#: screens/settings.php:231
+msgid "Default content to display in case of error or unknown contact."
+msgstr "Tento obsah se zobrazí v případě chyby nebo neznámého kontaktu."
+
+#: screens/settings.php:232
+msgid "Shortcode example for Mautic Gated Videos:"
+msgstr "Příklad shortcode pro Mautic Gated Videos:"
+
+#: wpmautic.php:96 screens/settings.php:11
+msgid "API settings"
+msgstr "Nastavení API"
+
+#: wpmautic.php:125
+msgid "Tokens"
+msgstr "Tokeny"
+
+#: wpmautic.php:151 wpmautic.php:151
+msgid "Mautic"
+msgstr "Mautic"
+
+#: wpmautic.php:160
+msgid "You do not have sufficient permissions to access this page."
+msgstr "Nemáte dostatečné oprávnění pro zobrazení této stránky"
+
+#: wpmautic.php:255
+msgid ""
+"You must provide a video source. Add a src=\"URL\" attribute to your "
+"shortcode. Replace URL with the source url for your video."
+msgstr ""
+"Musíte vložit URL videa. Přidejte do svého shortcode src=\"URL\", kde URL je "
+"URL videa, které chcete vložit."
+
+#: wpmautic.php:260
+msgid ""
+"You must provide a mautic form id. Add a form-id=\"#\" attribute to your "
+"shortcode. Replace # with the id of the form you want to use."
+msgstr ""
+"Musíte vložit id formuláře Mautic. Přidejte do shortcode řětězec  form-"
+"id=\"#\", kde # zaměníte za id formuláře, který chcete použít."
+
+#: wpmautic.php:280
+msgid ""
+"Please use a supported video type. The supported types are youtube, vimeo, "
+"and MP4."
+msgstr "Použijte, prosím, podporovaný typ videa: youtube, vimeo nebo MP4."
+
+#: classes/WpMauticHelper.php:75
+msgid "Mautic is open source marketing automation"
+msgstr "Mautic je open source marketingová automatizace"
+
+#: classes/WpMauticHelper.php:126
+msgid "Page %s"
+msgstr "Stránka %s"
+
+#. Name of the plugin
+#: screens/settings.php:10
+msgid "WP Mautic"
+msgstr "WP Mautic"
+
+#: screens/settings.php:27
+msgid "Mautic instance URL"
+msgstr "URL instance Mautic"
+
+#: screens/settings.php:35
+msgid "Client key"
+msgstr "Veřejný klíč"
+
+#: screens/settings.php:43
+msgid "Client secret"
+msgstr "Tajný řetězec"
+
+#: screens/settings.php:51
+msgid "OAuth version"
+msgstr "Verze OAuth"
+
+#: screens/settings.php:61 screens/settings.php:151 screens/settings.php:225
+msgid "Save Changes"
+msgstr "Uložit změny"
+
+#: screens/settings.php:64
+msgid "How to authorize"
+msgstr "Jak autorizovat plugin"
+
+#: screens/settings.php:67
+msgid ""
+"In your Mautic installation create API credentials with correct callback:"
+msgstr ""
+"Vytvořte klíče pro API ve své instalalci Mautic se správným identifikátorem "
+"přesměrování:"
+
+#: screens/settings.php:68
+msgid ""
+"Fill in Mautic instance URL, Client key and Client secret and click on "
+"\"Save changes\" button."
+msgstr ""
+"Vyplňte URL instance Mautic, veřejný klíč, tajný řetězec a kliněte na "
+"tlačítko \"Uložit změny\"."
+
+#: screens/settings.php:69
+msgid ""
+"Click on \"Authorize\" button. Log into your Mautic if required and "
+"authorize plugin."
+msgstr ""
+"Klikněte na tlačítko \"Autorizovat\". Pokud budete výzvání, přihlaste se do "
+"své instalace Mautic a autorizujte plugin."
+
+#: screens/settings.php:73
+msgid "API authorization controls"
+msgstr "Ovládání autorizace API"
+
+#: screens/settings.php:81
+msgid "Authorize"
+msgstr "Autorizovat"
+
+#: screens/settings.php:89
+msgid "Reauthorize"
+msgstr "Obnovit autorizaci"
+
+#: screens/settings.php:119
+msgid "Tracking method"
+msgstr "Metoda sledování"
+
+#: screens/settings.php:123
+msgid "Pixel"
+msgstr "Pixel"
+
+#: screens/settings.php:124
+msgid "JS"
+msgstr "JS"
+
+#: screens/settings.php:125
+msgid "None"
+msgstr "Žádná"
+
+#: screens/settings.php:131
+msgid "Use tracking (pixel or JS) only for logged in users."
+msgstr "Použít sledování (pixelem nebo JS) jenom pro příhlášené uživatele."
+
+#: screens/settings.php:141
+msgid ""
+"Enable tracking user data with pixel or JS - requires enable public updates "
+"on user related fields in Mautic. E-mail tracking is enabled always by "
+"default."
+msgstr ""
+"Povolit odesílání dat o použivateli pixelem nebo JS - vyžaduje povolení "
+"veřejné aktualizace polí v Mautic. Odesílání e-mailu je povoleno vždy. "
+
+#: screens/settings.php:159
+msgid "Select which fields should be sent to Mautic."
+msgstr "Vyberte, které pole se budou odesílat do Mautic"
+
+#: screens/settings.php:170
+msgid "Send"
+msgstr "Odeslat"
+
+#: screens/settings.php:171
+msgid "Field name"
+msgstr "Jméno pole"
+
+#: screens/settings.php:172
+msgid "Mautic field name"
+msgstr "Jméno pole v Mautic"
+
+#: screens/settings.php:173
+msgid "Your field value"
+msgstr "Vaše hodnota pole"
+
+#: screens/settings.php:229
+msgid "How to embed Mautic Form"
+msgstr "Jak vložit formulář Mautic"
+
+#: screens/settings.php:230
+msgid "Shortcode example for Mautic Form Embed:"
+msgstr "Ukázka shortcode pro vložení formuláře:"
+
+#: screens/settings.php:234
+msgid "Quick Links"
+msgstr "Odkazy"
+
+#: screens/settings.php:237
+msgid "Mautic project"
+msgstr "Projekt Mautic"
+
+#: screens/settings.php:240
+msgid "Mautic docs"
+msgstr "Dokumentace Mautic"
+
+#: screens/settings.php:243
+msgid "Mautic forum"
+msgstr "Mautic diskuze"
+
+#. Description of the plugin
+msgid ""
+"This plugin will allow you to add Mautic (Free Open Source Marketing "
+"Automation) tracking to your site"
+msgstr "Tento plugin poskytuje propojení s Mautic pro vaš web na WordPress"
+
+#. URI of the plugin
+msgid "https://github.com/mautic/mautic-wordpress"
+msgstr ""
+"\n"
+"https://github.com/mautic/mautic-wordpress"
+
+#. Author of the plugin
+msgid "Mautic community"
+msgstr "Mautic komunita"
+
+#. Author URI of the plugin
+msgid "http://mautic.org"
+msgstr "http://mautic.org"

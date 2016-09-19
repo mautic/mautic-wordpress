@@ -3,204 +3,394 @@
  * Plugin Name: WP Mautic
  * Plugin URI: https://github.com/mautic/mautic-wordpress
  * Description: This plugin will allow you to add Mautic (Free Open Source Marketing Automation) tracking to your site
- * Version: 1.0.1
+ * Version: 2.0.0
  * Author: Mautic community
  * Author URI: http://mautic.org
  * License: GPL2
+ * Text Domain: mautic-wordpress
  */
 
 // Prevent direct access to this file.
-if ( ! defined( 'ABSPATH' ) ) {
-	header( 'HTTP/1.0 403 Forbidden' );
-	echo 'This file should not be accessed directly!';
-	exit; // Exit if accessed directly
-}
+defined( 'ABSPATH' )  or die('This file should not be accessed directly!');
 
-// Store plugin directory
-define( 'VPMAUTIC_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-// Store plugin main file path
-define( 'VPMAUTIC_PLUGIN_FILE', __FILE__ );
+define( 'WPMP_ROOT_DIR', str_replace( '\\', '/', dirname(__FILE__) ) );
+define( 'WPMP_ROOT_URL', rtrim( plugin_dir_url(__FILE__), '/' ) );
 
-add_action('admin_menu', 'wpmautic_settings');
-add_action('wp_head', 'wpmautic_function');
-add_shortcode('mautic', 'wpmautic_shortcode');
-add_shortcode('mauticform', 'wpmautic_form_shortcode');
+if( !class_exists( 'WP_Mautic' ) ){
+	
+	class WP_Mautic{
 
-function wpmautic_settings()
-{
-	include_once(dirname(__FILE__) . '/options.php');
-	add_options_page('WP Mautic Settings', 'WPMautic', 'manage_options', 'wpmautic', 'wpmautic_options_page');
-}
+		/**
+         * Construct the plugin object
+         */
+        public function __construct()
+        {
+			//Includes
+			require_once( WPMP_ROOT_DIR .'/lib/AutoLoader.php' );
+			require_once( WPMP_ROOT_DIR . '/classes/WpMauticHelper.php' );
+			require_once( WPMP_ROOT_DIR . '/classes/WpMauticApi.php' );
+			// Load plugin text domain
+			load_textdomain('mautic-wordpress', WPMP_ROOT_DIR. '/languages/mautic-wordpress-' . get_locale() . '.mo');
+			
+			// Register hooks that are fired when the plugin is activated and deactivated.
+			register_activation_hook( __FILE__, array( &$this, 'activate' ) );
+			register_deactivation_hook( __FILE__, array( &$this, 'deactivate' ) );
+		
+			// Load plugin admin menu
+			add_action( 'admin_menu', array( &$this, 'add_menu' ) );  
+			add_action( 'admin_init', array( &$this, 'admin_init' ) );  
+			
+			// Register admin styles and scripts
+			add_action( 'admin_enqueue_scripts', array( &$this, 'register_admin_styles' ) );
+			//add_action( 'admin_enqueue_scripts', array( &$this, 'register_admin_scripts' ) );
+			//Add tracking pixel
+			if( get_option('wpmautic_tracking') == 'pixel' ){
+				
+				add_action('wp_footer', array( 'WP_Mautic_Helper' , 'tracking_pixel'));
+			}
+			if( get_option('wpmautic_tracking') == 'js' ){
+				
+				add_action( 'wp_footer', array( 'WP_Mautic_Helper' , 'tracking_js') );
+			
+			}
+			//Add shortcodes
+			add_shortcode( 'mauticform', array( &$this, 'wpmautic_form_shortcode' ) );
+			add_shortcode('mautic', array( &$this, 'wpmautic_shortcode' ) );
+		
+			//Hook main actions on init hook.
+			add_action( 'init',  array( &$this, 'mautic_dispatch' ), 20 );
+			//Hook main actions on init hook.
+			add_action( 'init',  array( &$this, 'wpmautic_save_lead_id' ), 100 );
+			
+        } // END public function __construct
+        
+        /**
+        * Activate the plugin
+        */
+        public static function activate(){	
+		
+			//do nothing            
+        
+        } // END public static function activate
+        
+        /**
+        * Deactivate the plugin
+        */     
+        public static function deactivate()
+        {
+           
+           // Dectivation activities - clear access tokens
+			$api = new Wp_Mautic_Api();
+			$api->reset();
+			
+        } // END public static function deactivate()
+        
+        /**
+		* hook into WP's admin_init action hook
+		*/
+		public function admin_init(){	
+			
+			// Register settings
+			add_settings_section(
+				'mautic_api_setting_section', //section ID
+				__( 'API settings', 'mautic-wordpress'), //section title
+				 array( &$this, 'mautic_settings_callback_function' ), //function to print settings output (echo)
+				'wpmp-screen' //menu slug of admin page were setiings are displayed
+			);
 
-/**
- * Settings Link in the ``Installed Plugins`` page
- */
-function wpmautic_plugin_actions( $links, $file ) {
-	if( $file == plugin_basename( VPMAUTIC_PLUGIN_FILE ) && function_exists( "admin_url" ) ) {
-		$settings_link = '<a href="' . admin_url( 'options-general.php?page=wpmautic' ) . '">' . __('Settings') . '</a>';
-		// Add the settings link before other links
-		array_unshift( $links, $settings_link );
-	}
-	return $links;
-}
-add_filter( 'plugin_action_links', 'wpmautic_plugin_actions', 10, 2 );
+			register_setting( 'mautic_api_setting_section', 'wpmautic_url',  array( 'WP_Mautic_Helper' , 'sanitize_mautic_url' ));
+			register_setting( 'mautic_api_setting_section', 'wpmautic_client_key' );
+			register_setting( 'mautic_api_setting_section', 'wpmautic_client_secret' );
+			register_setting( 'mautic_api_setting_section', 'wpmautic_oauth_version' );
+			
+			// Register settings
+			add_settings_section(
+				'mautic_tracking_setting_section', //section ID
+				__( 'Tracking settings', 'mautic-wordpress'), //section title
+				 array( &$this, 'mautic_settings_callback_function' ), //function to print settings output (echo)
+				'wpmp-screen' //menu slug of admin page were setiings are displayed
+			);
+			
+			register_setting( 'mautic_tracking_setting_section', 'wpmautic_tracking');
+			register_setting( 'mautic_tracking_setting_section', 'wpmautic_tracking_users_pixel');
+			register_setting( 'mautic_tracking_setting_section', 'wpmautic_tracking_only_logged_in');
+			register_setting( 'mautic_tracking_setting_section', 'wpmautic_tracking_user_fields');
+			register_setting( 'mautic_tracking_setting_section', 'wpmautic_tracking_user_field');
+			register_setting( 'mautic_tracking_setting_section', 'wpmautic_tracking_meta_field');
+			register_setting( 'mautic_tracking_setting_section', 'mautic_field_name');
+			
+			
+			add_settings_section(
+				'mautic_tokens', //section ID
+				__( 'Tokens', 'mautic-wordpress'), //section title
+				 array( &$this, 'mautic_settings_callback_function' ), //function to print settings output (echo)
+				'wpmp-screen' //menu slug of admin page were setiings are displayed
+			);
+			
+			register_setting( 'mautic_tokens', 'wpmautic_access_token');
+			register_setting( 'mautic_tokens', 'wpmautic_access_token_secret');
+			register_setting( 'mautic_tokens', 'wpmautic_access_token_expires');
+			register_setting( 'mautic_tokens', 'wpmautic_refresh_token');
+			
+		} // END public function admin_init
+		
+	
+		//
+		public function mautic_settings_callback_function()
+		{
+			
+		}
+		
+		/**
+		* add a menu
+		*/     
+		public function add_menu()
+		{
+			global $menu, $submenu;
+			
+			add_menu_page( __('Mautic','mautic-wordpress'), __('Mautic','mautic-wordpress'), 'edit_posts', 'wpmp-screen', array( &$this, 'view_plugin_screen' ), WPMP_ROOT_URL . '/assets/img/icon_small.png', '91' );
+		
+		}
+		
+		/*Screens*/
+		public function view_plugin_screen(){
+			
+			if( !current_user_can( 'edit_posts' ) )
+			{
+				wp_die( __( 'You do not have sufficient permissions to access this page.', 'mautic-wordpress' ) );
+			}
 
-/**
- * Writes Tracking JS to the HTML source of WP head
- */
-function wpmautic_function()
-{
-	$options = get_option('wpmautic_options');
-	$base_url = trim($options['base_url'], " \t\n\r\0\x0B/");
+			// Render the main page template
+			include( sprintf("%s/screens/settings.php", dirname( __FILE__ ) ) );
+			
+			
+		}
+		
+		/*Assets*/
+		public function register_admin_styles( $hook ){
+			
+			wp_register_style( 'wp_mautic_admin_css',  WPMP_ROOT_URL . '/assets/css/admin-styles.css', false, '0.0.1' );
+			wp_enqueue_style( 'wp_mautic_admin_css' );
+			
+		}
+		
+		public function register_admin_scripts( $hook ){
+			
+		}	
+		
+		/**
+		 * Handle mauticform shortcode
+		 * example: [mauticform id="1"]
+		 *
+		 * @param  array $atts
+		 * @return string
+		 */
+		public function wpmautic_form_shortcode( $atts, $content = null )
+		{	
+			
+			$a = shortcode_atts( array(
+			
+				'id' => '',
+			
+			), $atts );
+			
+			$base_url = trim( get_option( 'wpmautic_url' ), " \t\n\r\0\x0B/" );
+			echo '<script type="text/javascript" src="' . $base_url . '/form/generate.js?id=' . $a['id'] . '"></script>';
+			
+		}
+		
+		/**
+		 * Handle mautic shortcode. Must include a type attribute.
+		 * Allowable types are:
+		 *  - form
+		 *  - content
+		 * example: [mautic type="form" id="1"]
+		 * example: [mautic type="content" slot="slot_name"]Default Content[/mautic]
+		 * example: [mautic type="video" gate-time="15" form-id="1" src="https://www.youtube.com/watch?v=QT6169rdMdk"]
+		 *
+		 * @param      $atts
+		 * @param null $content
+		 *
+		 * @return string
+		 */
+		public function wpmautic_shortcode( $atts, $content = null )
+		{
+			$atts = shortcode_atts(array(
+				'type' => null,
+				'id' => null,
+				'slot' => null,
+				'src' => null,
+				'width' => null,
+				'height' => null,
+				'form-id' => null,
+				'gate-time' => null
+			), $atts);
 
-	$mauticTrackingJS = <<<JS
-<script>
-    (function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
-        w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
-        m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','{$base_url}/mtc.js','mt');
+			switch ($atts['type'])
+			{
+				case 'form':
+					return wpmautic_form_shortcode( $atts );
+				case 'content':
+					return wpmautic_dwc_shortcode( $atts, $content );
+				case 'video':
+					return wpmautic_video_shortcode( $atts );
+			}
 
-    mt('send', 'pageview');
-</script>
-JS;
+			return false;
+		}
+		
+		public function wpmautic_video_shortcode( $atts )
+		{
+			$video_type = '';
+			$atts = shortcode_atts(array(
+				'gate-time' => 15,
+				'form-id' => '',
+				'src' => '',
+				'width' => 640,
+				'height' => 360
+			), $atts);
 
-	echo $mauticTrackingJS;
-}
+			if (empty($atts['src']))
+			{
+				return __( 'You must provide a video source. Add a src="URL" attribute to your shortcode. Replace URL with the source url for your video.', 'mautic-wordpress' );
+			}
 
-/**
- * Handle mautic shortcode. Must include a type attribute.
- * Allowable types are:
- *  - form
- *  - content
- * example: [mautic type="form" id="1"]
- * example: [mautic type="content" slot="slot_name"]Default Content[/mautic]
- * example: [mautic type="video" gate-time="15" form-id="1" src="https://www.youtube.com/watch?v=QT6169rdMdk"]
- *
- * @param      $atts
- * @param null $content
- *
- * @return string
- */
-function wpmautic_shortcode( $atts, $content = null )
-{
-	$atts = shortcode_atts(array(
-	    'type' => null,
-        'id' => null,
-        'slot' => null,
-        'src' => null,
-        'width' => null,
-        'height' => null,
-        'form-id' => null,
-        'gate-time' => null
-    ), $atts);
+			if (empty($atts['form-id']))
+			{
+				return __( 'You must provide a mautic form id. Add a form-id="#" attribute to your shortcode. Replace # with the id of the form you want to use.', 'mautic-wordpress' );
+			}
 
-	switch ($atts['type'])
-	{
-		case 'form':
-			return wpmautic_form_shortcode( $atts );
-		case 'content':
-			return wpmautic_dwc_shortcode( $atts, $content );
-        case 'video':
-            return wpmautic_video_shortcode( $atts );
-	}
+			if (preg_match('/^.*((youtu.be)|(youtube.com))\/((v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))?\??v?=?([^#\&\?]*).*/', $atts['src']))
+			{
+				$video_type = 'youtube';
+			}
 
-	return false;
-}
+			if (preg_match('/^.*(vimeo\.com\/)((channels\/[A-z]+\/)|(groups\/[A-z]+\/videos\/))?([0-9]+)/', $atts['src']))
+			{
+				$video_type = 'vimeo';
+			}
 
-/**
- * Handle mauticform shortcode
- * example: [mauticform id="1"]
- *
- * @param  array $atts
- * @return string
- */
-function wpmautic_form_shortcode( $atts )
-{
-	$options = get_option('wpmautic_options');
-	$base_url = trim($options['base_url'], " \t\n\r\0\x0B/");
-	$atts = shortcode_atts(array('id' => ''), $atts);
+			if (strtolower(substr($atts['src'], -3)) === 'mp4')
+			{
+				$video_type = 'mp4';
+			}
 
-	if (! $atts['id']) {
-		return false;
-	}
+			if (empty($video_type))
+			{
+				return __( 'Please use a supported video type. The supported types are youtube, vimeo, and MP4.', 'mautic-wordpress' );
+			}
 
-	return '<script type="text/javascript" src="' . $base_url . '/form/generate.js?id=' . $atts['id'] . '"></script>';
-}
+			return '<video height="' . $atts['height'] . '" width="' . $atts['width'] . '" data-form-id="' . $atts['form-id'] . '" data-gate-time="' . $atts['gate-time'] . '">' .
+					'<source type="video/' . $video_type . '" src="' . $atts['src'] . '" /></video>';
+		}
+		
+		public function wpmautic_dwc_shortcode( $atts, $content = null)
+		{
+			$base_url = trim( get_option( 'wpmautic_url' ), " \t\n\r\0\x0B/" );
+			$atts     = shortcode_atts(array('slot' => ''), $atts, 'mautic');
 
-function wpmautic_dwc_shortcode( $atts, $content = null)
-{
-	$options  = get_option('wpmautic_options');
-	$base_url = trim($options['base_url'], " \t\n\r\0\x0B/");
-	$atts     = shortcode_atts(array('slot' => ''), $atts, 'mautic');
+			return '<div class="mautic-slot" data-slot-name="' . $atts['slot'] . '">' . $content . '</div>';
+		}
+		
+		
+		public function wpmautic_save_lead_id()
+		{	
+			if( is_user_logged_in() && !is_admin() ){
+				$current_user = wp_get_current_user();
+				$lead_id = get_user_meta( $current_user->ID, 'mautic_lead_id', true );
+				if( !$lead_id ){//We haven't save LEAD id yet, let's try
+				
+					try{
+						$api = new Wp_Mautic_Api();
+						$ip = WP_Mautic_Helper::get_client_ip();
+						$lead_api = $api->get_mautic_lead_context();
+						$filter = 'email:'.$current_user->user_email;
+						$leads = $lead_api->getList( $filter, 0, 1);
 
-	return '<div class="mautic-slot" data-slot-name="' . $atts['slot'] . '">' . $content . '</div>';
-}
+						if( $leads['total'] == 1 ){
+							
+							$lead_id = intval( $leads['leads'][0]['id'] );
 
-function wpmautic_video_shortcode( $atts )
-{
-    $video_type = '';
-    $atts = shortcode_atts(array(
-        'gate-time' => 15,
-        'form-id' => '',
-        'src' => '',
-        'width' => 640,
-        'height' => 360
-    ), $atts);
+							add_user_meta( $current_user->ID, 'mautic_lead_id', $lead_id, true );
+							$mautic_lead = array(
+								'firstname' => isset( $current_user->first_name ) ? $current_user->first_name : '',
+								'lastname'	=> isset( $current_user->last_name ) ? $current_user->last_name : '',
+							);
 
-    if (empty($atts['src']))
-    {
-        return 'You must provide a video source. Add a src="URL" attribute to your shortcode. Replace URL with the source url for your video.';
-    }
+							$lead = $lead_api->edit($lead_id, $mautic_lead, true);
+						
+						}
+						
+						
+					}
+					catch( Exception $e ){
+				
+						
+					}	
+					
+				}
+			}
+		}
+		
+		/**
+		 * Process $_POST and $_GET variables
+		 *
+		 * 
+		 * @return void
+		 */
+		public function mautic_dispatch(){
+			
+			//Create session 
+			if(!session_id()) {
+			
+				session_start();
+			
+			}
+			//Save recieved OAuth token
+			
+			if( ( isset( $_GET['oauth_token'] ) && isset( $_GET['oauth_verifier'] ) ) || ( isset( $_GET['state'] ) && isset( $_GET['code'] ) ) ){
+								
+				$api = new Wp_Mautic_Api();
+				$api->authorize();
+				
+			}
+			//Only administrator in admin area can do this
+			if( is_admin() && current_user_can( 'activate_plugins' ) ){
+				
+				if(  isset( $_POST['authorize_mautic'] ) &&  $_POST['authorize_mautic'] == '1' && check_admin_referer( 'authorize_mautic', 'mautic_nonce' ) ){
+					
+					$api = new Wp_Mautic_Api();
+					$api->authorize( false );
+					
+				}
+				else if(  isset( $_POST['reauthorize_mautic'] ) &&  $_POST['reauthorize_mautic'] == 1 && check_admin_referer( 'reauthorize_mautic', 'mautic_nonce' )  ){
+				
+					$api = new Wp_Mautic_Api();
+					$api->authorize( true );
+					
+				}
+				
+				else if(  isset( $_POST['reset_mautic'] ) &&  $_POST['reset_mautic'] == 1 && check_admin_referer( 'reset_mautic' , 'mautic_nonce_reset') ){
+				
+					$api = new Wp_Mautic_Api();
+					$api->reset();
+					
+				}
+			}
+			
+			
+		}
+		
+		
+	}// END class WP_Mautic{
+	
+	
+	
+}// END if( !class_exists( 'WP_Mautic' ) ){
 
-    if (empty($atts['form-id']))
-    {
-        return 'You must provide a mautic form id. Add a form-id="#" attribute to your shortcode. Replace # with the id of the form you want to use.';
-    }
-
-    if (preg_match('/^.*((youtu.be)|(youtube.com))\/((v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))?\??v?=?([^#\&\?]*).*/', $atts['src']))
-    {
-        $video_type = 'youtube';
-    }
-
-    if (preg_match('/^.*(vimeo\.com\/)((channels\/[A-z]+\/)|(groups\/[A-z]+\/videos\/))?([0-9]+)/', $atts['src']))
-    {
-        $video_type = 'vimeo';
-    }
-
-    if (strtolower(substr($atts['src'], -3)) === 'mp4')
-    {
-        $video_type = 'mp4';
-    }
-
-    if (empty($video_type))
-    {
-        return 'Please use a supported video type. The supported types are youtube, vimeo, and MP4.';
-    }
-
-    return '<video height="' . $atts['height'] . '" width="' . $atts['width'] . '" data-form-id="' . $atts['form-id'] . '" data-gate-time="' . $atts['gate-time'] . '">' .
-            '<source type="video/' . $video_type . '" src="' . $atts['src'] . '" /></video>';
-}
-
-/**
- * Creates a nicely formatted and more specific title element text
- * for output in head of document, based on current view.
- *
- * @param string $title Default title text for current view.
- * @param string $sep Optional separator.
- * @return string Filtered title.
- */
-function wpmautic_wp_title( $title = '', $sep = '' ) {
-	global $paged, $page;
-
-	if ( is_feed() )
-		return $title;
-
-	// Add the site name.
-	$title .= trim(wp_title($sep, false));
-
-	// Add a page number if necessary.
-	if ( $paged >= 2 || $page >= 2 )
-		$title = "$title $sep " . sprintf( __( 'Page %s', 'twentytwelve' ), max( $paged, $page ) );
-
-	return $title;
-}
+if( class_exists( 'WP_Mautic' ) ){
+		
+		// instantiate the plugin class
+		$wp_mautic = new WP_Mautic();
+		
+} // END if( class_exists( 'WP_Mautic' ) ){
