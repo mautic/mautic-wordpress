@@ -74,9 +74,17 @@ To load gated videos into your WP content, insert this shortcode where you'd lik
 ```
 
 Replace the # signs with the appropriate number. For gate-time, enter the time
- (in seconds) where you want to pause the video and show the mautic form. For 
- form-id, enter the id of the mautic form that you'd like to display as the 
- gate. Replace URL with the browser URL to view the video. In the case of 
- Youtube or Vimeo, you can simply use the URL as it appears in your address 
+ (in seconds) where you want to pause the video and show the mautic form. For
+ form-id, enter the id of the mautic form that you'd like to display as the
+ gate. Replace URL with the browser URL to view the video. In the case of
+ Youtube or Vimeo, you can simply use the URL as it appears in your address
  bar when viewing the video normally on the providing website. For MP4 videos,
  enter the full http URL to the MP4 file on the server.
+
+### Mautic Tags
+
+You can add or remove multiple lead tags on specific pages using commas. To remove an tag you have to use minus "-" signal before tag name:
+
+```
+[mautic type="tags" values="mytag,anothertag,-removetag"]
+```

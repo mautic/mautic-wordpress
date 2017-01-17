@@ -3,7 +3,7 @@
  * Plugin Name: WP Mautic
  * Plugin URI: https://github.com/mautic/mautic-wordpress
  * Description: This plugin will allow you to add Mautic (Free Open Source Marketing Automation) tracking to your site
- * Version: 1.0.1
+ * Version: 1.1.0
  * Author: Mautic community
  * Author URI: http://mautic.org
  * License: GPL2
@@ -91,7 +91,8 @@ function wpmautic_shortcode( $atts, $content = null )
         'width' => null,
         'height' => null,
         'form-id' => null,
-        'gate-time' => null
+        'gate-time' => null,
+				'values' => null
     ), $atts);
 
 	switch ($atts['type'])
@@ -102,6 +103,8 @@ function wpmautic_shortcode( $atts, $content = null )
 			return wpmautic_dwc_shortcode( $atts, $content );
         case 'video':
             return wpmautic_video_shortcode( $atts );
+							case 'tags':
+								return wpmautic_tags_shortcode( $atts );
 	}
 
 	return false;
@@ -126,6 +129,28 @@ function wpmautic_form_shortcode( $atts )
 
 	return '<script type="text/javascript" src="' . $base_url . '/form/generate.js?id=' . $atts['id'] . '"></script>';
 }
+
+
+/**
+ * Handle mautictags shortcode
+ * example: [mautic type="tags" values="addtag,-removetag"]
+ *
+ * @param  array $atts
+ * @return string
+ */
+function wpmautic_tags_shortcode( $atts )
+{
+	$options = get_option('wpmautic_options');
+	$base_url = trim($options['base_url'], " \t\n\r\0\x0B/");
+	$atts = shortcode_atts(array('values' => ''), $atts);
+
+	if (! $atts['values']) {
+		return false;
+	}
+
+	return '<img src="' . $base_url . '/mtracking.gif?tags=' . $atts['values'] . '" alt="Mautic Tags" />';
+}
+
 
 function wpmautic_dwc_shortcode( $atts, $content = null)
 {
