@@ -11,16 +11,19 @@ function wpmautic_options_page()
 { ?>
 	<div>
 		<h2>WP Mautic</h2>
-		<p>Enable Base URL for Mautic Integration.</p>
+		<p><?php _e("Enable Base URL for Mautic Integration."); ?></p>
 		<form action="options.php" method="post">
 			<?php settings_fields('wpmautic_options'); ?>
 			<?php do_settings_sections('wpmautic'); ?>
+			<p><?php _e("Something like https://mautic.yourdomain.com"); ?></p>
 			<input name="Submit" type="submit" value="<?php esc_attr_e('Save Changes'); ?>" />
 		</form>
 		<h3>Shortcode Examples:</h3>
 		<ul>
 			<li>Mautic Form Embed: <code>[mautic type="form" id="1"]</code></li>
 			<li>Mautic Dynamic Content: <code>[mautic type="content" slot="slot_name"]Default Text[/mautic]</code></li>
+			<li>Mautic Gated Video: <code>[mautic type="video" gate-time="15" form-id="1" src="https://www.youtube.com/watch?v=QT6169rdMdk"]</code></li>
+			<li>Add or Remove Lead Tags <code>[mautic type="tags" values="addtag,-removetag"]</code></li>
 		</ul>
 		<h3>Quick Links</h3>
 		<ul>
