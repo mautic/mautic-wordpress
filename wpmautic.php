@@ -21,23 +21,22 @@ define( 'VPMAUTIC_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 // Store plugin main file path
 define( 'VPMAUTIC_PLUGIN_FILE', __FILE__ );
 
-add_action('admin_menu', 'wpmautic_settings');
-add_action('wp_head', 'wpmautic_function');
-add_shortcode('mautic', 'wpmautic_shortcode');
-add_shortcode('mauticform', 'wpmautic_form_shortcode');
+add_action( 'admin_menu', 'wpmautic_settings' );
+add_action( 'wp_head', 'wpmautic_function' );
+add_shortcode( 'mautic', 'wpmautic_shortcode' );
+add_shortcode( 'mauticform', 'wpmautic_form_shortcode' );
 
-function wpmautic_settings()
-{
-	include_once(dirname(__FILE__) . '/options.php');
-	add_options_page('WP Mautic Settings', 'WPMautic', 'manage_options', 'wpmautic', 'wpmautic_options_page');
+function wpmautic_settings() {
+	include_once( dirname( __FILE__ ) . '/options.php' );
+	add_options_page( 'WP Mautic Settings', 'WPMautic', 'manage_options', 'wpmautic', 'wpmautic_options_page' );
 }
 
 /**
  * Settings Link in the ``Installed Plugins`` page
  */
 function wpmautic_plugin_actions( $links, $file ) {
-	if( $file == plugin_basename( VPMAUTIC_PLUGIN_FILE ) && function_exists( "admin_url" ) ) {
-		$settings_link = '<a href="' . admin_url( 'options-general.php?page=wpmautic' ) . '">' . __('Settings') . '</a>';
+	if ( $file == plugin_basename( VPMAUTIC_PLUGIN_FILE ) && function_exists( 'admin_url' ) ) {
+		$settings_link = '<a href="' . admin_url( 'options-general.php?page=wpmautic' ) . '">' . __( 'Settings' ) . '</a>';
 		// Add the settings link before other links
 		array_unshift( $links, $settings_link );
 	}
@@ -48,10 +47,9 @@ add_filter( 'plugin_action_links', 'wpmautic_plugin_actions', 10, 2 );
 /**
  * Writes Tracking JS to the HTML source of WP head
  */
-function wpmautic_function()
-{
-	$options = get_option('wpmautic_options');
-	$base_url = trim($options['base_url'], " \t\n\r\0\x0B/");
+function wpmautic_function() {
+	$options = get_option( 'wpmautic_options' );
+	$base_url = trim( $options['base_url'], " \t\n\r\0\x0B/" );
 
 	$mauticTrackingJS = <<<JS
 <script>
@@ -81,27 +79,25 @@ JS;
  *
  * @return string
  */
-function wpmautic_shortcode( $atts, $content = null )
-{
+function wpmautic_shortcode( $atts, $content = null ) {
 	$atts = shortcode_atts(array(
-	    'type' => null,
-        'id' => null,
-        'slot' => null,
-        'src' => null,
-        'width' => null,
-        'height' => null,
-        'form-id' => null,
-        'gate-time' => null
-    ), $atts);
+		'type' => null,
+		'id' => null,
+		'slot' => null,
+		'src' => null,
+		'width' => null,
+		'height' => null,
+		'form-id' => null,
+		'gate-time' => null,
+	), $atts);
 
-	switch ($atts['type'])
-	{
+	switch ( $atts['type'] ) {
 		case 'form':
 			return wpmautic_form_shortcode( $atts );
 		case 'content':
 			return wpmautic_dwc_shortcode( $atts, $content );
-        case 'video':
-            return wpmautic_video_shortcode( $atts );
+		case 'video':
+			return wpmautic_video_shortcode( $atts );
 	}
 
 	return false;
@@ -114,71 +110,66 @@ function wpmautic_shortcode( $atts, $content = null )
  * @param  array $atts
  * @return string
  */
-function wpmautic_form_shortcode( $atts )
-{
-	$options = get_option('wpmautic_options');
-	$base_url = trim($options['base_url'], " \t\n\r\0\x0B/");
-	$atts = shortcode_atts(array('id' => ''), $atts);
+function wpmautic_form_shortcode( $atts ) {
+	$options = get_option( 'wpmautic_options' );
+	$base_url = trim( $options['base_url'], " \t\n\r\0\x0B/" );
+	$atts = shortcode_atts( array(
+		'id' => '',
+	), $atts );
 
-	if (! $atts['id']) {
+	if ( ! $atts['id'] ) {
 		return false;
 	}
 
 	return '<script type="text/javascript" src="' . $base_url . '/form/generate.js?id=' . $atts['id'] . '"></script>';
 }
 
-function wpmautic_dwc_shortcode( $atts, $content = null)
-{
-	$options  = get_option('wpmautic_options');
-	$base_url = trim($options['base_url'], " \t\n\r\0\x0B/");
-	$atts     = shortcode_atts(array('slot' => ''), $atts, 'mautic');
+function wpmautic_dwc_shortcode( $atts, $content = null ) {
+	$options  = get_option( 'wpmautic_options' );
+	$base_url = trim( $options['base_url'], " \t\n\r\0\x0B/" );
+	$atts     = shortcode_atts( array(
+		'slot' => '',
+	), $atts, 'mautic' );
 
 	return '<div class="mautic-slot" data-slot-name="' . $atts['slot'] . '">' . $content . '</div>';
 }
 
-function wpmautic_video_shortcode( $atts )
-{
-    $video_type = '';
-    $atts = shortcode_atts(array(
-        'gate-time' => 15,
-        'form-id' => '',
-        'src' => '',
-        'width' => 640,
-        'height' => 360
-    ), $atts);
+function wpmautic_video_shortcode( $atts ) {
+	$video_type = '';
+	$atts = shortcode_atts(array(
+		'gate-time' => 15,
+		'form-id' => '',
+		'src' => '',
+		'width' => 640,
+		'height' => 360,
+	), $atts);
 
-    if (empty($atts['src']))
-    {
-        return 'You must provide a video source. Add a src="URL" attribute to your shortcode. Replace URL with the source url for your video.';
-    }
+	if ( empty( $atts['src'] ) ) {
+		return 'You must provide a video source. Add a src="URL" attribute to your shortcode. Replace URL with the source url for your video.';
+	}
 
-    if (empty($atts['form-id']))
-    {
-        return 'You must provide a mautic form id. Add a form-id="#" attribute to your shortcode. Replace # with the id of the form you want to use.';
-    }
+	if ( empty( $atts['form-id'] ) ) {
+		return 'You must provide a mautic form id. Add a form-id="#" attribute to your shortcode. Replace # with the id of the form you want to use.';
+	}
 
-    if (preg_match('/^.*((youtu.be)|(youtube.com))\/((v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))?\??v?=?([^#\&\?]*).*/', $atts['src']))
-    {
-        $video_type = 'youtube';
-    }
+	if ( preg_match( '/^.*((youtu.be)|(youtube.com))\/((v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))?\??v?=?([^#\&\?]*).*/', $atts['src'] ) ) {
+		$video_type = 'youtube';
+	}
 
-    if (preg_match('/^.*(vimeo\.com\/)((channels\/[A-z]+\/)|(groups\/[A-z]+\/videos\/))?([0-9]+)/', $atts['src']))
-    {
-        $video_type = 'vimeo';
-    }
+	if ( preg_match( '/^.*(vimeo\.com\/)((channels\/[A-z]+\/)|(groups\/[A-z]+\/videos\/))?([0-9]+)/', $atts['src'] ) ) {
+		$video_type = 'vimeo';
+	}
 
-    if (strtolower(substr($atts['src'], -3)) === 'mp4')
-    {
-        $video_type = 'mp4';
-    }
+	if ( strtolower( substr( $atts['src'], -3 ) ) === 'mp4' ) {
+		$video_type = 'mp4';
+	}
 
-    if (empty($video_type))
-    {
-        return 'Please use a supported video type. The supported types are youtube, vimeo, and MP4.';
-    }
+	if ( empty( $video_type ) ) {
+		return 'Please use a supported video type. The supported types are youtube, vimeo, and MP4.';
+	}
 
-    return '<video height="' . $atts['height'] . '" width="' . $atts['width'] . '" data-form-id="' . $atts['form-id'] . '" data-gate-time="' . $atts['gate-time'] . '">' .
-            '<source type="video/' . $video_type . '" src="' . $atts['src'] . '" /></video>';
+	return '<video height="' . $atts['height'] . '" width="' . $atts['width'] . '" data-form-id="' . $atts['form-id'] . '" data-gate-time="' . $atts['gate-time'] . '">' .
+			'<source type="video/' . $video_type . '" src="' . $atts['src'] . '" /></video>';
 }
 
 /**
@@ -192,15 +183,17 @@ function wpmautic_video_shortcode( $atts )
 function wpmautic_wp_title( $title = '', $sep = '' ) {
 	global $paged, $page;
 
-	if ( is_feed() )
+	if ( is_feed() ) {
 		return $title;
+	}
 
 	// Add the site name.
-	$title .= trim(wp_title($sep, false));
+	$title .= trim( wp_title( $sep, false ) );
 
 	// Add a page number if necessary.
-	if ( $paged >= 2 || $page >= 2 )
+	if ( $paged >= 2 || $page >= 2 ) {
 		$title = "$title $sep " . sprintf( __( 'Page %s', 'twentytwelve' ), max( $paged, $page ) );
+	}
 
 	return $title;
 }

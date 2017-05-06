@@ -7,8 +7,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-function wpmautic_options_page()
-{ ?>
+function wpmautic_options_page() {
+	?>
 	<div>
 		<h2>WP Mautic</h2>
 		<p>Enable Base URL for Mautic Integration.</p>
@@ -44,29 +44,25 @@ function wpmautic_options_page()
 	<?php
 }
 
-add_action('admin_init', 'wpmautic_admin_init');
+add_action( 'admin_init', 'wpmautic_admin_init' );
 
-function wpmautic_admin_init()
-{
+function wpmautic_admin_init() {
 	register_setting( 'wpmautic_options', 'wpmautic_options', 'wpmautic_options_validate' );
-	add_settings_section('wpmautic_main', 'Main Settings', 'wpmautic_section_text', 'wpmautic');
-	add_settings_field('wpmautic_base_url', 'Mautic Base URL', 'wpmautic_base_url', 'wpmautic', 'wpmautic_main');
+	add_settings_section( 'wpmautic_main', 'Main Settings', 'wpmautic_section_text', 'wpmautic' );
+	add_settings_field( 'wpmautic_base_url', 'Mautic Base URL', 'wpmautic_base_url', 'wpmautic', 'wpmautic_main' );
 }
 
-function wpmautic_section_text()
-{
+function wpmautic_section_text() {
 }
 
-function wpmautic_base_url()
-{
-	$options = get_option('wpmautic_options');
+function wpmautic_base_url() {
+	$options = get_option( 'wpmautic_options' );
 	echo "<input id='wpmautic_base_url' name='wpmautic_options[base_url]' size='40' type='text' placeholder='http://...' value='{$options['base_url']}' />";
 }
 
-function wpmautic_options_validate($input)
-{
-	$options = get_option('wpmautic_options');
-	$options['base_url'] = trim($input['base_url']);
+function wpmautic_options_validate( $input ) {
+	$options = get_option( 'wpmautic_options' );
+	$options['base_url'] = trim( $input['base_url'] );
 
 	return $options;
 }
