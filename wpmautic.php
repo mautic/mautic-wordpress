@@ -52,6 +52,16 @@ function wpmautic_function()
 {
 	$options = get_option('wpmautic_options');
 	$base_url = trim($options['base_url'], " \t\n\r\0\x0B/");
+	$extra_info = '';
+	$user_query = wpmautic_get_user_query();
+	if ($user_query) {
+		$extra_info = ",{email: '{$user_query['email']}',
+		firstname: '{$user_query['firstname']}',
+		lastname: '{$user_query['lastname']}',
+		wp_user: '{$user_query['wp_user']}',
+		wp_alias: '{$user_query['wp_alias']}',
+		registration_date: '{$user_query['registration_date']}'}";
+	}
 
 	$mauticTrackingJS = <<<JS
 <script>
@@ -60,7 +70,7 @@ function wpmautic_function()
         m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
     })(window,document,'script','{$base_url}/mtc.js','mt');
 
-    mt('send', 'pageview');
+    mt('send', 'pageview'{$extra_info});
 </script>
 JS;
 
@@ -203,4 +213,27 @@ function wpmautic_wp_title( $title = '', $sep = '' ) {
 		$title = "$title $sep " . sprintf( __( 'Page %s', 'twentytwelve' ), max( $paged, $page ) );
 
 	return $title;
+}
+
+/**
+ * Retrieves additional logged in user information for tracking it in Mautic
+*/
+function wpmautic_get_user_query()
+{
+	global $wp;
+	$attrs = array();
+
+	if ( is_user_logged_in() ) {
+		$current_user = wp_get_current_user();
+		$attrs['email']	 = $current_user->user_email;
+		$attrs['firstname']  = $current_user->user_firstname;
+		$attrs['lastname']  = $current_user->user_lastname;
+		// Following Mautic fields has to be created manually and the fields must match these names
+		$attrs['wp_user']  = $current_user->user_login;
+		$attrs['wp_alias']  = $current_user->display_name;
+		$attrs['registration_date'] = date("Y-m-d",strtotime($current_user->__get('user_registered')));
+		return $attrs;
+	} else {
+		return null;
+	}
 }
