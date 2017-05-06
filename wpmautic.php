@@ -50,8 +50,15 @@ add_filter( 'plugin_action_links', 'wpmautic_plugin_actions', 10, 2 );
  */
 function wpmautic_function()
 {
+	global $wp;
+	
 	$options = get_option('wpmautic_options');
 	$base_url = trim($options['base_url'], " \t\n\r\0\x0B/");
+
+	$payload = urlencode(base64_encode(serialize(array(
+	    'page_url'   => home_url(add_query_arg(array(),$wp->request)),
+	    'page_title' => wp_get_document_title()
+	))));
 
 	$mauticTrackingJS = <<<JS
 <script>
@@ -62,6 +69,9 @@ function wpmautic_function()
 
     mt('send', 'pageview');
 </script>
+<noscript>
+    <img src="{$base_url}/mtracking.gif?d={$payload}" style="display: none;"  alt="" />
+</noscript>
 JS;
 
 	echo $mauticTrackingJS;
