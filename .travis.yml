@@ -1,0 +1,93 @@
+language: php
+
+sudo: false
+
+env:
+  global:
+    - WP_PHPUNIT=phpunit
+
+matrix:
+  fast_finish: true
+  include:
+    - php: 5.2
+      env: WP_VERSION=4.6 WP_MULTISITE=1
+    - php: 5.2
+      env: WP_VERSION=master
+    - php: 5.3
+      env: WP_VERSION=4.5
+    - php: 5.6
+      env: WP_VERSION=4.4
+    - php: 7.0
+      env: WP_VERSION=4.7 WP_MULTISITE=1
+    # WP >= 4.7 is needed for PHP 7.1
+    - php: 7.1
+      env: WP_VERSION=4.7
+    - php: hhvm
+      env: WP_VERSION=4.7
+    - php: nightly
+      env: WP_VERSION=master
+  allow_failures:
+    # Allow failures for unstable builds.
+    - php: nightly
+    - php: hhvm
+    - env: WP_VERSION=master
+
+cache:
+  directories:
+    - vendor
+    - $HOME/.composer/cache
+
+before_install:
+  - export WP_DEVELOP_DIR=/tmp/wordpress/
+  - git clone --depth=50 --branch="$WP_VERSION" git://develop.git.wordpress.org/ $WP_DEVELOP_DIR
+  - cd $WP_DEVELOP_DIR
+  - |
+    mysql -u root -e "CREATE DATABASE wordpress_tests;"
+    cp wp-tests-config-sample.php wp-tests-config.php
+    sed -i "s/youremptytestdbnamehere/wordpress_tests/" wp-tests-config.php
+    sed -i "s/yourusernamehere/root/" wp-tests-config.php
+    sed -i "s/yourpasswordhere//" wp-tests-config.php
+    svn checkout https://plugins.svn.wordpress.org/wordpress-importer/trunk tests/phpunit/data/plugins/wordpress-importer
+  - cd -
+
+before_script:
+  - PLUGIN_SLUG=$(basename $(pwd))
+  - PLUGIN_PATH=$(pwd)
+  - cd "$WP_DEVELOP_DIR/src/wp-content/plugins" && ln -s $PLUGIN_PATH $PLUGIN_SLUG && cd $PLUGIN_PATH
+  - |
+    # Install the specified version of PHPUnit depending on the PHP version:
+    case "$TRAVIS_PHP_VERSION" in
+      5.6|7.1|7.0|hhvm|nightly)
+        echo "Using bundled PHPUnit (5.7)"
+        composer install --no-interaction --prefer-source
+        export WP_PHPUNIT=vendor/bin/phpunit
+        ;;
+      5.5|5.4|5.3)
+        echo "Using PHPUnit 4.8"
+        composer global require "phpunit/phpunit=4.8.*"
+        export PATH=`composer config --list --global | grep '\[home\]' | { read a; echo "${a#* }/vendor/bin:$PATH"; }`
+        ;;
+      5.2)
+        # Do nothing, use default PHPUnit 3.6.x
+        echo "Using default PHPUnit, hopefully 3.6"
+        ;;
+      *)
+        echo "No PHPUnit version handling for PHP version $TRAVIS_PHP_VERSION"
+        exit 1
+        ;;
+    esac
+
+script:
+  - |
+    # Run code sniff when library is loaded
+    if [ -f "vendor/bin/phpcs" ]; then
+      vendor/bin/phpcs --standard=phpcs.xml
+    fi
+  - |
+    # Run valid PHPUnit version depending environment
+    $WP_PHPUNIT --version
+    if [[ "$COVERAGE" == "1" ]]; then
+      $WP_PHPUNIT --coverage-text
+    else
+      $WP_PHPUNIT
+    fi
