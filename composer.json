@@ -1,0 +1,19 @@
+{
+    "name": "mautic/wordpress-plugin",
+    "description": "Mautic Wordpress Plugin inserts Mautic tracking image and forms to the WP website. Your Mautic instance will be able to track information about your visitors that way.",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Stéphane HULARD",
+            "email": "s.hulard@chstudio.fr"
+        }
+    ],
+    "require": {
+        "php": "^5.2|^7.0.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.7",
+        "squizlabs/php_codesniffer": "^2.9",
+        "wp-coding-standards/wpcs": "^0.11.0"
+    }
+}
