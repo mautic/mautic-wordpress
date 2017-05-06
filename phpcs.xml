@@ -12,4 +12,15 @@
     <arg name="extensions" value="php" />
 
     <rule ref="WordPress" />
+
+    <!-- exclude the 'empty' index files from some documentation checks -->
+    <rule ref="Squiz.Commenting.FileComment">
+        <exclude-pattern>*/index.php</exclude-pattern>
+    </rule>
+    <rule ref="Squiz.Commenting.InlineComment">
+        <exclude-pattern>*/index.php</exclude-pattern>
+    </rule>
+    <rule ref="WordPress.WP.EnqueuedResources">
+        <exclude-pattern>*/wpmautic.php</exclude-pattern>
+    </rule>
 </ruleset>
