@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<ruleset name="Mautic/WordPress Plugin">
+    <description>Mautic wordpress plugin rules for PHP_CodeSniffer</description>
+
+    <file>.</file>
+
+    <config name="installed_paths" value="vendor/wp-coding-standards/wpcs" />
+
+    <exclude-pattern>vendor/*</exclude-pattern>
+    <exclude-pattern>languages/*</exclude-pattern>
+
+    <arg name="extensions" value="php" />
+
+    <rule ref="WordPress" />
+</ruleset>
