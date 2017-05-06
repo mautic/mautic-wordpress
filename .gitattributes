@@ -1,0 +1,14 @@
+# Standards for multi-platform colaboration
+
+# Set default behaviour, in case users don't have core.autocrlf set.
+* text=auto
+
+.gitattributes export-ignore
+.gitignore export-ignore
+CONTRIBUTING.md export-ignore
+README.md export-ignore
+phpunit.xml export-ignore
+phpcs.xml export-ignore
+composer.json export-ignore
+composer.lock export-ignore
+tests export-ignore
