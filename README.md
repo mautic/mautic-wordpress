@@ -1,7 +1,10 @@
 Mautic WordPress plugin
 =======================
 
-[Mautic](http://mautic.org) [Wordpress Plugin](https://wordpress.org/plugins/wp-mautic/) inserts Mautic tracking image and forms to the WP website. Your Mautic instance will be able to track information about your visitors that way.
+[Mautic](http://mautic.org) [Wordpress Plugin](https://wordpress.org/plugins/wp-mautic/) 
+inserts Mautic tracking, forms and dynamic content to the WP website. 
+Your Mautic instance will be able to track information about your visitors that way.
+You can also update your contacts via [Mautic API](https://github.com/mautic/api-library).
 
 ## Installation
 
@@ -26,9 +29,12 @@ If the installation via official WP plugin repository doesn't work for you, foll
 
 ## Usage
 
-### Mautic Tracking Image
+### Mautic Tracking
 
-Tracking image works right after you finish step 5 of Installation above. That means it will insert 1 px gif image loaded from your Mautic instance. You can check HTML source code (CTRL + U) of your WP website to make sure the plugin works. You should be able to find something like this:
+You can choose whether you want to use tracking pixel, JavaScript tracking or none of previously mentioned methods.
+JavaScript tracking is preferred since tracking pixel is now deprecated and support for it will be removed from Mautic. 
+You can check HTML source code (CTRL + U) of your WP website to make sure the plugin works. 
+You should be able to find something like this:
 
 ```html
 <script>
@@ -42,6 +48,8 @@ Tracking image works right after you finish step 5 of Installation above. That m
 ```
 
 Plugin adds more information (current url, referal url, page title, user language) to the image URL query encoded in base 64 (not humanly readable). This way your Mautic instance receives more valuable data.
+
+
 
 ### Mautic Forms
 
@@ -80,3 +88,13 @@ Replace the # signs with the appropriate number. For gate-time, enter the time
  Youtube or Vimeo, you can simply use the URL as it appears in your address 
  bar when viewing the video normally on the providing website. For MP4 videos,
  enter the full http URL to the MP4 file on the server.
+ 
+### Mautic API
+You can authorize your plugin with oAuth2 autorization and use Mautic API
+for updating contacts (previously called leads). Follow these steps:
+
+1. In your Mautic installation create API credentials with correct callback (you can copy this from plugin's settings page).
+2. Fill in Mautic instance URL, Client key and Client secret and click on "Save changes" button.
+3. Click on "Authorize" button. Log into your Mautic instance if required and authorize plugin.
+
+Refactoring and API connection support were sponsored by www.svetzitrka.cz
