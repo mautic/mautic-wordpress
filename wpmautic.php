@@ -6,7 +6,7 @@
  * Version: 1.0.1
  * Author: Mautic community
  * Author URI: http://mautic.org
- * License: GPL2
+ * License: GPL2 or later
  */
 
 // Prevent direct access to this file.
