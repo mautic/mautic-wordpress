@@ -5,6 +5,7 @@ sudo: false
 env:
   global:
     - WP_PHPUNIT=phpunit
+    - COMPOSER_DISABLE_XDEBUG_WARN=1
 
 matrix:
   fast_finish: true
@@ -49,6 +50,12 @@ before_install:
     sed -i "s/yourpasswordhere//" wp-tests-config.php
     svn checkout https://plugins.svn.wordpress.org/wordpress-importer/trunk tests/phpunit/data/plugins/wordpress-importer
   - cd -
+  - |
+    # Remove Xdebug for a huge performance increase, but not from nightly, hhvm and code coverage analysis:
+    stable='^[0-9\.]+$'
+    if [[ "$TRAVIS_PHP_VERSION" =~ $stable ]] && [[ "$COVERAGE" == "0" ]]; then
+      phpenv config-rm xdebug.ini
+    fi
 
 before_script:
   - PLUGIN_SLUG=$(basename $(pwd))
