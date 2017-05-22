@@ -27,6 +27,7 @@ add_action( 'admin_menu', 'wpmautic_settings' );
 add_action( 'wp_head', 'wpmautic_function' );
 add_shortcode( 'mautic', 'wpmautic_shortcode' );
 add_shortcode( 'mauticform', 'wpmautic_form_shortcode' );
+add_shortcode('mauticfocus', 'wpmautic_focus_shortcode');
 
 /**
  * Declare option page
@@ -81,6 +82,7 @@ HTML;
  *  - form
  *  - content
  * example: [mautic type="form" id="1"]
+ * example: [mautic type="focus" id="1"]
  * example: [mautic type="content" slot="slot_name"]Default Content[/mautic]
  * example: [mautic type="video" gate-time="15" form-id="1" src="https://www.youtube.com/watch?v=QT6169rdMdk"]
  *
@@ -108,6 +110,8 @@ function wpmautic_shortcode( $atts, $content = null ) {
 			return wpmautic_dwc_shortcode( $atts, $content );
 		case 'video':
 			return wpmautic_video_shortcode( $atts );
+		case 'focus':
+			return wpmautic_focus_shortcode( $atts );
 	}
 
 	return false;
@@ -226,4 +230,26 @@ function wpmautic_wp_title( $title = '', $sep = '' ) {
 	}
 
 	return $title;
+}
+
+/**
+ * Handle mautic focus itens on Wordpress Page
+ * example: [mauticfocus id="1"]
+ *
+ * @param  array $atts
+ * @return string
+ */
+function wpmautic_focus_shortcode( $atts )
+{
+	$options = get_option( 'wpmautic_options' );
+	$base_url = trim( $options['base_url'], " \t\n\r\0\x0B/" );
+	$atts = shortcode_atts( array(
+		'id' => '',
+	), $atts );
+
+	if (! $atts['id']) {
+		return false;
+	}
+
+	return '<script type="text/javascript" src="' . $base_url . '/focus/' . $atts['id'] . '.js" charset="utf-8" async="async"></script>';
 }
