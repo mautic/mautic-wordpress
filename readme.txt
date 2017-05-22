@@ -52,6 +52,14 @@ To load dynamic content into your WP content, insert this shortcode where you'd 
 
 Replace the "slot_name" with the slot name you'd like to load. This corresponds to the slot name you defined when building your campaign and adding the "Request Dynamic Content" contact decision.
 
+### Mautic Tags
+
+You can add or remove multiple lead tags on specific pages using commas. To remove an tag you have to use minus "-" signal before tag name:
+
+```
+[mautic type="tags" values="mytag,anothertag,-removetag"]
+```
+
 == Installation ==
 
 ### Via WP administration
