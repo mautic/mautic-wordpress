@@ -24,7 +24,8 @@ define( 'VPMAUTIC_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'VPMAUTIC_PLUGIN_FILE', __FILE__ );
 
 add_action( 'admin_menu', 'wpmautic_settings' );
-add_action( 'wp_head', 'wpmautic_function' );
+add_action( 'plugins_loaded', 'wpmautic_injector' );
+
 add_shortcode( 'mautic', 'wpmautic_shortcode' );
 add_shortcode( 'mauticform', 'wpmautic_form_shortcode' );
 
@@ -55,11 +56,27 @@ function wpmautic_plugin_actions( $links, $file ) {
 add_filter( 'plugin_action_links', 'wpmautic_plugin_actions', 10, 2 );
 
 /**
- * Writes Tracking JS to the HTML source of WP head
+ * Apply JS tracking to the right place depending script_location.
  *
  * @return void
  */
-function wpmautic_function() {
+function wpmautic_injector() {
+	$options = get_option( 'wpmautic_options' );
+	if ( ! isset( $options['script_location'] ) || 'header' === $options['script_location'] ) {
+		add_action( 'wp_head', 'wpmautic_inject_script' );
+	} else {
+		add_action( 'wp_footer', 'wpmautic_inject_script' );
+	}
+}
+
+/**
+ * Writes Tracking JS to the HTML source
+ *
+ * @param  string $url Base URL for Mautic instance
+ *
+ * @return void
+ */
+function wpmautic_inject_script() {
 	$options = get_option( 'wpmautic_options' );
 	$base_url = trim( $options['base_url'], " \t\n\r\0\x0B/" );
 	if ( empty( $base_url ) ) {
