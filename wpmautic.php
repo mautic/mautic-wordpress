@@ -56,12 +56,13 @@ add_filter( 'plugin_action_links', 'wpmautic_plugin_actions', 10, 2 );
 
 /**
  * Writes Tracking JS to the HTML source of WP head
+ *
  * @return void
  */
 function wpmautic_function() {
 	$options = get_option( 'wpmautic_options' );
 	$base_url = trim( $options['base_url'], " \t\n\r\0\x0B/" );
-	if (empty($base_url)) {
+	if ( empty( $base_url ) ) {
 		return;
 	}
 
