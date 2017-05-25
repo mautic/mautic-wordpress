@@ -72,8 +72,6 @@ function wpmautic_injector() {
 /**
  * Writes Tracking JS to the HTML source
  *
- * @param  string $url Base URL for Mautic instance
- *
  * @return void
  */
 function wpmautic_inject_script() {

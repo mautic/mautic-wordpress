@@ -120,9 +120,9 @@ function wpmautic_script_location() {
 				type="radio"
 				name="wpmautic_options[script_location]"
 				value="header"
-				<?php if ( $position !== 'footer' ) : ?>checked<?php endif; ?>
+				<?php if ( 'footer' !== $position ) : ?>checked<?php endif; ?>
 			/>
-			<?php _e( 'Embedded within the <code>wp_head</code> hook', 'mautic-wordpress' ); ?>
+			<?php esc_html_e( 'Embedded within the `wp_head` hook', 'mautic-wordpress' ); ?>
 		</label>
 		<br/>
 		<label>
@@ -130,9 +130,9 @@ function wpmautic_script_location() {
 				type="radio"
 				name="wpmautic_options[script_location]"
 				value="footer"
-				<?php if ( $position === 'footer' ) : ?>checked<?php endif; ?>
+				<?php if ( 'footer' === $position ) : ?>checked<?php endif; ?>
 			/>
-			<?php _e( 'Embedded within the <code>wp_footer</code> hook', 'mautic-wordpress' ); ?>
+			<?php esc_html_e( 'Embedded within the `wp_footer` hook', 'mautic-wordpress' ); ?>
 		</label>
 	</fieldset>
 	<?php
@@ -148,7 +148,7 @@ function wpmautic_options_validate( $input ) {
 	$options = get_option( 'wpmautic_options' );
 	$options['base_url'] = trim( $input['base_url'] );
 	$options['script_location'] = trim( $input['script_location'] );
-	if ( ! in_array( $options['script_location'], array( 'header', 'footer' ) ) ) {
+	if ( ! in_array( $options['script_location'], array( 'header', 'footer' ), true ) ) {
 		$options['script_location'] = 'header';
 	}
 
