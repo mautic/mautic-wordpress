@@ -243,7 +243,7 @@ function wpmautic_tags_shortcode( $atts ) {
 	$base_url = trim($options['base_url'], " \t\n\r\0\x0B/");
 	$atts = shortcode_atts(array('values' => ''), $atts);
 
-	if (! $atts['values']) {
+	if ( ! $atts['values'] ) {
 		return false;
 	}
 
