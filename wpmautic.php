@@ -27,7 +27,7 @@ add_action( 'admin_menu', 'wpmautic_settings' );
 add_action( 'wp_head', 'wpmautic_function' );
 add_shortcode( 'mautic', 'wpmautic_shortcode' );
 add_shortcode( 'mauticform', 'wpmautic_form_shortcode' );
-add_shortcode('mauticfocus', 'wpmautic_focus_shortcode');
+add_shortcode( 'mauticfocus', 'wpmautic_focus_shortcode' );
 
 /**
  * Declare option page
@@ -239,15 +239,14 @@ function wpmautic_wp_title( $title = '', $sep = '' ) {
  * @param  array $atts
  * @return string
  */
-function wpmautic_focus_shortcode( $atts )
-{
+function wpmautic_focus_shortcode( $atts ) {
 	$options = get_option( 'wpmautic_options' );
 	$base_url = trim( $options['base_url'], " \t\n\r\0\x0B/" );
 	$atts = shortcode_atts( array(
 		'id' => '',
 	), $atts );
 
-	if (! $atts['id']) {
+	if ( ! $atts['id'] ) {
 		return false;
 	}
 
