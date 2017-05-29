@@ -58,7 +58,8 @@ function wpmautic_shortcode( $atts, $content = null ) {
  * @return string
  */
 function wpmautic_form_shortcode( $atts ) {
-	if ( '' === $base_url = wpmautic_option( 'base_url', '' ) ) {
+	$base_url = wpmautic_option( 'base_url', '' );
+	if ( '' === $base_url ) {
 		return false;
 	}
 
@@ -70,11 +71,11 @@ function wpmautic_form_shortcode( $atts ) {
 		return false;
 	}
 
-	return sprintf(
-		'<script type="text/javascript" src="%s/form/generate.js?id=%s" async="async"></script>',
+	return '<script type="text/javascript" ' . sprintf(
+		'src="%s/form/generate.js?id=%s"',
 		esc_url( $base_url ),
 		esc_attr( $atts['id'] )
-	);
+	) . ' async="async"></script>';
 }
 
 /**
@@ -159,12 +160,13 @@ function wpmautic_video_shortcode( $atts ) {
  * example: [mautic type="tags" values="addtag,-removetag"]
  * example: [mautictags values="addtag,-removetag"]
  *
- * @param  array $atts
+ * @param  array $atts Shortcode attributes.
  *
  * @return string
  */
 function wpmautic_tags_shortcode( $atts ) {
-	if ( '' === $base_url = wpmautic_option( 'base_url', '' ) ) {
+	$base_url = wpmautic_option( 'base_url', '' );
+	if ( '' === $base_url ) {
 		return false;
 	}
 
@@ -187,12 +189,13 @@ function wpmautic_tags_shortcode( $atts ) {
  * Handle mautic focus itens on Wordpress Page
  * example: [mautic type="focus" id="1"]
  *
- * @param  array $atts
+ * @param  array $atts Shortcode attributes.
  *
  * @return string
  */
 function wpmautic_focus_shortcode( $atts ) {
-	if ( '' === $base_url = wpmautic_option( 'base_url', '' ) ) {
+	$base_url = wpmautic_option( 'base_url', '' );
+	if ( '' === $base_url ) {
 		return false;
 	}
 
@@ -204,9 +207,9 @@ function wpmautic_focus_shortcode( $atts ) {
 		return false;
 	}
 
-	return sprintf(
-		'<script type="text/javascript" src="%s/focus/%s.js" async="async"></script>',
+	return '<script type="text/javascript" ' . sprintf(
+		'src="%s/focus/%s.js"',
 		esc_url( $base_url ),
 		esc_attr( $atts['id'] )
-	);
+	) . ' async="async"></script>';
 }

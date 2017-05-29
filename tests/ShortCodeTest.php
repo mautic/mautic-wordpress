@@ -29,7 +29,7 @@ class ShortCodeTest extends WP_UnitTestCase
 
     public function test_form_shortcode_from_empty_atts()
     {
-        $result = wpmautic_form_shortcode([]);
+        $result = wpmautic_form_shortcode(array());
         $this->assertFalse($result);
     }
 

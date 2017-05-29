@@ -9,7 +9,7 @@
 class OptionsTest extends WP_UnitTestCase
 {
     /**
-     * @expectedException Exception
+     * @expectedException InvalidArgumentException
      */
     public function test_invalid_option_name()
     {

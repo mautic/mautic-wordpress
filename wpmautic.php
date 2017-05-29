@@ -68,11 +68,12 @@ add_filter( 'plugin_action_links', 'wpmautic_plugin_actions', 10, 2 );
 /**
  * Retrieve one of the wpmautic options but sanitized
  *
- * @param  string $option Option name to be retrieved (base_url, script_location)
+ * @param  string $option  Option name to be retrieved (base_url, script_location).
+ * @param  string $default Default option value return if not exists.
  *
  * @return string
  *
- * @throws Exception
+ * @throws InvalidArgumentException Thrown when the option name is not given.
  */
 function wpmautic_option( $option, $default = null ) {
 	$options = get_option( 'wpmautic_options' );
@@ -86,7 +87,7 @@ function wpmautic_option( $option, $default = null ) {
 					return $default;
 				}
 
-				throw new Exception( 'You must give a valid option name !' );
+				throw new InvalidArgumentException( 'You must give a valid option name !' );
 			}
 
 			return $options[ $option ];
@@ -113,11 +114,7 @@ function wpmautic_injector() {
  * @return void
  */
 function wpmautic_inject_script() {
-	$base_url = '';
-	try {
-		$base_url = wpmautic_option( 'base_url' );
-	} catch ( Exception $error ) {
-	}
+	$base_url = wpmautic_option( 'base_url', '' );
 	if ( empty( $base_url ) ) {
 		return;
 	}

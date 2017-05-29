@@ -11,14 +11,9 @@ class SettingsTest extends WP_UnitTestCase
     public function setUp()
     {
         parent::setUp();
-        require_once(__DIR__.'/../options.php');
+        require_once(VPMAUTIC_PLUGIN_DIR.'/options.php');
 
         $this->setOutputCallback(create_function('', ''));
-    }
-
-    public function test_admin_init_hook_attached()
-    {
-        $this->assertTrue(false !== has_action('admin_init', 'wpmautic_admin_init'));
     }
 
     public function test_nonce_fields_are_present()
