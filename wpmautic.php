@@ -223,36 +223,6 @@ function wpmautic_video_shortcode( $atts ) {
 }
 
 /**
- * Creates a nicely formatted and more specific title element text
- * for output in head of document, based on current view.
- *
- * @param  string $title Default title text for current view.
- * @param  string $sep Optional separator.
- *
- * @return string Filtered title.
- */
-function wpmautic_wp_title( $title = '', $sep = '' ) {
-	global $paged, $page;
-
-	if ( is_feed() ) {
-		return $title;
-	}
-
-	// Add the site name.
-	$title .= trim( wp_title( $sep, false ) );
-
-	// Add a page number if necessary.
-	if ( $paged >= 2 || $page >= 2 ) {
-		/*
-		 * translators: Pagination number
-		 */
-		$title = "$title $sep " . sprintf( __( 'Page %s', 'twentytwelve' ), max( $paged, $page ) );
-	}
-
-	return $title;
-}
-
-/**
  * Handle mautic tags by Wordpress shortcodes
  * example: [mautic type="tags" values="addtag,-removetag"]
  * example: [mautictags values="addtag,-removetag"]
@@ -293,4 +263,34 @@ function wpmautic_focus_shortcode( $atts ) {
 	}
 
 	return '<script type="text/javascript" src="' . $base_url . '/focus/' . $atts['id'] . '.js" charset="utf-8" async="async"></script>';
+}
+
+/**
+ * Creates a nicely formatted and more specific title element text
+ * for output in head of document, based on current view.
+ *
+ * @param  string $title Default title text for current view.
+ * @param  string $sep Optional separator.
+ *
+ * @return string Filtered title.
+ */
+function wpmautic_wp_title( $title = '', $sep = '' ) {
+	global $paged, $page;
+
+	if ( is_feed() ) {
+		return $title;
+	}
+
+	// Add the site name.
+	$title .= trim( wp_title( $sep, false ) );
+
+	// Add a page number if necessary.
+	if ( $paged >= 2 || $page >= 2 ) {
+		/*
+		 * translators: Pagination number
+		 */
+		$title = "$title $sep " . sprintf( __( 'Page %s', 'twentytwelve' ), max( $paged, $page ) );
+	}
+
+	return $title;
 }
