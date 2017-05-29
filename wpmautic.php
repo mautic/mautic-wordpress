@@ -33,7 +33,14 @@ include_once( VPMAUTIC_PLUGIN_DIR . '/shortcodes.php' );
  */
 function wpmautic_settings() {
 	include_once( VPMAUTIC_PLUGIN_DIR . '/options.php' );
-	add_options_page( 'WP Mautic Settings', 'WPMautic', 'manage_options', 'wpmautic', 'wpmautic_options_page' );
+
+	add_options_page(
+		__( 'WP Mautic Settings', 'mautic-wordpress' ),
+		__( 'WPMautic', 'mautic-wordpress' ),
+		'manage_options',
+		'wpmautic',
+		'wpmautic_options_page'
+	);
 }
 
 /**

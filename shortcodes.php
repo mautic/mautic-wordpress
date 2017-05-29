@@ -58,7 +58,7 @@ function wpmautic_shortcode( $atts, $content = null ) {
  * @return string
  */
 function wpmautic_form_shortcode( $atts ) {
-	if ('' === $base_url = wpmautic_option( 'base_url', '' )) {
+	if ( '' === $base_url = wpmautic_option( 'base_url', '' ) ) {
 		return false;
 	}
 
@@ -164,7 +164,7 @@ function wpmautic_video_shortcode( $atts ) {
  * @return string
  */
 function wpmautic_tags_shortcode( $atts ) {
-	if ('' === $base_url = wpmautic_option( 'base_url', '' )) {
+	if ( '' === $base_url = wpmautic_option( 'base_url', '' ) ) {
 		return false;
 	}
 
@@ -192,7 +192,7 @@ function wpmautic_tags_shortcode( $atts ) {
  * @return string
  */
 function wpmautic_focus_shortcode( $atts ) {
-	if ('' === $base_url = wpmautic_option( 'base_url', '' )) {
+	if ( '' === $base_url = wpmautic_option( 'base_url', '' ) ) {
 		return false;
 	}
 
