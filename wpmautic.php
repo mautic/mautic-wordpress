@@ -24,10 +24,12 @@ define( 'VPMAUTIC_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'VPMAUTIC_PLUGIN_FILE', __FILE__ );
 
 add_action( 'admin_menu', 'wpmautic_settings' );
-add_action( 'wp_head', 'wpmautic_function' );
+add_action( 'plugins_loaded', 'wpmautic_injector' );
+
 add_shortcode( 'mautic', 'wpmautic_shortcode' );
 add_shortcode( 'mauticform', 'wpmautic_form_shortcode' );
 add_shortcode( 'mautictags', 'wpmautic_tags_shortcode' );
+add_shortcode( 'mauticfocus', 'wpmautic_focus_shortcode' );
 
 /**
  * Declare option page
@@ -56,24 +58,40 @@ function wpmautic_plugin_actions( $links, $file ) {
 add_filter( 'plugin_action_links', 'wpmautic_plugin_actions', 10, 2 );
 
 /**
- * Writes Tracking JS to the HTML source of WP head
+ * Apply JS tracking to the right place depending script_location.
+ *
+ * @return void
  */
-function wpmautic_function() {
+function wpmautic_injector() {
+	$options = get_option( 'wpmautic_options' );
+	if ( ! isset( $options['script_location'] ) || 'header' === $options['script_location'] ) {
+		add_action( 'wp_head', 'wpmautic_inject_script' );
+	} else {
+		add_action( 'wp_footer', 'wpmautic_inject_script' );
+	}
+}
+
+/**
+ * Writes Tracking JS to the HTML source
+ *
+ * @return void
+ */
+function wpmautic_inject_script() {
 	$options = get_option( 'wpmautic_options' );
 	$base_url = trim( $options['base_url'], " \t\n\r\0\x0B/" );
+	if ( empty( $base_url ) ) {
+		return;
+	}
 
-	$javascript = <<<HTML
-<script>
-    (function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
-        w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
-        m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','{$base_url}/mtc.js','mt');
+	?><script type="text/javascript">
+	(function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
+		w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
+		m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','<?php echo esc_url( $base_url ); ?>/mtc.js','mt');
 
-    mt('send', 'pageview');
+	mt('send', 'pageview');
 </script>
-HTML;
-
-	echo esc_js( $javascript );
+	<?php
 }
 
 /**
@@ -82,6 +100,7 @@ HTML;
  *  - form
  *  - content
  * example: [mautic type="form" id="1"]
+ * example: [mautic type="focus" id="1"]
  * example: [mautic type="content" slot="slot_name"]Default Content[/mautic]
  * example: [mautic type="video" gate-time="15" form-id="1" src="https://www.youtube.com/watch?v=QT6169rdMdk"]
  *
@@ -111,6 +130,8 @@ function wpmautic_shortcode( $atts, $content = null ) {
 			return wpmautic_video_shortcode( $atts );
 		case 'tags':
 			return wpmautic_tags_shortcode( $atts );
+		case 'focus':
+			return wpmautic_focus_shortcode( $atts );
 	}
 
 	return false;
@@ -248,4 +269,25 @@ function wpmautic_tags_shortcode( $atts ) {
 	}
 
 	return '<img src="' . $base_url . '/mtracking.gif?tags=' . $atts['values'] . '" alt="Mautic Tags" />';
+}
+
+/**
+ * Handle mautic focus itens on Wordpress Page
+ * example: [mauticfocus id="1"]
+ *
+ * @param  array $atts
+ * @return string
+ */
+function wpmautic_focus_shortcode( $atts ) {
+	$options = get_option( 'wpmautic_options' );
+	$base_url = trim( $options['base_url'], " \t\n\r\0\x0B/" );
+	$atts = shortcode_atts( array(
+		'id' => '',
+	), $atts );
+
+	if ( ! $atts['id'] ) {
+		return false;
+	}
+
+	return '<script type="text/javascript" src="' . $base_url . '/focus/' . $atts['id'] . '.js" charset="utf-8" async="async"></script>';
 }
