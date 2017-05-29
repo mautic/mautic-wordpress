@@ -46,7 +46,11 @@ function wpmautic_settings() {
  */
 function wpmautic_plugin_actions( $links, $file ) {
 	if ( plugin_basename( VPMAUTIC_PLUGIN_FILE ) === $file && function_exists( 'admin_url' ) ) {
-		$settings_link = '<a href="' . admin_url( 'options-general.php?page=wpmautic' ) . '">' . __( 'Settings' ) . '</a>';
+		$settings_link = sprintf(
+			'<a href="%s">%s</a>',
+			admin_url( 'options-general.php?page=wpmautic' ),
+			__( 'Settings' )
+		);
 		// Add the settings link before other links.
 		array_unshift( $links, $settings_link );
 	}
@@ -101,7 +105,7 @@ function wpmautic_inject_script() {
 	$base_url = '';
 	try {
 		$base_url = wpmautic_option( 'base_url' );
-	} catch (Exception $error) {
+	} catch ( Exception $error ) {
 	}
 	if ( empty( $base_url ) ) {
 		return;
