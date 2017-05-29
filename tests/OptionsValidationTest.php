@@ -4,7 +4,7 @@
  */
 
 /**
- * Test Mautic options management
+ * Test Mautic options validation
  */
 class OptionsValidationTest extends WP_UnitTestCase
 {
