@@ -28,6 +28,7 @@ add_action( 'plugins_loaded', 'wpmautic_injector' );
 
 add_shortcode( 'mautic', 'wpmautic_shortcode' );
 add_shortcode( 'mauticform', 'wpmautic_form_shortcode' );
+add_shortcode( 'mautictags', 'wpmautic_tags_shortcode' );
 add_shortcode( 'mauticfocus', 'wpmautic_focus_shortcode' );
 
 /**
@@ -127,6 +128,8 @@ function wpmautic_shortcode( $atts, $content = null ) {
 			return wpmautic_dwc_shortcode( $atts, $content );
 		case 'video':
 			return wpmautic_video_shortcode( $atts );
+		case 'tags':
+			return wpmautic_tags_shortcode( $atts );
 		case 'focus':
 			return wpmautic_focus_shortcode( $atts );
 	}
@@ -247,6 +250,25 @@ function wpmautic_wp_title( $title = '', $sep = '' ) {
 	}
 
 	return $title;
+}
+
+/**
+ * Handle mautic tags by Wordpress shortcodes
+ * example: [mautic type="tags" values="addtag,-removetag"]
+ *
+ * @param  array $atts
+ * @return string
+ */
+function wpmautic_tags_shortcode( $atts ) {
+	$options = get_option('wpmautic_options');
+	$base_url = trim($options['base_url'], " \t\n\r\0\x0B/");
+	$atts = shortcode_atts(array('values' => ''), $atts);
+
+	if ( ! $atts['values'] ) {
+		return false;
+	}
+
+	return '<img src="' . $base_url . '/mtracking.gif?tags=' . $atts['values'] . '" alt="Mautic Tags" />';
 }
 
 /**
