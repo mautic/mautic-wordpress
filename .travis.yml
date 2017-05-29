@@ -19,7 +19,7 @@ matrix:
     - php: 5.6
       env: WP_VERSION=4.4
     - php: 7.0
-      env: WP_VERSION=4.7 WP_MULTISITE=1
+      env: WP_VERSION=4.7 WP_MULTISITE=1 COVERAGE=1
     # WP >= 4.7 is needed for PHP 7.1
     - php: 7.1
       env: WP_VERSION=4.7
@@ -55,7 +55,7 @@ before_install:
   - |
     # Remove Xdebug for a huge performance increase, but not from nightly, hhvm and code coverage analysis:
     stable='^[0-9\.]+$'
-    if [[ "$TRAVIS_PHP_VERSION" =~ $stable ]] && [[ "$COVERAGE" == "0" ]]; then
+    if [[ "$TRAVIS_PHP_VERSION" =~ $stable ]] && [[ "$COVERAGE" != "1" ]]; then
       phpenv config-rm xdebug.ini
     fi
 
