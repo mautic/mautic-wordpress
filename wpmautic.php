@@ -32,7 +32,7 @@ include_once( VPMAUTIC_PLUGIN_DIR . '/shortcodes.php' );
  * Declare option page
  */
 function wpmautic_settings() {
-	include_once( dirname( __FILE__ ) . '/options.php' );
+	include_once( VPMAUTIC_PLUGIN_DIR . '/options.php' );
 	add_options_page( 'WP Mautic Settings', 'WPMautic', 'manage_options', 'wpmautic', 'wpmautic_options_page' );
 }
 
