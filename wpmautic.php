@@ -145,7 +145,11 @@ function wpmautic_form_shortcode( $atts ) {
 		return false;
 	}
 
-	return '<script type="text/javascript" src="' . $base_url . '/form/generate.js?id=' . $atts['id'] . '"></script>';
+	return sprintf(
+		'<script type="text/javascript" src="%s/form/generate.js?id=%s"></script>',
+		esc_url($base_url),
+		esc_attr($atts['id'])
+	);
 }
 
 /**
@@ -165,7 +169,11 @@ function wpmautic_dwc_shortcode( $atts, $content = null ) {
 		'slot' => '',
 	), $atts, 'mautic' );
 
-	return '<div class="mautic-slot" data-slot-name="' . $atts['slot'] . '">' . $content . '</div>';
+	return sprintf(
+		'<div class="mautic-slot" data-slot-name="%s">%s</div>',
+		esc_attr($atts['slot']),
+		esc_textarea($content)
+	);
 }
 
 /**
@@ -211,8 +219,17 @@ function wpmautic_video_shortcode( $atts ) {
 		return 'Please use a supported video type. The supported types are youtube, vimeo, and MP4.';
 	}
 
-	return '<video height="' . $atts['height'] . '" width="' . $atts['width'] . '" data-form-id="' . $atts['form-id'] . '" data-gate-time="' . $atts['gate-time'] . '">' .
-			'<source type="video/' . $video_type . '" src="' . $atts['src'] . '" /></video>';
+	return sprintf(
+		'<video height="%s" width="%s" data-form-id="%s" data-gate-time="%s">' .
+			'<source type="video/%s" src="%s" />' .
+		'</video>',
+		esc_attr($atts['height']),
+		esc_attr($atts['width']),
+		esc_attr($atts['form-id']),
+		esc_attr($atts['gate-time']),
+		esc_attr($video_type),
+		esc_attr($atts['src'])
+	);
 }
 
 /**
@@ -225,15 +242,21 @@ function wpmautic_video_shortcode( $atts ) {
  * @return string
  */
 function wpmautic_tags_shortcode( $atts ) {
-	$options = get_option('wpmautic_options');
-	$base_url = trim($options['base_url'], " \t\n\r\0\x0B/");
-	$atts = shortcode_atts(array('values' => ''), $atts);
+	$options = get_option( 'wpmautic_options' );
+	$base_url = trim( $options['base_url'], " \t\n\r\0\x0B/" );
+	$atts = shortcode_atts( array(
+		'values' => '',
+	), $atts );
 
 	if ( ! $atts['values'] ) {
 		return false;
 	}
 
-	return '<img src="' . $base_url . '/mtracking.gif?tags=' . $atts['values'] . '" alt="Mautic Tags" />';
+	return sprintf(
+		'<img src="%s/mtracking.gif?tags=%s" alt="Mautic Tags" />',
+		esc_url($base_url),
+		esc_attr($atts['values'])
+	);
 }
 
 /**
@@ -255,7 +278,11 @@ function wpmautic_focus_shortcode( $atts ) {
 		return false;
 	}
 
-	return '<script type="text/javascript" src="' . $base_url . '/focus/' . $atts['id'] . '.js" charset="utf-8" async="async"></script>';
+	return sprintf(
+		'<script type="text/javascript" src="%s/focus/%s.js" charset="utf-8" async="async"></script>',
+		esc_url($base_url),
+		esc_attr($atts['id'])
+	);
 }
 
 /**
