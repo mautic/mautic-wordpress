@@ -58,7 +58,10 @@ function wpmautic_shortcode( $atts, $content = null ) {
  * @return string
  */
 function wpmautic_form_shortcode( $atts ) {
-	$base_url = wpmautic_options( 'base_url' );
+	if ('' === $base_url = wpmautic_option( 'base_url', '' )) {
+		return false;
+	}
+
 	$atts = shortcode_atts( array(
 		'id' => '',
 	), $atts );
@@ -68,7 +71,7 @@ function wpmautic_form_shortcode( $atts ) {
 	}
 
 	return sprintf(
-		'<script type="text/javascript" src="%s/form/generate.js?id=%s"></script>',
+		'<script type="text/javascript" src="%s/form/generate.js?id=%s" async="async"></script>',
 		esc_url( $base_url ),
 		esc_attr( $atts['id'] )
 	);
@@ -77,7 +80,7 @@ function wpmautic_form_shortcode( $atts ) {
 /**
  * Dynamic content shortcode handling
  * example: [mautic type="content" slot="slot_name"]Default Content[/mautic]
- * example: [mauticcontent slot="slot_name"]Default Content[/mautic]
+ * example: [mauticcontent slot="slot_name"]Default Content[/mauticcontent]
  *
  * @param  array       $atts    Shortcode attributes.
  * @param  string|null $content Default content to be displayed.
@@ -85,8 +88,6 @@ function wpmautic_form_shortcode( $atts ) {
  * @return string
  */
 function wpmautic_dwc_shortcode( $atts, $content = null ) {
-	$base_url = wpmautic_options( 'base_url' );
-
 	$atts     = shortcode_atts( array(
 		'slot' => '',
 	), $atts, 'mautic' );
@@ -113,6 +114,7 @@ function wpmautic_video_shortcode( $atts ) {
 		'gate-time' => 15,
 		'form-id' => '',
 		'src' => '',
+		'video-type' => '',
 		'width' => 640,
 		'height' => 360,
 	), $atts);
@@ -126,19 +128,17 @@ function wpmautic_video_shortcode( $atts ) {
 	}
 
 	if ( preg_match( '/^.*((youtu.be)|(youtube.com))\/((v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))?\??v?=?([^#\&\?]*).*/', $atts['src'] ) ) {
-		$video_type = 'youtube';
+		$atts['video-type'] = 'youtube';
 	}
-
 	if ( preg_match( '/^.*(vimeo\.com\/)((channels\/[A-z]+\/)|(groups\/[A-z]+\/videos\/))?([0-9]+)/', $atts['src'] ) ) {
-		$video_type = 'vimeo';
+		$atts['video-type'] = 'vimeo';
 	}
-
 	if ( strtolower( substr( $atts['src'], -3 ) ) === 'mp4' ) {
-		$video_type = 'mp4';
+		$atts['video-type'] = 'mp4';
 	}
 
-	if ( empty( $video_type ) ) {
-		return 'Please use a supported video type. The supported types are youtube, vimeo, and MP4.';
+	if ( empty( $atts['video-type'] ) ) {
+		return 'Please define a valid video type with video-type="#".';
 	}
 
 	return sprintf(
@@ -149,7 +149,7 @@ function wpmautic_video_shortcode( $atts ) {
 		esc_attr( $atts['width'] ),
 		esc_attr( $atts['form-id'] ),
 		esc_attr( $atts['gate-time'] ),
-		esc_attr( $video_type ),
+		esc_attr( $atts['video-type'] ),
 		esc_attr( $atts['src'] )
 	);
 }
@@ -164,7 +164,9 @@ function wpmautic_video_shortcode( $atts ) {
  * @return string
  */
 function wpmautic_tags_shortcode( $atts ) {
-	$base_url = wpmautic_options( 'base_url' );
+	if ('' === $base_url = wpmautic_option( 'base_url', '' )) {
+		return false;
+	}
 
 	$atts = shortcode_atts( array(
 		'values' => '',
@@ -190,7 +192,9 @@ function wpmautic_tags_shortcode( $atts ) {
  * @return string
  */
 function wpmautic_focus_shortcode( $atts ) {
-	$base_url = wpmautic_options( 'base_url' );
+	if ('' === $base_url = wpmautic_option( 'base_url', '' )) {
+		return false;
+	}
 
 	$atts = shortcode_atts( array(
 		'id' => '',
@@ -201,7 +205,7 @@ function wpmautic_focus_shortcode( $atts ) {
 	}
 
 	return sprintf(
-		'<script type="text/javascript" src="%s/focus/%s.js" charset="utf-8" async="async"></script>',
+		'<script type="text/javascript" src="%s/focus/%s.js" async="async"></script>',
 		esc_url( $base_url ),
 		esc_attr( $atts['id'] )
 	);
