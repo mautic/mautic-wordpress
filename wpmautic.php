@@ -98,13 +98,6 @@ function wpmautic_inject_script() {
 
 /**
  * Handle mautic shortcode. Must include a type attribute.
- * Allowable types are:
- *  - form
- *  - content
- * example: [mautic type="form" id="1"]
- * example: [mautic type="focus" id="1"]
- * example: [mautic type="content" slot="slot_name"]Default Content[/mautic]
- * example: [mautic type="video" gate-time="15" form-id="1" src="https://www.youtube.com/watch?v=QT6169rdMdk"]
  *
  * @param array       $atts    Shortcode attributes.
  * @param string|null $content Default content to be displayed.
@@ -142,6 +135,7 @@ function wpmautic_shortcode( $atts, $content = null ) {
 /**
  * Handle mauticform shortcode
  * example: [mauticform id="1"]
+ * example: [mautic type="form" id="1"]
  *
  * @param  array $atts Shortcode attributes.
  *
@@ -163,6 +157,8 @@ function wpmautic_form_shortcode( $atts ) {
 
 /**
  * Dynamic content shortcode handling
+ * example: [mautic type="content" slot="slot_name"]Default Content[/mautic]
+ * example: [mauticcontent slot="slot_name"]Default Content[/mautic]
  *
  * @param  array       $atts    Shortcode attributes.
  * @param  string|null $content Default content to be displayed.
@@ -181,6 +177,8 @@ function wpmautic_dwc_shortcode( $atts, $content = null ) {
 
 /**
  * Video shortcode handling
+ * example: [mautic type="video" gate-time="15" form-id="1" src="https://www.youtube.com/watch?v=QT6169rdMdk"]
+ * example: [mauticvideo gate-time="15" form-id="1" src="https://www.youtube.com/watch?v=QT6169rdMdk"]
  *
  * @param  array $atts Shortcode attributes.
  *
@@ -257,8 +255,10 @@ function wpmautic_wp_title( $title = '', $sep = '' ) {
 /**
  * Handle mautic tags by Wordpress shortcodes
  * example: [mautic type="tags" values="addtag,-removetag"]
+ * example: [mautictags values="addtag,-removetag"]
  *
  * @param  array $atts
+ *
  * @return string
  */
 function wpmautic_tags_shortcode( $atts ) {
@@ -275,9 +275,10 @@ function wpmautic_tags_shortcode( $atts ) {
 
 /**
  * Handle mautic focus itens on Wordpress Page
- * example: [mauticfocus id="1"]
+ * example: [mautic type="focus" id="1"]
  *
  * @param  array $atts
+ *
  * @return string
  */
 function wpmautic_focus_shortcode( $atts ) {
