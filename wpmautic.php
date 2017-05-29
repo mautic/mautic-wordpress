@@ -27,6 +27,8 @@ add_action( 'admin_menu', 'wpmautic_settings' );
 add_action( 'plugins_loaded', 'wpmautic_injector' );
 
 add_shortcode( 'mautic', 'wpmautic_shortcode' );
+add_shortcode( 'mauticcontent', 'wpmautic_dwc_shortcode' );
+add_shortcode( 'mauticvideo', 'wpmautic_video_shortcode' );
 add_shortcode( 'mauticform', 'wpmautic_form_shortcode' );
 add_shortcode( 'mautictags', 'wpmautic_tags_shortcode' );
 add_shortcode( 'mauticfocus', 'wpmautic_focus_shortcode' );
