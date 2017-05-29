@@ -55,6 +55,30 @@ function wpmautic_plugin_actions( $links, $file ) {
 add_filter( 'plugin_action_links', 'wpmautic_plugin_actions', 10, 2 );
 
 /**
+ * Retrieve one of the wpmautic options but sanitized
+ *
+ * @param  string $option Option name to be retrieved (base_url, script_location)
+ *
+ * @return string
+ *
+ * @throws Exception
+ */
+function wpmautic_option( $option ) {
+	$options = get_option( 'wpmautic_options' );
+
+	switch ( $option ) {
+		case 'script_location':
+			return ! isset( $options['script_location'] ) ? 'header' : $options['script_location'];
+		default:
+			if ( ! isset( $options[ $option ] ) ) {
+				throw new Exception( 'You must give a valid option name !' );
+			}
+
+			return $options[ $option ];
+	}
+}
+
+/**
  * Apply JS tracking to the right place depending script_location.
  *
  * @return void
