@@ -23,6 +23,8 @@ matrix:
     # WP >= 4.7 is needed for PHP 7.1
     - php: 7.1
       env: WP_VERSION=4.7
+    - php: 7.1
+      env: WP_VERSION=master
     - php: hhvm
       env: WP_VERSION=4.7
     - php: nightly
