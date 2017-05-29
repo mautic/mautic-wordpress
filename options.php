@@ -56,7 +56,9 @@ function wpmautic_options_page() {
  * Define admin_init hook logic
  */
 function wpmautic_admin_init() {
-	register_setting( 'wpmautic_options', 'wpmautic_options', 'wpmautic_options_validate' );
+	register_setting( 'wpmautic_options', 'wpmautic_options', array(
+		'sanitize_callback' => 'wpmautic_options_validate',
+	));
 
 	add_settings_section(
 		'wpmautic_main',
@@ -92,8 +94,8 @@ function wpmautic_section_text() {
  * Define the input field for Mautic base URL
  */
 function wpmautic_base_url() {
-	$options = get_option( 'wpmautic_options' );
-	$url = isset( $options['base_url'] )?$options['base_url']:'';
+	$url = wpmautic_option( 'base_url', '' );
+
 	?>
 	<input
 		id="wpmautic_base_url"
@@ -110,8 +112,7 @@ function wpmautic_base_url() {
  * Define the input field for Mautic script location
  */
 function wpmautic_script_location() {
-	$options = get_option( 'wpmautic_options' );
-	$position = $options['script_location'];
+	$position = wpmautic_option( 'script_location', '' );
 
 	?>
 	<fieldset id="wpmautic_script_location">
