@@ -105,18 +105,11 @@ function wpmautic_inject_script() {
  * @return string
  */
 function wpmautic_shortcode( $atts, $content = null ) {
-	$atts = shortcode_atts(array(
-		'type' => null,
-		'id' => null,
-		'slot' => null,
-		'src' => null,
-		'width' => null,
-		'height' => null,
-		'form-id' => null,
-		'gate-time' => null,
+	$default = shortcode_atts(array(
+		'type' => null
 	), $atts);
 
-	switch ( $atts['type'] ) {
+	switch ( $default['type'] ) {
 		case 'form':
 			return wpmautic_form_shortcode( $atts );
 		case 'content':
