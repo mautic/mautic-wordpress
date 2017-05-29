@@ -25,6 +25,8 @@ class SettingsTest extends WP_UnitTestCase
 
     public function test_with_admin_init()
     {
+        $this->markTestIncomplete('Need to ensure compatibility with PHP<=5.6');
+
         wpmautic_admin_init();
         wpmautic_options_page();
         $output = $this->getActualOutput();
