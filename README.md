@@ -53,6 +53,16 @@ To load a Mautic Form to your WP post, insert this shortcode to the place you wa
 
 Replace "1" with the form ID you want to load. To get the ID of the form, go to your Mautic, open the form detail and look at the URL. The ID is right there. For example in this URL: http://yourmautic.com/s/forms/view/3 the ID = 3.
 
+### Mautic Focus
+
+To load a Mautic Focus to your post, insert this shortcode to the place you want the form to appear:
+
+```
+[mautic type="focus" id="1"]
+```
+
+Replace "1" with the focus ID you want to load. To get the ID of the focus, go to your Mautic, open the focus detail and look at the URL. The ID is right there. For example in this URL: http://yourmautic.com/s/focus/3.js the ID = 3.
+
 ### Mautic Dynamic Content
 
 To load dynamic content into your WP content, insert this shortcode where you'd like it to appear:
