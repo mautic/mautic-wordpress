@@ -84,8 +84,8 @@ function wpmautic_option( $option ) {
  * @return void
  */
 function wpmautic_injector() {
-	$options = get_option( 'wpmautic_options' );
-	if ( ! isset( $options['script_location'] ) || 'header' === $options['script_location'] ) {
+	$script_location = wpmautic_option( 'script_location' );
+	if ( 'header' === $script_location ) {
 		add_action( 'wp_head', 'wpmautic_inject_script' );
 	} else {
 		add_action( 'wp_footer', 'wpmautic_inject_script' );
@@ -98,8 +98,11 @@ function wpmautic_injector() {
  * @return void
  */
 function wpmautic_inject_script() {
-	$options = get_option( 'wpmautic_options' );
-	$base_url = trim( $options['base_url'], " \t\n\r\0\x0B/" );
+	$base_url = '';
+	try {
+		$base_url = wpmautic_option( 'base_url' );
+	} catch (Exception $error) {
+	}
 	if ( empty( $base_url ) ) {
 		return;
 	}
