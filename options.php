@@ -92,8 +92,8 @@ function wpmautic_section_text() {
  * Define the input field for Mautic base URL
  */
 function wpmautic_base_url() {
-	$options = get_option( 'wpmautic_options' );
-	$url = isset( $options['base_url'] )?$options['base_url']:'';
+	$url = wpmautic_option( 'base_url', '' );
+
 	?>
 	<input
 		id="wpmautic_base_url"
@@ -110,8 +110,7 @@ function wpmautic_base_url() {
  * Define the input field for Mautic script location
  */
 function wpmautic_script_location() {
-	$options = get_option( 'wpmautic_options' );
-	$position = $options['script_location'];
+	$position = wpmautic_option( 'script_location', '' );
 
 	?>
 	<fieldset id="wpmautic_script_location">
@@ -146,8 +145,15 @@ function wpmautic_script_location() {
  */
 function wpmautic_options_validate( $input ) {
 	$options = get_option( 'wpmautic_options' );
-	$options['base_url'] = trim( $input['base_url'] );
-	$options['script_location'] = trim( $input['script_location'] );
+
+	$input['base_url'] = isset( $input['base_url'] )
+		? trim( $input['base_url'], " \t\n\r\0\x0B/" )
+		: '';
+
+	$options['base_url'] = esc_url_raw( trim( $input['base_url'], " \t\n\r\0\x0B/" ) );
+	$options['script_location'] = isset( $input['script_location'] )
+		? trim( $input['script_location'] )
+		: 'header';
 	if ( ! in_array( $options['script_location'], array( 'header', 'footer' ), true ) ) {
 		$options['script_location'] = 'header';
 	}

@@ -26,17 +26,21 @@ define( 'VPMAUTIC_PLUGIN_FILE', __FILE__ );
 add_action( 'admin_menu', 'wpmautic_settings' );
 add_action( 'plugins_loaded', 'wpmautic_injector' );
 
-add_shortcode( 'mautic', 'wpmautic_shortcode' );
-add_shortcode( 'mauticform', 'wpmautic_form_shortcode' );
-add_shortcode( 'mautictags', 'wpmautic_tags_shortcode' );
-add_shortcode( 'mauticfocus', 'wpmautic_focus_shortcode' );
+include_once( VPMAUTIC_PLUGIN_DIR . '/shortcodes.php' );
 
 /**
  * Declare option page
  */
 function wpmautic_settings() {
-	include_once( dirname( __FILE__ ) . '/options.php' );
-	add_options_page( 'WP Mautic Settings', 'WPMautic', 'manage_options', 'wpmautic', 'wpmautic_options_page' );
+	include_once( VPMAUTIC_PLUGIN_DIR . '/options.php' );
+
+	add_options_page(
+		__( 'WP Mautic Settings', 'mautic-wordpress' ),
+		__( 'WPMautic', 'mautic-wordpress' ),
+		'manage_options',
+		'wpmautic',
+		'wpmautic_options_page'
+	);
 }
 
 /**
@@ -49,7 +53,11 @@ function wpmautic_settings() {
  */
 function wpmautic_plugin_actions( $links, $file ) {
 	if ( plugin_basename( VPMAUTIC_PLUGIN_FILE ) === $file && function_exists( 'admin_url' ) ) {
-		$settings_link = '<a href="' . admin_url( 'options-general.php?page=wpmautic' ) . '">' . __( 'Settings' ) . '</a>';
+		$settings_link = sprintf(
+			'<a href="%s">%s</a>',
+			admin_url( 'options-general.php?page=wpmautic' ),
+			__( 'Settings' )
+		);
 		// Add the settings link before other links.
 		array_unshift( $links, $settings_link );
 	}
@@ -58,13 +66,42 @@ function wpmautic_plugin_actions( $links, $file ) {
 add_filter( 'plugin_action_links', 'wpmautic_plugin_actions', 10, 2 );
 
 /**
+ * Retrieve one of the wpmautic options but sanitized
+ *
+ * @param  string $option  Option name to be retrieved (base_url, script_location).
+ * @param  string $default Default option value return if not exists.
+ *
+ * @return string
+ *
+ * @throws InvalidArgumentException Thrown when the option name is not given.
+ */
+function wpmautic_option( $option, $default = null ) {
+	$options = get_option( 'wpmautic_options' );
+
+	switch ( $option ) {
+		case 'script_location':
+			return ! isset( $options['script_location'] ) ? 'header' : $options['script_location'];
+		default:
+			if ( ! isset( $options[ $option ] ) ) {
+				if ( isset( $default ) ) {
+					return $default;
+				}
+
+				throw new InvalidArgumentException( 'You must give a valid option name !' );
+			}
+
+			return $options[ $option ];
+	}
+}
+
+/**
  * Apply JS tracking to the right place depending script_location.
  *
  * @return void
  */
 function wpmautic_injector() {
-	$options = get_option( 'wpmautic_options' );
-	if ( ! isset( $options['script_location'] ) || 'header' === $options['script_location'] ) {
+	$script_location = wpmautic_option( 'script_location' );
+	if ( 'header' === $script_location ) {
 		add_action( 'wp_head', 'wpmautic_inject_script' );
 	} else {
 		add_action( 'wp_footer', 'wpmautic_inject_script' );
@@ -77,8 +114,7 @@ function wpmautic_injector() {
  * @return void
  */
 function wpmautic_inject_script() {
-	$options = get_option( 'wpmautic_options' );
-	$base_url = trim( $options['base_url'], " \t\n\r\0\x0B/" );
+	$base_url = wpmautic_option( 'base_url', '' );
 	if ( empty( $base_url ) ) {
 		return;
 	}
@@ -92,134 +128,6 @@ function wpmautic_inject_script() {
 	mt('send', 'pageview');
 </script>
 	<?php
-}
-
-/**
- * Handle mautic shortcode. Must include a type attribute.
- * Allowable types are:
- *  - form
- *  - content
- * example: [mautic type="form" id="1"]
- * example: [mautic type="focus" id="1"]
- * example: [mautic type="content" slot="slot_name"]Default Content[/mautic]
- * example: [mautic type="video" gate-time="15" form-id="1" src="https://www.youtube.com/watch?v=QT6169rdMdk"]
- *
- * @param array       $atts    Shortcode attributes.
- * @param string|null $content Default content to be displayed.
- *
- * @return string
- */
-function wpmautic_shortcode( $atts, $content = null ) {
-	$atts = shortcode_atts(array(
-		'type' => null,
-		'id' => null,
-		'slot' => null,
-		'src' => null,
-		'width' => null,
-		'height' => null,
-		'form-id' => null,
-		'gate-time' => null,
-	), $atts);
-
-	switch ( $atts['type'] ) {
-		case 'form':
-			return wpmautic_form_shortcode( $atts );
-		case 'content':
-			return wpmautic_dwc_shortcode( $atts, $content );
-		case 'video':
-			return wpmautic_video_shortcode( $atts );
-		case 'tags':
-			return wpmautic_tags_shortcode( $atts );
-		case 'focus':
-			return wpmautic_focus_shortcode( $atts );
-	}
-
-	return false;
-}
-
-/**
- * Handle mauticform shortcode
- * example: [mauticform id="1"]
- *
- * @param  array $atts Shortcode attributes.
- *
- * @return string
- */
-function wpmautic_form_shortcode( $atts ) {
-	$options = get_option( 'wpmautic_options' );
-	$base_url = trim( $options['base_url'], " \t\n\r\0\x0B/" );
-	$atts = shortcode_atts( array(
-		'id' => '',
-	), $atts );
-
-	if ( ! $atts['id'] ) {
-		return false;
-	}
-
-	return '<script type="text/javascript" src="' . $base_url . '/form/generate.js?id=' . $atts['id'] . '"></script>';
-}
-
-/**
- * Dynamic content shortcode handling
- *
- * @param  array       $atts    Shortcode attributes.
- * @param  string|null $content Default content to be displayed.
- *
- * @return string
- */
-function wpmautic_dwc_shortcode( $atts, $content = null ) {
-	$options  = get_option( 'wpmautic_options' );
-	$base_url = trim( $options['base_url'], " \t\n\r\0\x0B/" );
-	$atts     = shortcode_atts( array(
-		'slot' => '',
-	), $atts, 'mautic' );
-
-	return '<div class="mautic-slot" data-slot-name="' . $atts['slot'] . '">' . $content . '</div>';
-}
-
-/**
- * Video shortcode handling
- *
- * @param  array $atts Shortcode attributes.
- *
- * @return string
- */
-function wpmautic_video_shortcode( $atts ) {
-	$video_type = '';
-	$atts = shortcode_atts(array(
-		'gate-time' => 15,
-		'form-id' => '',
-		'src' => '',
-		'width' => 640,
-		'height' => 360,
-	), $atts);
-
-	if ( empty( $atts['src'] ) ) {
-		return 'You must provide a video source. Add a src="URL" attribute to your shortcode. Replace URL with the source url for your video.';
-	}
-
-	if ( empty( $atts['form-id'] ) ) {
-		return 'You must provide a mautic form id. Add a form-id="#" attribute to your shortcode. Replace # with the id of the form you want to use.';
-	}
-
-	if ( preg_match( '/^.*((youtu.be)|(youtube.com))\/((v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))?\??v?=?([^#\&\?]*).*/', $atts['src'] ) ) {
-		$video_type = 'youtube';
-	}
-
-	if ( preg_match( '/^.*(vimeo\.com\/)((channels\/[A-z]+\/)|(groups\/[A-z]+\/videos\/))?([0-9]+)/', $atts['src'] ) ) {
-		$video_type = 'vimeo';
-	}
-
-	if ( strtolower( substr( $atts['src'], -3 ) ) === 'mp4' ) {
-		$video_type = 'mp4';
-	}
-
-	if ( empty( $video_type ) ) {
-		return 'Please use a supported video type. The supported types are youtube, vimeo, and MP4.';
-	}
-
-	return '<video height="' . $atts['height'] . '" width="' . $atts['width'] . '" data-form-id="' . $atts['form-id'] . '" data-gate-time="' . $atts['gate-time'] . '">' .
-			'<source type="video/' . $video_type . '" src="' . $atts['src'] . '" /></video>';
 }
 
 /**
@@ -250,44 +158,4 @@ function wpmautic_wp_title( $title = '', $sep = '' ) {
 	}
 
 	return $title;
-}
-
-/**
- * Handle mautic tags by Wordpress shortcodes
- * example: [mautic type="tags" values="addtag,-removetag"]
- *
- * @param  array $atts
- * @return string
- */
-function wpmautic_tags_shortcode( $atts ) {
-	$options = get_option('wpmautic_options');
-	$base_url = trim($options['base_url'], " \t\n\r\0\x0B/");
-	$atts = shortcode_atts(array('values' => ''), $atts);
-
-	if ( ! $atts['values'] ) {
-		return false;
-	}
-
-	return '<img src="' . $base_url . '/mtracking.gif?tags=' . $atts['values'] . '" alt="Mautic Tags" />';
-}
-
-/**
- * Handle mautic focus itens on Wordpress Page
- * example: [mauticfocus id="1"]
- *
- * @param  array $atts
- * @return string
- */
-function wpmautic_focus_shortcode( $atts ) {
-	$options = get_option( 'wpmautic_options' );
-	$base_url = trim( $options['base_url'], " \t\n\r\0\x0B/" );
-	$atts = shortcode_atts( array(
-		'id' => '',
-	), $atts );
-
-	if ( ! $atts['id'] ) {
-		return false;
-	}
-
-	return '<script type="text/javascript" src="' . $base_url . '/focus/' . $atts['id'] . '.js" charset="utf-8" async="async"></script>';
 }
