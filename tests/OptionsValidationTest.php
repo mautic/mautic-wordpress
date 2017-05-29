@@ -11,7 +11,7 @@ class OptionsValidationTest extends WP_UnitTestCase
     public function setUp()
     {
         parent::setUp();
-        require_once(__DIR__.'/../options.php');
+        require_once(VPMAUTIC_PLUGIN_DIR.'/options.php');
     }
 
     public function test_validation_when_empty()
