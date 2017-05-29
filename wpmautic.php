@@ -67,7 +67,7 @@ add_filter( 'plugin_action_links', 'wpmautic_plugin_actions', 10, 2 );
  *
  * @throws Exception
  */
-function wpmautic_option( $option ) {
+function wpmautic_option( $option, $default = null ) {
 	$options = get_option( 'wpmautic_options' );
 
 	switch ( $option ) {
@@ -75,6 +75,10 @@ function wpmautic_option( $option ) {
 			return ! isset( $options['script_location'] ) ? 'header' : $options['script_location'];
 		default:
 			if ( ! isset( $options[ $option ] ) ) {
+				if ( isset( $default ) ) {
+					return $default;
+				}
+
 				throw new Exception( 'You must give a valid option name !' );
 			}
 
