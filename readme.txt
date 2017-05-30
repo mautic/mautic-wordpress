@@ -6,8 +6,6 @@ Tags: marketing, automation
 Tested up to: 4.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Text Domain: mautic-wordpress
-Description: Allow you to add Mautic (Free Open Source Marketing Automation) tracking to your site
 
 == Description ==
 
