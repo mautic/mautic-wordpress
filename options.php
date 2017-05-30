@@ -56,7 +56,7 @@ function wpmautic_options_page() {
  * Define admin_init hook logic
  */
 function wpmautic_admin_init() {
-	register_setting( 'wpmautic_options', 'wpmautic_options', array(
+	register_setting( 'wpmautic', 'wpmautic_options', array(
 		'sanitize_callback' => 'wpmautic_options_validate',
 		'default' => array(
 			'fallback_activated' => true,
