@@ -129,4 +129,37 @@ function wpmautic_inject_script() {
 	mt('send', 'pageview');
 </script>
 	<?php
+
+	if ( true === wpmautic_option( 'fallback_activated', false ) ) {
+		global $wp;
+
+		$url_query = wpmautic_get_url_query();
+		$payload = rawurlencode( base64_encode( serialize( $url_query ) ) );
+		?>
+		<noscript>
+			<img src="<?php echo esc_url( $base_url ); ?>/mtracking.gif?d=<?php echo esc_attr( $payload ); ?>"  alt="" />
+		</noscript>
+		<?php
+	}
+}
+
+/**
+ * Builds and returns additional data for URL query
+ *
+ * @return array
+ */
+function wpmautic_get_url_query() {
+	global $wp;
+	$current_url = add_query_arg( $wp->query_string, '', home_url( $wp->request ) );
+
+	$attrs = array();
+	$attrs['page_url']   = $current_url;
+	$attrs['page_title'] = wp_get_document_title();
+	$attrs['language']   = get_locale();
+	$attrs['referrer']   = wp_get_raw_referer();
+	if ( false === $attrs['referrer'] ) {
+		$attrs['referrer'] = $current_url;
+	}
+
+	return $attrs;
 }
