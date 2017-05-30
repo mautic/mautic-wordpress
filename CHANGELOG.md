@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Added
 - Make a solid test suite to check every plugin parts (settings, loading, injection)
+- Add a new setting to activate tracking image as a fallback when javascript is disabled
 
 ### Changed
 - Refactor shortcode handling and put everything in shortcodes.php.
