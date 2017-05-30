@@ -90,7 +90,7 @@ script:
   - |
     # Run code sniff when library is loaded
     if [ -f "vendor/bin/phpcs" ]; then
-      vendor/bin/phpcs --standard=phpcs.xml
+      vendor/bin/phpcs -n --standard=phpcs.xml
     fi
   - |
     # Run valid PHPUnit version depending environment
