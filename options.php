@@ -153,7 +153,7 @@ function wpmautic_script_location() {
  * Define the input field for Mautic fallback flag
  */
 function wpmautic_fallback_activated() {
-	$flag = wpmautic_option( 'fallback_activated', '' );
+	$flag = wpmautic_option( 'fallback_activated', false );
 
 	?>
 	<input
