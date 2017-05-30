@@ -1,9 +1,11 @@
 === WP Mautic ===
 Author: mautic
-Contributors: mautic,hideokamoto,shulard
+Contributors: mautic,hideokamoto,shulard,escopecz,dbhurley
 Donate link: http://mautic.org/
 Tags: marketing, automation
 Tested up to: 4.7
+Requires at least: 3.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,25 +34,22 @@ And that's it !
 
 Tracking script works right after you finish the configuration steps. That means it will insert the `mtc.js` script from your Mautic instance. You can check HTML source code (CTRL + U) of your WP website to make sure the plugin works. You should be able to find something like this:
 
-```html
-<script>
-    (function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
-        w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
-        m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','http://yourmauticsite.com/mtc.js','mt');
 
-    mt('send', 'pageview');
-</script>
-```
+    <script>
+        (function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
+            w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
+            m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','http://yourmauticsite.com/mtc.js','mt');
+
+        mt('send', 'pageview');
+    </script>
 
 ### Mautic Forms
 
 To load a Mautic Form to your WP post, insert this shortcode to the place you want the form to appear:
 
-```
-[mautic type="form" id="1"]
-[mauticform id="1"]
-```
+    [mautic type="form" id="1"]
+    [mauticform id="1"]
 
 Replace "1" with the form ID you want to load. To get the ID of the form, go to your Mautic, open the form detail and look at the URL. The ID is right there. For example in this URL: http://yourmautic.com/s/forms/view/3 the ID is 3.
 
@@ -58,9 +57,8 @@ Replace "1" with the form ID you want to load. To get the ID of the form, go to 
 
 To load a Mautic Focus to your post, insert this shortcode to the place you want the form to appear:
 
-```
-[mauticfocus id="1"]
-```
+    [mautic type="focus" id="1"]
+    [mauticfocus id="1"]
 
 Replace "1" with the focus ID you want to load. To get the ID of the focus, go to your Mautic, open the focus detail and look at the URL. The ID is right there. For example in this URL: http://yourmautic.com/s/focus/3.js the ID is 3.
 
@@ -68,10 +66,8 @@ Replace "1" with the focus ID you want to load. To get the ID of the focus, go t
 
 To load dynamic content into your WP content, insert this shortcode where you'd like it to appear:
 
-```
-[mautic type="content" slot="slot_name"]Default content to display in case of error or unknown contact.[/mautic]
-[mauticcontent slot="slot_name"]Default content to display in case of error or unknown contact.[/mauticcontent]
-```
+    [mautic type="content" slot="slot_name"]Default content to display in case of error or unknown contact.[/mautic]
+    [mauticcontent slot="slot_name"]Default content to display in case of error or unknown contact.[/mauticcontent]
 
 Replace the "slot_name" with the slot name you'd like to load. This corresponds to the slot name you defined when building your campaign and adding the "Request Dynamic Content" contact decision.
 
@@ -81,10 +77,8 @@ Mautic supports gated videos with Youtube, Vimeo, and MP4 as sources.
 
 To load gated videos into your WP content, insert this shortcode where you'd like it to appear:
 
-```
-[mautic type="video" gate-time="#" form-id="#" src="URL"]
-[mauticvideo gate-time="#" form-id="#" src="URL"]
-```
+    [mautic type="video" gate-time="#" form-id="#" src="URL"]
+    [mauticvideo gate-time="#" form-id="#" src="URL"]
 
 Replace the # signs with the appropriate number. For gate-time, enter the time
 (in seconds) where you want to pause the video and show the mautic form. For
@@ -98,10 +92,8 @@ enter the full http URL to the MP4 file on the server.
 
 You can add or remove multiple lead tags on specific pages using commas. To remove an tag you have to use minus "-" signal before tag name:
 
-```
-[mautic type="tags" values="mytag,anothertag,-removetag"]
-[mautictags values="mytag,anothertag,-removetag"]
-```
+    [mautic type="tags" values="mytag,anothertag,-removetag"]
+    [mautictags values="mytag,anothertag,-removetag"]
 
 == Installation ==
 
@@ -120,3 +112,27 @@ If the installation via official WP plugin repository doesn't work for you, foll
 1. [Download ZIP package](https://github.com/mautic/mautic-wordpress/archive/master.zip).
 2. At your WP administration go to *Plugins* / *Add New* / *Upload plugin*.
 3. Select the ZIP package you've downloaded in step 1.
+
+== Changelog ==
+
+= v2.0.1 =
+
+Release date : 2017-05-25
+
+* Added
+  * Add a new option in settings screen to choose where the script is injected.
+  * Add new tests around script injection.
+
+= v2.0.0 =
+
+Release date : 2017-05-25
+
+* Added
+  * Composer development requirement (squizlabs/php_codesniffer).
+  * Code sniffer configuration : phpcs.xml.
+  * Update code using the sniff.
+  * Add basic unit tests using PHPUnit.
+  * Activate continuous integration using Travis-CI (check .travis.yml file).
+
+* Changed
+  * Use escape functions when printing data: esc_url.
