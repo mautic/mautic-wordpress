@@ -45,4 +45,18 @@ class OptionsTest extends WP_UnitTestCase
         ));
         $this->assertEquals('footer', wpmautic_option('script_location'));
     }
+
+    public function test_fallback_activated_when_empty()
+    {
+        update_option('wpmautic_options', array());
+        $this->assertTrue(wpmautic_option('fallback_activated'));
+    }
+
+    public function test_fallback_activated_with_value()
+    {
+        update_option('wpmautic_options', array(
+            'fallback_activated' => false
+        ));
+        $this->assertFalse(wpmautic_option('fallback_activated'));
+    }
 }
