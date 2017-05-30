@@ -81,7 +81,9 @@ function wpmautic_option( $option, $default = null ) {
 
 	switch ( $option ) {
 		case 'script_location':
-			return ! isset( $options['script_location'] ) ? 'header' : $options['script_location'];
+			return ! isset( $options[$option] ) ? 'header' : $options[$option];
+		case 'fallback_activated':
+			return isset( $options[$option] ) ? (bool)$options[$option] : true;
 		default:
 			if ( ! isset( $options[ $option ] ) ) {
 				if ( isset( $default ) ) {
