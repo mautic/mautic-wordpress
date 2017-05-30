@@ -81,9 +81,9 @@ function wpmautic_option( $option, $default = null ) {
 
 	switch ( $option ) {
 		case 'script_location':
-			return ! isset( $options[$option] ) ? 'header' : $options[$option];
+			return ! isset( $options[ $option ] ) ? 'header' : $options[ $option ];
 		case 'fallback_activated':
-			return isset( $options[$option] ) ? (bool)$options[$option] : true;
+			return isset( $options[ $option ] ) ? (bool) $options[ $option ] : true;
 		default:
 			if ( ! isset( $options[ $option ] ) ) {
 				if ( isset( $default ) ) {
@@ -158,7 +158,7 @@ function wpmautic_get_url_query() {
 	$attrs['page_url']   = $current_url;
 	$attrs['page_title'] = wp_get_document_title();
 	$attrs['language']   = get_locale();
-	$attrs['referrer']   = wp_get_raw_referer();
+	$attrs['referrer']   = wp_get_referer();
 	if ( false === $attrs['referrer'] ) {
 		$attrs['referrer'] = $current_url;
 	}
