@@ -3,6 +3,12 @@ Mautic WordPress plugin [![Build Status](https://travis-ci.org/mautic/mautic-wor
 
 [Mautic](http://mautic.org) [Wordpress Plugin](https://wordpress.org/plugins/wp-mautic/) inserts Mautic tracking image and forms to the WP website. Your Mautic instance will be able to track information about your visitors that way.
 
+## Key features
+- You don't have to edit source code of your template to insert tracking code.
+- Plugin adds additional information to tracking image URL so you get better results than using just plain HTML code of tracking image.
+- You can use Mautic form embed with shortcode described below.
+- You can choose where the script is injected (header / footer)
+
 ## Installation
 
 ### Via WP administration
@@ -26,9 +32,9 @@ If the installation via official WP plugin repository doesn't work for you, foll
 
 ## Usage
 
-### Mautic Tracking Image
+### Mautic Tracking Script
 
-Tracking image works right after you finish step 5 of Installation above. That means it will insert 1 px gif image loaded from your Mautic instance. You can check HTML source code (CTRL + U) of your WP website to make sure the plugin works. You should be able to find something like this:
+Tracking script works right after you finish step 5 of Installation above. That means it will insert the `mtc.js` script from your Mautic instance. You can check HTML source code (CTRL + U) of your WP website to make sure the plugin works. You should be able to find something like this:
 
 ```html
 <script>
@@ -41,14 +47,13 @@ Tracking image works right after you finish step 5 of Installation above. That m
 </script>
 ```
 
-Plugin adds more information (current url, referal url, page title, user language) to the image URL query encoded in base 64 (not humanly readable). This way your Mautic instance receives more valuable data.
-
 ### Mautic Forms
 
 To load a Mautic Form to your WP post, insert this shortcode to the place you want the form to appear:
 
 ```
 [mautic type="form" id="1"]
+[mauticform id="1"]
 ```
 
 Replace "1" with the form ID you want to load. To get the ID of the form, go to your Mautic, open the form detail and look at the URL. The ID is right there. For example in this URL: http://yourmautic.com/s/forms/view/3 the ID = 3.
@@ -58,7 +63,7 @@ Replace "1" with the form ID you want to load. To get the ID of the form, go to 
 To load a Mautic Focus to your post, insert this shortcode to the place you want the form to appear:
 
 ```
-[mautic type="focus" id="1"]
+[mauticfocus id="1"]
 ```
 
 Replace "1" with the focus ID you want to load. To get the ID of the focus, go to your Mautic, open the focus detail and look at the URL. The ID is right there. For example in this URL: http://yourmautic.com/s/focus/3.js the ID = 3.
@@ -69,6 +74,7 @@ To load dynamic content into your WP content, insert this shortcode where you'd 
 
 ```
 [mautic type="content" slot="slot_name"]Default content to display in case of error or unknown contact.[/mautic]
+[mauticcontent slot="slot_name"]Default content to display in case of error or unknown contact.[/mauticcontent]
 ```
 
 Replace the "slot_name" with the slot name you'd like to load. This corresponds to the slot name you defined when building your campaign and adding the "Request Dynamic Content" contact decision.
@@ -81,6 +87,7 @@ To load gated videos into your WP content, insert this shortcode where you'd lik
 
 ```
 [mautic type="video" gate-time="#" form-id="#" src="URL"]
+[mauticvideo gate-time="#" form-id="#" src="URL"]
 ```
 
 Replace the # signs with the appropriate number. For gate-time, enter the time
@@ -97,4 +104,5 @@ Replace the # signs with the appropriate number. For gate-time, enter the time
 
  ```
  [mautic type="tags" values="mytag,anothertag,-removetag"]
+ [mautictags values="mytag,anothertag,-removetag"]
  ```
