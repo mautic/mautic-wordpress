@@ -62,7 +62,7 @@ To load a Mautic Form to your WP post, insert this shortcode to the place you wa
 [mauticform id="1"]
 ```
 
-Replace "1" with the form ID you want to load. To get the ID of the form, go to your Mautic, open the form detail and look at the URL. The ID is right there. For example in this URL: http://yourmautic.com/s/forms/view/3 the ID = 3.
+Replace "1" with the form ID you want to load. To get the ID of the form, go to your Mautic, open the form detail and look at the URL. The ID is right there. For example in this URL: http://yourmautic.com/s/forms/view/3 the ID is 3.
 
 ### Mautic Focus
 
@@ -72,7 +72,7 @@ To load a Mautic Focus to your post, insert this shortcode to the place you want
 [mauticfocus id="1"]
 ```
 
-Replace "1" with the focus ID you want to load. To get the ID of the focus, go to your Mautic, open the focus detail and look at the URL. The ID is right there. For example in this URL: http://yourmautic.com/s/focus/3.js the ID = 3.
+Replace "1" with the focus ID you want to load. To get the ID of the focus, go to your Mautic, open the focus detail and look at the URL. The ID is right there. For example in this URL: http://yourmautic.com/s/focus/3.js the ID is 3.
 
 ### Mautic Dynamic Content
 
@@ -97,18 +97,18 @@ To load gated videos into your WP content, insert this shortcode where you'd lik
 ```
 
 Replace the # signs with the appropriate number. For gate-time, enter the time
- (in seconds) where you want to pause the video and show the mautic form. For
- form-id, enter the id of the mautic form that you'd like to display as the
- gate. Replace URL with the browser URL to view the video. In the case of
- Youtube or Vimeo, you can simply use the URL as it appears in your address
- bar when viewing the video normally on the providing website. For MP4 videos,
- enter the full http URL to the MP4 file on the server.
+(in seconds) where you want to pause the video and show the mautic form. For
+form-id, enter the id of the mautic form that you'd like to display as the
+gate. Replace URL with the browser URL to view the video. In the case of
+Youtube or Vimeo, you can simply use the URL as it appears in your address
+bar when viewing the video normally on the providing website. For MP4 videos,
+enter the full http URL to the MP4 file on the server.
 
 ### Mautic Tags
 
- You can add or remove multiple lead tags on specific pages using commas. To remove an tag you have to use minus "-" signal before tag name:
+You can add or remove multiple lead tags on specific pages using commas. To remove an tag you have to use minus "-" signal before tag name:
 
- ```
- [mautic type="tags" values="mytag,anothertag,-removetag"]
- [mautictags values="mytag,anothertag,-removetag"]
- ```
+```
+[mautic type="tags" values="mytag,anothertag,-removetag"]
+[mautictags values="mytag,anothertag,-removetag"]
+```
