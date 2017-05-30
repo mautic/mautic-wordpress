@@ -18,7 +18,6 @@ Mautic - WordPress plugin [is listed](https://wordpress.org/plugins/wp-mautic/) 
 1. Go to *Plugins* / *Add New*.
 2. Search for **WP Mautic** in the search box.
 3. The "WP Mautic" plugin should appear. Click on Install.
-4. Go to *Settings* / WP Mautic and fill in the Base URL of your Mautic instance.
 
 ### Via ZIP package
 
@@ -27,14 +26,21 @@ If the installation via official WP plugin repository doesn't work for you, foll
 1. [Download ZIP package](https://github.com/mautic/mautic-wordpress/archive/master.zip).
 2. At your WP administration go to *Plugins* / *Add New* / *Upload plugin*.
 3. Select the ZIP package you've downloaded in step 1.
-4. Go to *Plugins* and enable WP Mautic plugin.
-5. Go to *Settings* / WPMautic and fill in the Base URL of your Mautic instance.
+
+## Configuration
+
+Once installed, the plugin must appared in your plugin list :
+
+1. Enable it.
+2. Go to the settings page and set your Mautic instance URL.
+
+And that's it !
 
 ## Usage
 
 ### Mautic Tracking Script
 
-Tracking script works right after you finish step 5 of Installation above. That means it will insert the `mtc.js` script from your Mautic instance. You can check HTML source code (CTRL + U) of your WP website to make sure the plugin works. You should be able to find something like this:
+Tracking script works right after you finish the configuration steps. That means it will insert the `mtc.js` script from your Mautic instance. You can check HTML source code (CTRL + U) of your WP website to make sure the plugin works. You should be able to find something like this:
 
 ```html
 <script>
