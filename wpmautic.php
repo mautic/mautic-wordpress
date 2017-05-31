@@ -184,3 +184,31 @@ function wpmautic_get_url_query() {
 
 	return $attrs;
 }
+
+/**
+ * Adds the user email, and other known elements about the user.
+ *
+ * @return array
+ */
+function wpmautic_get_user_query() {
+	global $wp;
+
+	if ( true === wpmautic_option( 'track_logged_user', false ) && is_user_logged_in() ) {
+		$attrs = array();
+		$current_user = wp_get_current_user();
+		$attrs['email']	 = $current_user->user_email;
+		$attrs['firstname']  = $current_user->user_firstname;
+		$attrs['lastname']  = $current_user->user_lastname;
+
+		// Following Mautic fields has to be created manually and the fields must match these names.
+		$attrs['wp_user']  = $current_user->user_login;
+		$attrs['wp_alias']  = $current_user->display_name;
+		$attrs['registration_date'] = date(
+			'Y-m-d',
+			strtotime( $current_user->user_registered )
+		);
+		return $attrs;
+	} else {
+		return null;
+	}
+}
