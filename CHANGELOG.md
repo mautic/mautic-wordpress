@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
+- Call translation on all labels, plugin is translation ready !
 
 ### Changed
 - Add valid text domain and start official translation process.
