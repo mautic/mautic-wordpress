@@ -126,13 +126,19 @@ function wpmautic_inject_script() {
 		return;
 	}
 
+	$user_query = wpmautic_get_user_query();
+	$extra_info = '';
+	if ( null !== $user_query ) {
+		$extra_info = ', ' . wp_json_encode( $user_query );
+	}
+
 	?><script type="text/javascript">
 	(function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
 		w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
 		m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
 	})(window,document,'script','<?php echo esc_url( $base_url ); ?>/mtc.js','mt');
 
-	mt('send', 'pageview');
+	mt('send', 'pageview'<?php echo esc_attr( $extra_info ); ?>);
 </script>
 	<?php
 }
