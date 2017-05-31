@@ -192,7 +192,7 @@ function wpmautic_get_url_query() {
  * @return array
  */
 function wpmautic_get_tracking_attributes() {
-	$attrs = array();
+	$attrs = wpmautic_get_user_query();
 
 	/**
 	 * Update / add data to be send withing Mautic tracker
@@ -205,4 +205,33 @@ function wpmautic_get_tracking_attributes() {
 	 * @param array $attrs Attributes to be filters, default ['language' => get_locale()]
 	 */
 	return apply_filters( 'wpmautic_tracking_attributes', $attrs );
+}
+
+/**
+ * Extract logged user informations to be send within Mautic tracker
+ *
+ * @return array
+ */
+function wpmautic_get_user_query() {
+	$attrs = array();
+
+	if (
+		true === wpmautic_option( 'track_logged_user', false ) &&
+		is_user_logged_in()
+	) {
+		$current_user = wp_get_current_user();
+		$attrs['email']	 = $current_user->user_email;
+		$attrs['firstname']  = $current_user->user_firstname;
+		$attrs['lastname']  = $current_user->user_lastname;
+
+		// Following Mautic fields has to be created manually and the fields must match these names.
+		$attrs['wp_user']  = $current_user->user_login;
+		$attrs['wp_alias']  = $current_user->display_name;
+		$attrs['wp_registration_date'] = date(
+			'Y-m-d',
+			strtotime( $current_user->user_registered )
+		);
+	}
+
+	return $attrs;
 }
