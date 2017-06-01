@@ -20,7 +20,7 @@ class SettingsTest extends WP_UnitTestCase
     {
         wpmautic_options_page();
         $output = $this->getActualOutput();
-        $this->assertContains("name='option_page' value='wpmautic_options'", $output);
+        $this->assertContains("name='option_page' value='wpmautic'", $output);
     }
 
     public function test_with_admin_init()
@@ -28,7 +28,7 @@ class SettingsTest extends WP_UnitTestCase
         wpmautic_admin_init();
         wpmautic_options_page();
         $output = $this->getActualOutput();
-        $this->assertContains("name='option_page' value='wpmautic_options'", $output);
+        $this->assertContains("name='option_page' value='wpmautic'", $output);
         $this->test_base_url_setting();
         $this->test_script_location_setting();
     }
