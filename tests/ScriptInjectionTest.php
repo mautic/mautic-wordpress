@@ -20,6 +20,15 @@ class ScriptInjectionTest extends WP_UnitTestCase
         return $this->getActualOutput();
     }
 
+    public function setUp()
+    {
+        parent::setUp();
+
+        remove_action('wp_head', 'wpmautic_inject_script');
+        remove_action('wp_footer', 'wpmautic_inject_script');
+        remove_action('wp_footer', 'wpmautic_inject_noscript');
+    }
+
     public function test_script_is_not_injected_when_base_url_is_empty()
     {
         $output = $this->renderRawPage();
@@ -55,7 +64,9 @@ class ScriptInjectionTest extends WP_UnitTestCase
         $this->assertNotContains(sprintf("(window,document,'script','{$base_url}/mtc.js','mt')"), $output);
         $this->assertNotContains("['MauticTrackingObject']", $output);
         $this->assertNotContains("mt('send', 'pageview')", $output);
-        $this->assertNotContains(sprintf("%s/mtracking.gif?d=", $base_url), $output);
+
+        //Fallback activated and <noscript> is always injected in footer !
+        $this->assertContains(sprintf("%s/mtracking.gif?d=", $base_url), $output);
     }
 
     public function test_script_is_injected_in_footer_when_requested()
