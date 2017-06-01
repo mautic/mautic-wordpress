@@ -175,7 +175,9 @@ function wpmautic_get_url_query() {
 		? wp_get_document_title()
 		: wp_title( '&raquo;', false );
 	$attrs['language']   = get_locale();
-	$attrs['referrer']   = wp_get_raw_referer();
+	$attrs['referrer']   = function_exists( 'wp_get_raw_referer' )
+		? wp_get_raw_referer()
+		: null;
 	if ( false === $attrs['referrer'] ) {
 		$attrs['referrer'] = $current_url;
 	}
