@@ -21,7 +21,7 @@ function wpmautic_options_page() {
 		<h2>WP Mautic</h2>
 		<p>Enable Base URL for Mautic Integration.</p>
 		<form action="options.php" method="post">
-			<?php settings_fields( 'wpmautic_options' ); ?>
+			<?php settings_fields( 'wpmautic' ); ?>
 			<?php do_settings_sections( 'wpmautic' ); ?>
 			<?php submit_button(); ?>
 		</form>
