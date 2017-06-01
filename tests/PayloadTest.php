@@ -1,4 +1,4 @@
-<?php
+test_url_query_payload_without_referer<?php
 /**
  * @package wpmautic\tests
  */
@@ -30,11 +30,20 @@ class PayloadTest extends WP_UnitTestCase
         $this->assertEquals($payload['page_url'], $base_url);
         $this->assertEquals($payload['page_title'], $title);
         $this->assertEquals($payload['language'], get_locale());
-        $this->assertEquals($payload['referrer'], $base_url);
+        if ( version_compare( get_bloginfo('version'), '4.5', '<' ) ) {
+            $this->assertEquals($payload['referrer'], null);
+        } else {
+            $this->assertEquals($payload['referrer'], $base_url);
+        }
     }
 
     public function test_url_query_payload_with_wp_referer()
     {
+        if ( version_compare( get_bloginfo('version'), '4.5', '<' ) ) {
+            $this->markTestSkipped( 'wp_get_raw_referer function was introduced in WP 4.5' );
+            return;
+        }
+
         $base_url = 'http://example.org';
         $_REQUEST['_wp_http_referer'] = 'http://toto.org';
         $this->go_to( $base_url );
@@ -53,6 +62,11 @@ class PayloadTest extends WP_UnitTestCase
 
     public function test_url_query_payload_with_server_referer()
     {
+        if ( version_compare( get_bloginfo('version'), '4.5', '<' ) ) {
+            $this->markTestSkipped( 'wp_get_raw_referer function was introduced in WP 4.5' );
+            return;
+        }
+
         $base_url = 'http://example.org';
         $_SERVER['HTTP_REFERER'] = 'http://toto.org';
         $this->go_to( $base_url );
