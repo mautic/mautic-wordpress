@@ -23,9 +23,11 @@ class ScriptInjectionTest extends WP_UnitTestCase
     public function test_script_is_not_injected_when_base_url_is_empty()
     {
         $output = $this->renderRawPage();
+
         $this->assertNotContains(sprintf("(window,document,'script','/mtc.js','mt')"), $output);
         $this->assertNotContains("['MauticTrackingObject']", $output);
         $this->assertNotContains("mt('send', 'pageview')", $output);
+        $this->assertNotContains("/mtracking.gif?d=", $output);
     }
 
     public function test_script_is_injected_with_valid_base_url()
@@ -39,6 +41,7 @@ class ScriptInjectionTest extends WP_UnitTestCase
         $this->assertContains(sprintf("(window,document,'script','{$base_url}/mtc.js','mt')"), $output);
         $this->assertContains("['MauticTrackingObject']", $output);
         $this->assertContains("mt('send', 'pageview')", $output);
+        $this->assertContains($base_url."/mtracking.gif?d=", $output);
     }
 
     public function test_script_is_not_injected_in_footer_by_default()
@@ -52,6 +55,7 @@ class ScriptInjectionTest extends WP_UnitTestCase
         $this->assertNotContains(sprintf("(window,document,'script','{$base_url}/mtc.js','mt')"), $output);
         $this->assertNotContains("['MauticTrackingObject']", $output);
         $this->assertNotContains("mt('send', 'pageview')", $output);
+        $this->assertNotContains(sprintf("%s/mtracking.gif?d=", $base_url), $output);
     }
 
     public function test_script_is_injected_in_footer_when_requested()
@@ -65,5 +69,33 @@ class ScriptInjectionTest extends WP_UnitTestCase
         $this->assertContains(sprintf("(window,document,'script','{$base_url}/mtc.js','mt')"), $output);
         $this->assertContains("['MauticTrackingObject']", $output);
         $this->assertContains("mt('send', 'pageview')", $output);
+        $this->assertContains(sprintf("%s/mtracking.gif?d=", $base_url), $output);
+    }
+
+    public function test_tracking_image_is_not_injected_when_disabled()
+    {
+        $base_url = 'http://example.com';
+        update_option('wpmautic_options', array(
+            'base_url' => $base_url,
+            'fallback_activated' => false
+        ));
+        do_action('plugins_loaded');
+
+        $output = $this->renderRawPage();
+
+        $this->assertNotContains("/mtracking.gif?d=", $output);
+    }
+
+    public function test_tracking_image_payload_is_valid()
+    {
+        $base_url = 'http://example.com';
+        $this->go_to( $base_url );
+        update_option('wpmautic_options', array('base_url' => $base_url));
+        do_action('plugins_loaded');
+
+        $output = $this->renderRawPage();
+
+        $payload = rawurlencode( base64_encode( serialize( wpmautic_get_url_query() ) ) );
+        $this->assertContains(sprintf("%s/mtracking.gif?d=%s", $base_url, $payload), $output);
     }
 }
