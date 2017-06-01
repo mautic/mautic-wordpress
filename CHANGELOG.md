@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+## [v2.0.3] - 2017-06-02
+### Changed
+- Hotfix release, the option group wasn't valid !
+
 ## [v2.0.2] - 2017-06-02
 ### Added
 - Make a solid test suite to check every plugin parts (settings, loading, injection)

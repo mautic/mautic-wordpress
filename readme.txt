@@ -107,7 +107,19 @@ If the installation via official WP plugin repository doesn't work for you, foll
 2. At your WP administration go to *Plugins* / *Add New* / *Upload plugin*.
 3. Select the ZIP package you've downloaded in step 1.
 
+== Upgrade Notice ==
+
+= v2.0.3 =
+Fix a bug introduced in the 2.0.2 version, you must upgrade asap because there was a typo in the option page name which forbid option to be saved.
+
 == Changelog ==
+
+= v2.0.3 =
+
+Release date : 2017-06-02
+
+* Changed
+  * Hotfix release, the option group wasn't valid.
 
 = v2.0.2 =
 
