@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
+
+### Changed
+
+## [v2.0.2] - 2017-06-02
+### Added
 - Make a solid test suite to check every plugin parts (settings, loading, injection)
 - Add a new setting to activate tracking image as a fallback when javascript is disabled
 

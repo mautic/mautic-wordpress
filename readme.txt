@@ -17,7 +17,8 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 - You don't have to edit source code of your template to insert tracking code.
 - Plugin adds additional information to tracking image URL so you get better results than using just plain HTML code of tracking image.
 - You can use Mautic form embed with shortcode described below.
-- You can choose where the script is injected (header / footer)
+- You can choose where the script is injected (header / footer).
+- Tracking image can be used as fallback when JavaScript is disabled.
 
 ## Configuration
 
@@ -33,7 +34,6 @@ And that's it !
 ### Mautic Tracking Script
 
 Tracking script works right after you finish the configuration steps. That means it will insert the `mtc.js` script from your Mautic instance. You can check HTML source code (CTRL + U) of your WP website to make sure the plugin works. You should be able to find something like this:
-
 
     <script>
         (function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
@@ -114,6 +114,18 @@ If the installation via official WP plugin repository doesn't work for you, foll
 3. Select the ZIP package you've downloaded in step 1.
 
 == Changelog ==
+
+= v2.0.2 =
+
+Release date : 2017-06-02
+
+* Added
+  * Make a solid test suite to check every plugin parts (settings, loading, injection)
+  * Add a new setting to activate tracking image as a fallback when javascript is disabled
+
+* Changed
+  * Refactor shortcode handling and put everything in shortcodes.php.
+  * Clean old code from the repository (wpmautic_wp_title).
 
 = v2.0.1 =
 

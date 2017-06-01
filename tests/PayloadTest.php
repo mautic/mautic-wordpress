@@ -1,4 +1,4 @@
-test_url_query_payload_without_referer<?php
+<?php
 /**
  * @package wpmautic\tests
  */
