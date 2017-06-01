@@ -155,7 +155,7 @@ function wpmautic_inject_noscript() {
 	$payload = rawurlencode( base64_encode( serialize( $url_query ) ) );
 	?>
 	<noscript>
-		<img src="<?php echo esc_url( $base_url ); ?>/mtracking.gif?d=<?php echo esc_attr( $payload ); ?>"  alt="" />
+		<img src="<?php echo esc_url( $base_url ); ?>/mtracking.gif?d=<?php echo esc_attr( $payload ); ?>"  style="display:none;" alt="" />
 	</noscript>
 	<?php
 }
