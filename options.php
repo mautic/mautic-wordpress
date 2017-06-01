@@ -56,7 +56,7 @@ function wpmautic_options_page() {
  * Define admin_init hook logic
  */
 function wpmautic_admin_init() {
-	register_setting( 'wpmautic_options', 'wpmautic_options', 'wpmautic_options_validate' );
+	register_setting( 'wpmautic', 'wpmautic_options', 'wpmautic_options_validate' );
 
 	add_settings_section(
 		'wpmautic_main',
@@ -76,6 +76,13 @@ function wpmautic_admin_init() {
 		'wpmautic_script_location',
 		__( 'Tracking script location', 'mautic-wordpress' ),
 		'wpmautic_script_location',
+		'wpmautic',
+		'wpmautic_main'
+	);
+	add_settings_field(
+		'wpmautic_fallback_activated',
+		__( 'Fallback image', 'mautic-wordpress' ),
+		'wpmautic_fallback_activated',
 		'wpmautic',
 		'wpmautic_main'
 	);
@@ -138,6 +145,26 @@ function wpmautic_script_location() {
 }
 
 /**
+ * Define the input field for Mautic fallback flag
+ */
+function wpmautic_fallback_activated() {
+	$flag = wpmautic_option( 'fallback_activated', false );
+
+	?>
+	<input
+		id="wpmautic_fallback_activated"
+		name="wpmautic_options[fallback_activated]"
+		type="checkbox"
+		value="1"
+		<?php if ( true === $flag ) : ?>checked<?php endif; ?>
+	/>
+	<label for="wpmautic_fallback_activated">
+		<?php esc_html_e( 'Activate it when JavaScript is disabled ?', 'mautic-wordpress' ); ?>
+	</label>
+	<?php
+}
+
+/**
  * Validate base URL input value
  *
  * @param  array $input Input data.
@@ -157,6 +184,10 @@ function wpmautic_options_validate( $input ) {
 	if ( ! in_array( $options['script_location'], array( 'header', 'footer' ), true ) ) {
 		$options['script_location'] = 'header';
 	}
+
+	$options['fallback_activated'] = isset( $input['fallback_activated'] ) && '1' === $input['fallback_activated']
+		? true
+		: false;
 
 	return $options;
 }

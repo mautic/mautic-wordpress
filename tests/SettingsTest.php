@@ -76,4 +76,39 @@ class SettingsTest extends WP_UnitTestCase
         $this->assertContains("wpmautic_options[script_location]", $output);
         $this->assertRegExp('/value="footer"\s+checked/', $output);
     }
+
+    public function test_fallback_activated_setting_with_default()
+    {
+        wpmautic_fallback_activated();
+        $output = $this->getActualOutput();
+        $this->assertContains("wpmautic_fallback_activated", $output);
+        $this->assertContains("wpmautic_options[fallback_activated]", $output);
+        $this->assertContains("checked", $output);
+    }
+
+    public function test_fallback_activated_setting_with_unchecked()
+    {
+        update_option('wpmautic_options', array(
+            'fallback_activated' => false
+        ));
+
+        wpmautic_fallback_activated();
+        $output = $this->getActualOutput();
+        $this->assertContains("wpmautic_fallback_activated", $output);
+        $this->assertContains("wpmautic_options[fallback_activated]", $output);
+        $this->assertNotContains("checked", $output);
+    }
+
+    public function test_fallback_activated_setting_with_checked()
+    {
+        update_option('wpmautic_options', array(
+            'fallback_activated' => true
+        ));
+
+        wpmautic_fallback_activated();
+        $output = $this->getActualOutput();
+        $this->assertContains("wpmautic_fallback_activated", $output);
+        $this->assertContains("wpmautic_options[fallback_activated]", $output);
+        $this->assertContains("checked", $output);
+    }
 }

@@ -81,7 +81,9 @@ function wpmautic_option( $option, $default = null ) {
 
 	switch ( $option ) {
 		case 'script_location':
-			return ! isset( $options['script_location'] ) ? 'header' : $options['script_location'];
+			return ! isset( $options[ $option ] ) ? 'header' : $options[ $option ];
+		case 'fallback_activated':
+			return isset( $options[ $option ] ) ? (bool) $options[ $option ] : true;
 		default:
 			if ( ! isset( $options[ $option ] ) ) {
 				if ( isset( $default ) ) {
@@ -107,6 +109,10 @@ function wpmautic_injector() {
 	} else {
 		add_action( 'wp_footer', 'wpmautic_inject_script' );
 	}
+
+	if ( true === wpmautic_option( 'fallback_activated', false ) ) {
+		add_action( 'wp_footer', 'wpmautic_inject_noscript' );
+	}
 }
 
 /**
@@ -129,4 +135,52 @@ function wpmautic_inject_script() {
 	mt('send', 'pageview');
 </script>
 	<?php
+}
+
+/**
+ * Writes Tracking image fallback to the HTML source
+ * This is a separated function because <noscript> tags are not allowed in header !
+ *
+ * @return void
+ */
+function wpmautic_inject_noscript() {
+	$base_url = wpmautic_option( 'base_url', '' );
+	if ( empty( $base_url ) ) {
+		return;
+	}
+
+	global $wp;
+
+	$url_query = wpmautic_get_url_query();
+	$payload = rawurlencode( base64_encode( serialize( $url_query ) ) );
+	?>
+	<noscript>
+		<img src="<?php echo esc_url( $base_url ); ?>/mtracking.gif?d=<?php echo esc_attr( $payload ); ?>"  style="display:none;" alt="" />
+	</noscript>
+	<?php
+}
+
+/**
+ * Builds and returns additional data for URL query
+ *
+ * @return array
+ */
+function wpmautic_get_url_query() {
+	global $wp;
+	$current_url = add_query_arg( $wp->query_string, '', home_url( $wp->request ) );
+
+	$attrs = array();
+	$attrs['page_url']   = $current_url;
+	$attrs['page_title'] = function_exists( 'wp_get_document_title' )
+		? wp_get_document_title()
+		: wp_title( '&raquo;', false );
+	$attrs['language']   = get_locale();
+	$attrs['referrer']   = function_exists( 'wp_get_raw_referer' )
+		? wp_get_raw_referer()
+		: null;
+	if ( false === $attrs['referrer'] ) {
+		$attrs['referrer'] = $current_url;
+	}
+
+	return $attrs;
 }
