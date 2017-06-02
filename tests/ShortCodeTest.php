@@ -38,11 +38,11 @@ class ShortCodeTest extends WP_UnitTestCase
         return array(
             array(
                 '[mauticform id="1"]',
-                '<script type="text/javascript" src="http://example.com/form/generate.js?id=1" async="async"></script>'
+                '<script type="text/javascript" src="http://example.com/form/generate.js?id=1"></script>'
             ),
             array(
                 '[mautic type="form" id="1"]',
-                '<script type="text/javascript" src="http://example.com/form/generate.js?id=1" async="async"></script>'
+                '<script type="text/javascript" src="http://example.com/form/generate.js?id=1"></script>'
             ),
             array(
                 '[mautictags values="tag,-tag2,tag3"]',
