@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+## [v2.0.4] - 2017-06-03
+### Changed
+- Hotfix release, the async attribute on form generator script blocks document.write.
+
 ## [v2.0.3] - 2017-06-02
 ### Changed
 - Hotfix release, the option group wasn't valid !
