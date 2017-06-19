@@ -1,4 +1,4 @@
-Mautic WordPress plugin [![Build Status](https://travis-ci.org/mautic/mautic-wordpress.svg?branch=master)](https://travis-ci.org/mautic/mautic-wordpress)
+Mautic WordPress plugin [![Build Status](https://travis-ci.org/mautic/mautic-wordpress.svg?branch=master)](https://travis-ci.org/mautic/mautic-wordpress) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mautic/mautic-wordpress/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mautic/mautic-wordpress/?branch=master)
 =======================
 
 [Mautic](http://mautic.org) [Wordpress Plugin](https://wordpress.org/plugins/wp-mautic/) inserts Mautic tracking image and forms to the WP website. Your Mautic instance will be able to track information about your visitors that way.
