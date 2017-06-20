@@ -21,7 +21,11 @@ function wpmautic_options_page() {
         <h2>WP Mautic</h2>
         <p>Enable Base URL for Mautic Integration.</p>
         <form action="options.php" method="post">
+<<<<<<< 76794eb60ac219c16a3f714057bd0f5a1b1a02c4
 			<?php settings_fields( 'wpmautic_option' ); ?>
+=======
+			<?php settings_fields( 'wpmautic_options' ); ?>
+>>>>>>> fix asserting
 			<?php do_settings_sections( 'wpmautic' ); ?>
 			<?php submit_button(); ?>
         </form>

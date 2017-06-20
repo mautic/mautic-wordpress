@@ -149,7 +149,11 @@ function wpmautic_inject_script() {
             a.async = 1;
             a.src = u;
             m.parentNode.insertBefore(a, m)
+<<<<<<< 76794eb60ac219c16a3f714057bd0f5a1b1a02c4
         })(window,document, 'script', '<?php echo esc_url( $base_url ); ?>/mtc.js', 'mt');
+=======
+        })(window,document,'script','<?php echo esc_url( $base_url ); ?>/mtc.js','mt');
+>>>>>>> fix asserting
 
         mt('send', 'pageview'<?php echo $extra_info; ?>);
     </script>
