@@ -75,7 +75,7 @@ function wpmautic_form_shortcode( $atts ) {
 		'src="%s/form/generate.js?id=%s"',
 		esc_url( $base_url ),
 		esc_attr( $atts['id'] )
-	) . ' async="async"></script>';
+	) . '></script>';
 }
 
 /**
