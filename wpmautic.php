@@ -149,7 +149,7 @@ function wpmautic_inject_script() {
             a.async = 1;
             a.src = u;
             m.parentNode.insertBefore(a, m)
-        })(window, document, 'script', '<?php echo esc_url( $base_url ); ?>/mtc.js', 'mt');
+        })(window,document, 'script', '<?php echo esc_url( $base_url ); ?>/mtc.js', 'mt');
 
         mt('send', 'pageview'<?php echo $extra_info; ?>);
     </script>
