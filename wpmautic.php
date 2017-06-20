@@ -47,8 +47,8 @@ function wpmautic_settings() {
 /**
  * Settings Link in the ``Installed Plugins`` page
  *
- * @param  array  $links array of plugin action links.
- * @param  string $file  Path to the plugin file relative to the plugins directory.
+ * @param  array $links array of plugin action links.
+ * @param  string $file Path to the plugin file relative to the plugins directory.
  *
  * @return array
  */
@@ -62,17 +62,19 @@ function wpmautic_plugin_actions( $links, $file ) {
 		// Add the settings link before other links.
 		array_unshift( $links, $settings_link );
 	}
+
 	return $links;
 }
+
 add_filter( 'plugin_action_links', 'wpmautic_plugin_actions', 10, 2 );
 
 /**
  * Retrieve one of the wpmautic options but sanitized
  *
- * @param  string $option  Option name to be retrieved (base_url, script_location).
+ * @param  string $option Option name to be retrieved (base_url, script_location).
  * @param  string $default Default option value return if not exists.
  *
- * @return string
+ * @return string|array
  *
  * @throws InvalidArgumentException Thrown when the option name is not given.
  */
@@ -84,10 +86,10 @@ function wpmautic_option( $option, $default = null ) {
 			return ! isset( $options[ $option ] ) ? 'header' : $options[ $option ];
 		case 'fallback_activated':
 			return isset( $options[ $option ] ) ? (bool) $options[ $option ] : true;
-        case 'mautic_field_name':
-        case 'wpmautic_tracking_user_field':
-        case 'wpmautic_tracking_meta_field':
-			return is_null($options[ $option ]) ? [] : $options[ $option ];
+		case 'mautic_field_name':
+		case 'wpmautic_tracking_user_field':
+		case 'wpmautic_tracking_meta_field':
+			return is_null( $options[ $option ] ) ? array() : $options[ $option ];
 		default:
 			if ( ! isset( $options[ $option ] ) ) {
 				if ( isset( $default ) ) {
@@ -136,14 +138,21 @@ function wpmautic_inject_script() {
 		$extra_info = ', ' . wp_json_encode( $user_query );
 	}
 
-	?><script type="text/javascript">
-	(function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
-		w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
-		m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','<?php echo esc_url( $base_url ); ?>/mtc.js','mt');
+	?>
+    <script type="text/javascript">
+        (function (w, d, t, u, n, a, m) {
+            w['MauticTrackingObject'] = n;
+            w[n] = w[n] || function () {
+                (w[n].q = w[n].q || []).push(arguments)
+            }, a = d.createElement(t),
+                m = d.getElementsByTagName(t)[0];
+            a.async = 1;
+            a.src = u;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '<?php echo esc_url( $base_url ); ?>/mtc.js', 'mt');
 
-	mt('send', 'pageview'<?php echo $extra_info; ?>);
-</script>
+        mt('send', 'pageview'<?php echo $extra_info; ?>);
+    </script>
 	<?php
 }
 
@@ -162,11 +171,11 @@ function wpmautic_inject_noscript() {
 	global $wp;
 
 	$url_query = wpmautic_get_url_query();
-	$payload = rawurlencode( base64_encode( serialize( $url_query ) ) );
+	$payload   = rawurlencode( base64_encode( serialize( $url_query ) ) );
 	?>
-	<noscript>
-		<img src="<?php echo esc_url( $base_url ); ?>/mtracking.gif?d=<?php echo esc_attr( $payload ); ?>"  style="display:none;" alt="" />
-	</noscript>
+    <noscript>
+        <img src="<?php echo esc_url( $base_url ); ?>/mtracking.gif?d=<?php echo esc_attr( $payload ); ?>" style="display:none;" alt=""/>
+    </noscript>
 	<?php
 }
 
@@ -179,7 +188,7 @@ function wpmautic_get_url_query() {
 	global $wp;
 	$current_url = add_query_arg( $wp->query_string, '', home_url( $wp->request ) );
 
-	$attrs = array();
+	$attrs               = array();
 	$attrs['page_url']   = $current_url;
 	$attrs['page_title'] = function_exists( 'wp_get_document_title' )
 		? wp_get_document_title()
@@ -201,30 +210,32 @@ function wpmautic_get_url_query() {
  *
  * @return array
  */
-function wpmautic_get_user_query(){
+function wpmautic_get_user_query() {
 
 	$attrs = array();
 
 	if ( is_user_logged_in() ) {
 
-		$current_user = wp_get_current_user();
-		$attrs['email']	 = $current_user->user_email;
+		$current_user   = wp_get_current_user();
+		$attrs['email'] = $current_user->user_email;
 
 		$user_fields = wpmautic_option( 'wpmautic_tracking_user_field' );
 		$meta_fields = wpmautic_option( 'wpmautic_tracking_meta_field' );
-		$field_name = wpmautic_option( 'mautic_field_name' );
+		$field_name  = wpmautic_option( 'mautic_field_name' );
 
-		foreach( $user_fields as $key=>$value ){
+		foreach ( $user_fields as $key => $value ) {
 
-			if( $value == 'on' && strlen($field_name[$key]) > 0 && strlen($current_user->$key) > 0 )
-				$attrs[$field_name[$key]] = $current_user->$key;
+			if ( $value == 'on' && strlen( $field_name[ $key ] ) > 0 && strlen( $current_user->$key ) > 0 ) {
+				$attrs[ $field_name[ $key ] ] = $current_user->$key;
+			}
 
 		}
 
-		foreach( $meta_fields as $key=>$value ){
+		foreach ( $meta_fields as $key => $value ) {
 
-			if( $value == 'on' && strlen($field_name[$key]) > 0  && strlen(get_user_meta($current_user->ID,$key,true)) > 0)
-				$attrs[$field_name[$key]] = get_user_meta($current_user->ID,$key,true);
+			if ( $value == 'on' && strlen( $field_name[ $key ] ) > 0 && strlen( get_user_meta( $current_user->ID, $key, true ) ) > 0 ) {
+				$attrs[ $field_name[ $key ] ] = get_user_meta( $current_user->ID, $key, true );
+			}
 
 		}
 
