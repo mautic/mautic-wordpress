@@ -47,7 +47,7 @@ function wpmautic_settings() {
 /**
  * Settings Link in the ``Installed Plugins`` page
  *
- * @param  array $links array of plugin action links.
+ * @param  array  $links array of plugin action links.
  * @param  string $file Path to the plugin file relative to the plugins directory.
  *
  * @return array
@@ -139,21 +139,18 @@ function wpmautic_inject_script() {
 	}
 
 	?>
-    <script type="text/javascript">
-        (function (w, d, t, u, n, a, m) {
+    <script type="text/javascript">(
+        function (w, d, t, u, n, a, m) {
             w['MauticTrackingObject'] = n;
             w[n] = w[n] || function () {
                 (w[n].q = w[n].q || []).push(arguments)
-            }, a = d.createElement(t),
-                m = d.getElementsByTagName(t)[0];
+            }, a = d.createElement(t), m = d.getElementsByTagName(t)[0];
             a.async = 1;
             a.src = u;
             m.parentNode.insertBefore(a, m)
-        })(window,document,'script','<?php echo esc_url( $base_url ); ?>/mtc.js','mt');
-
-        mt('send', 'pageview'<?php echo $extra_info; ?>);
-    </script>
-	<?php
+        })(window, document, 'script', '<?php echo esc_url( $base_url ); ?>/mtc.js', 'mt');
+        mt('send', 'pageview'<?php echo $extra_info; ?>);</script>
+    <?php
 }
 
 /**
@@ -175,8 +172,7 @@ function wpmautic_inject_noscript() {
 	?>
     <noscript>
         <img src="<?php echo esc_url( $base_url ); ?>/mtracking.gif?d=<?php echo esc_attr( $payload ); ?>" style="display:none;" alt=""/>
-    </noscript>
-	<?php
+    </noscript><?php
 }
 
 /**
@@ -224,26 +220,19 @@ function wpmautic_get_user_query() {
 		$field_name  = wpmautic_option( 'mautic_field_name' );
 
 		foreach ( $user_fields as $key => $value ) {
-
 			if ( $value == 'on' && strlen( $field_name[ $key ] ) > 0 && strlen( $current_user->$key ) > 0 ) {
 				$attrs[ $field_name[ $key ] ] = $current_user->$key;
 			}
-
 		}
 
 		foreach ( $meta_fields as $key => $value ) {
-
 			if ( $value == 'on' && strlen( $field_name[ $key ] ) > 0 && strlen( get_user_meta( $current_user->ID, $key, true ) ) > 0 ) {
 				$attrs[ $field_name[ $key ] ] = get_user_meta( $current_user->ID, $key, true );
 			}
-
 		}
 
-
 		return $attrs;
-
 	}
 
 	return null;
-
 }

@@ -16,40 +16,38 @@ if ( ! defined( 'ABSPATH' ) ) {
  * HTML for the Mautic option page
  */
 function wpmautic_options_page() {
-	?>
-    <div>
-        <h2>WP Mautic</h2>
-        <p>Enable Base URL for Mautic Integration.</p>
-        <form action="options.php" method="post">
-			<?php settings_fields( 'wpmautic_options' ); ?>
-			<?php do_settings_sections( 'wpmautic' ); ?>
-			<?php submit_button(); ?>
-        </form>
-        <h3>Shortcode Examples:</h3>
-        <ul>
-            <li>Mautic Form Embed: <code>[mautic type="form" id="1"]</code></li>
-            <li>Mautic Dynamic Content: <code>[mautic type="content" slot="slot_name"]Default Text[/mautic]</code></li>
-        </ul>
-        <h3>Quick Links</h3>
-        <ul>
-            <li>
-                <a href="https://github.com/mautic/mautic-wordpress#mautic-wordpress-plugin" target="_blank">Plugin docs</a>
-            </li>
-            <li>
-                <a href="https://github.com/mautic/mautic-wordpress/issues" target="_blank">Plugin support</a>
-            </li>
-            <li>
-                <a href="https://mautic.org" target="_blank">Mautic project</a>
-            </li>
-            <li>
-                <a href="http://docs.mautic.org/" target="_blank">Mautic docs</a>
-            </li>
-            <li>
-                <a href="https://www.mautic.org/community/" target="_blank">Mautic forum</a>
-            </li>
-        </ul>
-    </div>
-	<?php
+	?><div>
+    <h2>WP Mautic</h2>
+    <p>Enable Base URL for Mautic Integration.</p>
+    <form action="options.php" method="post">
+        <?php settings_fields( 'wpmautic_options' ); ?>
+        <?php do_settings_sections( 'wpmautic' ); ?>
+        <?php submit_button(); ?>
+    </form>
+    <h3>Shortcode Examples:</h3>
+    <ul>
+        <li>Mautic Form Embed: <code>[mautic type="form" id="1"]</code></li>
+        <li>Mautic Dynamic Content: <code>[mautic type="content" slot="slot_name"]Default Text[/mautic]</code></li>
+    </ul>
+    <h3>Quick Links</h3>
+    <ul>
+        <li>
+            <a href="https://github.com/mautic/mautic-wordpress#mautic-wordpress-plugin" target="_blank">Plugin docs</a>
+        </li>
+        <li>
+            <a href="https://github.com/mautic/mautic-wordpress/issues" target="_blank">Plugin support</a>
+        </li>
+        <li>
+            <a href="https://mautic.org" target="_blank">Mautic project</a>
+        </li>
+        <li>
+            <a href="http://docs.mautic.org/" target="_blank">Mautic docs</a>
+        </li>
+        <li>
+            <a href="https://www.mautic.org/community/" target="_blank">Mautic forum</a>
+        </li>
+    </ul>
+    </div><?php
 }
 
 /**
@@ -129,23 +127,12 @@ function wpmautic_script_location() {
 
 	?>
     <fieldset id="wpmautic_script_location">
-        <label>
-            <input
-                    type="radio"
-                    name="wpmautic_options[script_location]"
-                    value="header"
-					<?php if ( 'footer' !== $position ) : ?>checked<?php endif; ?>
-            />
-			<?php esc_html_e( 'Embedded within the `wp_head` hook', 'mautic-wordpress' ); ?>
+        <label><input type="radio" name="wpmautic_options[script_location]" value="header" <?php if ( 'footer' !== $position ) : ?>checked<?php endif; ?> />
+            <?php esc_html_e( 'Embedded within the `wp_head` hook', 'mautic-wordpress' ); ?>
         </label>
         <br/>
         <label>
-            <input
-                    type="radio"
-                    name="wpmautic_options[script_location]"
-                    value="footer"
-					<?php if ( 'footer' === $position ) : ?>checked<?php endif; ?>
-            />
+            <input type="radio" name="wpmautic_options[script_location]" value="footer" <?php if ( 'footer' === $position ) : ?>checked<?php endif; ?> />
 			<?php esc_html_e( 'Embedded within the `wp_footer` hook', 'mautic-wordpress' ); ?>
         </label>
     </fieldset>
@@ -157,17 +144,10 @@ function wpmautic_script_location() {
  */
 function wpmautic_fallback_activated() {
 	$flag = wpmautic_option( 'fallback_activated', false );
-
-	?>
-    <input
-            id="wpmautic_fallback_activated"
-            name="wpmautic_options[fallback_activated]"
-            type="checkbox"
-            value="1"
-			<?php if ( true === $flag ) : ?>checked<?php endif; ?>
-    />
+    ?>
+    <input id="wpmautic_fallback_activated" name="wpmautic_options[fallback_activated]" type="checkbox" value="1" <?php if ( true === $flag ) : ?>checked<?php endif; ?> />
     <label for="wpmautic_fallback_activated">
-		<?php esc_html_e( 'Activate it when JavaScript is disabled ?', 'mautic-wordpress' ); ?>
+        <?php esc_html_e( 'Activate it when JavaScript is disabled ?', 'mautic-wordpress' ); ?>
     </label>
 	<?php
 }
@@ -188,8 +168,7 @@ function wpmautic_tracking_fields() {
             <th><?php _e( 'Field name', 'mautic-wordpress' ); ?></th>
             <th><?php _e( 'Mautic field name', 'mautic-wordpress' ); ?></th>
             <th><?php _e( 'Your field value', 'mautic-wordpress' ); ?></th>
-        </tr>
-		<?php
+        </tr><?php
 
 		global $wpdb;
 		$current_user = wp_get_current_user();
@@ -206,11 +185,7 @@ function wpmautic_tracking_fields() {
 				$val = $field_name[ $result_field ];
 			}
 			echo '<tr class="wp_users">';
-			echo '<td><input name="wpmautic_options[wpmautic_tracking_user_field][' . $result_field . ']" type="checkbox" ' . $checked . '/></td>
-								<td>' . $result_field . '</td>
-								<td><input type="text" name="wpmautic_options[mautic_field_name][' . $result_field . ']" value="' . $val . '" /></td>
-								<td>' . $current_user->$result_field . '</td>
-								';
+			echo '<td><input name="wpmautic_options[wpmautic_tracking_user_field][' . $result_field . ']" type="checkbox" ' . $checked . '/></td><td>' . $result_field . '</td><td><input type="text" name="wpmautic_options[mautic_field_name][' . $result_field . ']" value="' . $val . '" /></td><td>' . $current_user->$result_field . '</td>';
 			echo '</tr>';
 		}
 
@@ -228,18 +203,12 @@ function wpmautic_tracking_fields() {
 					$val = $field_name[ $result['meta_key'] ];
 				}
 				echo '<tr class="wp_usermeta">';
-				echo '<td><input name="wpmautic_options[wpmautic_tracking_meta_field][' . $result['meta_key'] . ']" type="checkbox" ' . $checked . '/></td>
-									<td>' . $result['meta_key'] . '</td>
-										<td><input type="text"  name="wpmautic_options[mautic_field_name][' . $result['meta_key'] . ']" value="' . $val . '" /></td>
-										<td>' . $meta_value . '</td>
-										';
+				echo '<td><input name="wpmautic_options[wpmautic_tracking_meta_field][' . $result['meta_key'] . ']" type="checkbox" ' . $checked . '/></td><td>' . $result['meta_key'] . '</td><td><input type="text"  name="wpmautic_options[mautic_field_name][' . $result['meta_key'] . ']" value="' . $val . '" /></td><td>' . $meta_value . '</td>';
 				echo '</tr>';
 			}
 		}
 
-		?>
-    </table>
-	<?php
+		?></table><?php
 }
 
 /**
@@ -252,23 +221,17 @@ function wpmautic_tracking_fields() {
 function wpmautic_options_validate( $input ) {
 	$options = get_option( 'wpmautic_options' );
 
-	$input['base_url'] = isset( $input['base_url'] )
-		? trim( $input['base_url'], " \t\n\r\0\x0B/" )
-		: '';
+	$input['base_url'] = isset( $input['base_url'] ) ? trim( $input['base_url'], " \t\n\r\0\x0B/" ) : '';
 
 	$options['base_url']        = esc_url_raw( trim( $input['base_url'], " \t\n\r\0\x0B/" ) );
-	$options['script_location'] = isset( $input['script_location'] )
-		? trim( $input['script_location'] )
-		: 'header';
+	$options['script_location'] = isset( $input['script_location'] ) ? trim( $input['script_location'] ) : 'header';
 	if ( ! in_array( $options['script_location'], array( 'header', 'footer' ), true ) ) {
 		$options['script_location'] = 'header';
 	}
 
-	$options['fallback_activated'] = isset( $input['fallback_activated'] ) && '1' === $input['fallback_activated']
-		? true
-		: false;
+	$options['fallback_activated'] = isset( $input['fallback_activated'] ) && '1' === $input['fallback_activated'] ? true : false;
 
-	$options['mautic_field_name']            = isset( $input['mautic_field_name'] ) ? $input['mautic_field_name'] : '';
+	$options['mautic_field_name'] = isset( $input['mautic_field_name'] ) ? $input['mautic_field_name'] : '';
 	$options['wpmautic_tracking_user_field'] = isset( $input['wpmautic_tracking_user_field'] ) ? $input['wpmautic_tracking_user_field'] : '';
 	$options['wpmautic_tracking_meta_field'] = isset( $input['wpmautic_tracking_meta_field'] ) ? $input['wpmautic_tracking_meta_field'] : '';
 
