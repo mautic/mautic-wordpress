@@ -192,29 +192,43 @@ function wpmautic_get_url_query() {
 }
 
 /**
- * Adds the user email, and other known elements about the user.
+ * Adds the user email, and other known elements about the user
+ * to the tracking pixel.
  *
  * @return array
  */
-function wpmautic_get_user_query() {
-	global $wp;
+function wpmautic_get_user_query(){
 
-	if ( true === wpmautic_option( 'track_logged_user', false ) && is_user_logged_in() ) {
-		$attrs = array();
+	$attrs = array();
+
+	if ( is_user_logged_in() ) {
+
 		$current_user = wp_get_current_user();
 		$attrs['email']	 = $current_user->user_email;
-		$attrs['firstname']  = $current_user->user_firstname;
-		$attrs['lastname']  = $current_user->user_lastname;
 
-		// Following Mautic fields has to be created manually and the fields must match these names.
-		$attrs['wp_user']  = $current_user->user_login;
-		$attrs['wp_alias']  = $current_user->display_name;
-		$attrs['registration_date'] = date(
-			'Y-m-d',
-			strtotime( $current_user->user_registered )
-		);
+		$user_fields = wpmautic_option( 'wpmautic_tracking_user_field' );
+		$meta_fields = wpmautic_option( 'wpmautic_tracking_meta_field' );
+		$field_name = wpmautic_option( 'mautic_field_name' );
+
+		foreach( $user_fields as $key=>$value ){
+
+			if( $value == 'on' && strlen($field_name[$key]) > 0 && strlen($current_user->$key) > 0 )
+				$attrs[$field_name[$key]] = $current_user->$key;
+
+		}
+
+		foreach( $meta_fields as $key=>$value ){
+
+			if( $value == 'on' && strlen($field_name[$key]) > 0  && strlen(get_user_meta($current_user->ID,$key,true)) > 0)
+				$attrs[$field_name[$key]] = get_user_meta($current_user->ID,$key,true);
+
+		}
+
+
 		return $attrs;
-	} else {
-		return null;
+
 	}
+
+	return null;
+
 }

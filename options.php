@@ -165,6 +165,72 @@ function wpmautic_fallback_activated() {
 }
 
 /**
+ * Define the input field for Mautic base URL
+ */
+function wpmautic_tracking_fields() {
+
+	$user_fields = wpmautic_option( 'wpmautic_tracking_user_field' );
+	$meta_fields = wpmautic_option( 'wpmautic_tracking_meta_field' );
+	$field_name = wpmautic_option( 'mautic_field_name' );
+
+	?>
+    <table>
+        <tr>
+            <th><?php _e( 'Send', 'mautic-wordpress' );?></th>
+            <th><?php _e( 'Field name', 'mautic-wordpress' );?></th>
+            <th><?php _e( 'Mautic field name', 'mautic-wordpress' );?></th>
+            <th><?php _e( 'Your field value', 'mautic-wordpress' );?></th>
+        </tr>
+		<?php
+
+		global $wpdb;
+		$current_user = wp_get_current_user();
+		$results = $wpdb->get_results( "SHOW columns FROM $wpdb->users", ARRAY_A );
+		$val = '';
+		foreach($results as $result){
+			$result_field = $result['Field'];
+			$checked = '';
+			if( isset($user_fields[$result_field]) && $user_fields[$result_field] == 'on' )
+				$checked = ' checked="checked" ';
+
+			if( isset($field_name[$result_field]) )
+				$val = $field_name[$result_field];
+			echo'<tr class="wp_users">';
+			echo '<td><input name="wpmautic_options[wpmautic_tracking_user_field][' . $result_field . ']" type="checkbox" '.$checked.'/></td>
+								<td>' . $result_field . '</td>
+								<td><input type="text" name="wpmautic_options[mautic_field_name]['. $result_field .']" value="'.$val.'" /></td>
+								<td>'.$current_user->$result_field.'</td>
+								';
+			echo '</tr>';
+		}
+
+
+		$results = $wpdb->get_results( "SELECT DISTINCT meta_key FROM {$wpdb->usermeta}", ARRAY_A );
+
+		foreach($results as $result){
+			$meta_value = get_user_meta($current_user->ID, $result['meta_key'], true);
+			if( !is_array($meta_value) ){
+				$checked = '';
+				if( isset($meta_fields[$result['meta_key']]) && $meta_fields[$result['meta_key']] == 'on' )
+					$checked = ' checked="checked" ';
+				if( isset($field_name[$result['meta_key']]) )
+					$val = $field_name[$result['meta_key']];
+				echo'<tr class="wp_usermeta">';
+				echo '<td><input name="wpmautic_options[wpmautic_tracking_meta_field][' . $result['meta_key'] . ']" type="checkbox" '.$checked.'/></td>
+									<td>' . $result['meta_key'] . '</td>
+										<td><input type="text"  name="wpmautic_options[mautic_field_name]['. $result['meta_key'] .']" value="'.$val.'" /></td>
+										<td>'.$meta_value.'</td>
+										';
+				echo '</tr>';
+			}
+		}
+
+		?>
+    </table>
+	<?php
+}
+
+/**
  * Validate base URL input value
  *
  * @param  array $input Input data.
@@ -188,6 +254,10 @@ function wpmautic_options_validate( $input ) {
 	$options['fallback_activated'] = isset( $input['fallback_activated'] ) && '1' === $input['fallback_activated']
 		? true
 		: false;
+
+	$options['mautic_field_name'] = $input['mautic_field_name'];
+	$options['wpmautic_tracking_user_field'] = $input['wpmautic_tracking_user_field'];
+	$options['wpmautic_tracking_meta_field'] = $input['wpmautic_tracking_meta_field'];
 
 	return $options;
 }
