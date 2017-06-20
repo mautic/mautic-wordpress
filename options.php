@@ -268,9 +268,9 @@ function wpmautic_options_validate( $input ) {
 		? true
 		: false;
 
-	$options['mautic_field_name']            = $input['mautic_field_name'];
-	$options['wpmautic_tracking_user_field'] = $input['wpmautic_tracking_user_field'];
-	$options['wpmautic_tracking_meta_field'] = $input['wpmautic_tracking_meta_field'];
+	$options['mautic_field_name']            = isset( $input['mautic_field_name'] ) ? $input['mautic_field_name'] : '';
+	$options['wpmautic_tracking_user_field'] = isset( $input['wpmautic_tracking_user_field'] ) ? $input['wpmautic_tracking_user_field'] : '';
+	$options['wpmautic_tracking_meta_field'] = isset( $input['wpmautic_tracking_meta_field'] ) ? $input['wpmautic_tracking_meta_field'] : '';
 
 	return $options;
 }
