@@ -3,7 +3,7 @@
  * Plugin Name: WP Mautic
  * Plugin URI: https://github.com/mautic/mautic-wordpress
  * Description: This plugin will allow you to add Mautic (Free Open Source Marketing Automation) tracking to your site
- * Version: 2.0.2
+ * Version: 2.0.4
  * Author: Mautic community
  * Author URI: http://mautic.org
  * Text Domain: mautic-wordpress
@@ -84,6 +84,10 @@ function wpmautic_option( $option, $default = null ) {
 			return ! isset( $options[ $option ] ) ? 'header' : $options[ $option ];
 		case 'fallback_activated':
 			return isset( $options[ $option ] ) ? (bool) $options[ $option ] : true;
+        case 'mautic_field_name':
+        case 'wpmautic_tracking_user_field':
+        case 'wpmautic_tracking_meta_field':
+			return is_null($options[ $option ]) ? [] : $options[ $option ];
 		default:
 			if ( ! isset( $options[ $option ] ) ) {
 				if ( isset( $default ) ) {
@@ -138,7 +142,7 @@ function wpmautic_inject_script() {
 		m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
 	})(window,document,'script','<?php echo esc_url( $base_url ); ?>/mtc.js','mt');
 
-	mt('send', 'pageview'<?php echo esc_attr( $extra_info ); ?>);
+	mt('send', 'pageview'<?php echo $extra_info; ?>);
 </script>
 	<?php
 }
