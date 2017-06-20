@@ -21,7 +21,7 @@ function wpmautic_options_page() {
 		<h2>WP Mautic</h2>
 		<p>Enable Base URL for Mautic Integration.</p>
 		<form action="options.php" method="post">
-			<?php settings_fields( 'wpmautic_options' ); ?>
+			<?php settings_fields( 'wpmautic' ); ?>
 			<?php do_settings_sections( 'wpmautic' ); ?>
 			<?php submit_button(); ?>
 		</form>
@@ -83,6 +83,13 @@ function wpmautic_admin_init() {
 		'wpmautic_fallback_activated',
 		__( 'Fallback image', 'mautic-wordpress' ),
 		'wpmautic_fallback_activated',
+		'wpmautic',
+		'wpmautic_main'
+	);
+	add_settings_field(
+		'wpmautic_tracking_fields',
+		__( 'Select which fields should be sent to Mautic.', 'mautic-wordpress' ),
+		'wpmautic_tracking_fields',
 		'wpmautic',
 		'wpmautic_main'
 	);
@@ -165,7 +172,7 @@ function wpmautic_fallback_activated() {
 }
 
 /**
- * Define the input field for Mautic base URL
+ * Define the inputs field for Mautic tracking fields
  */
 function wpmautic_tracking_fields() {
 
