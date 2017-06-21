@@ -47,7 +47,7 @@ function wpmautic_settings() {
 /**
  * Settings Link in the ``Installed Plugins`` page
  *
- * @param  array  $links array of plugin action links.
+ * @param  array $links array of plugin action links.
  * @param  string $file Path to the plugin file relative to the plugins directory.
  *
  * @return array
@@ -139,8 +139,7 @@ function wpmautic_inject_script() {
 	}
 
 	?>
-    <script type="text/javascript">(
-        function (w, d, t, u, n, a, m) {
+    <script type="text/javascript">(function (w, d, t, u, n, a, m) {
             w['MauticTrackingObject'] = n;
             w[n] = w[n] || function () {
                 (w[n].q = w[n].q || []).push(arguments)
@@ -150,7 +149,7 @@ function wpmautic_inject_script() {
             m.parentNode.insertBefore(a, m)
         })(window,document,'script','<?php echo esc_url( $base_url ); ?>/mtc.js','mt');
         mt('send', 'pageview'<?php echo $extra_info; ?>);</script>
-    <?php
+	<?php
 }
 
 /**
@@ -171,7 +170,7 @@ function wpmautic_inject_noscript() {
 	$payload   = rawurlencode( base64_encode( serialize( $url_query ) ) );
 	?>
     <noscript>
-        <img src="<?php echo esc_url( $base_url ); ?>/mtracking.gif?d=<?php echo esc_attr( $payload ); ?>" style="display:none;" alt=""/>
+    <img src="<?php echo esc_url( $base_url ); ?>/mtracking.gif?d=<?php echo esc_attr( $payload ); ?>" style="display:none;" alt=""/>
     </noscript><?php
 }
 

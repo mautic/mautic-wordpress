@@ -16,13 +16,14 @@ if ( ! defined( 'ABSPATH' ) ) {
  * HTML for the Mautic option page
  */
 function wpmautic_options_page() {
-	?><div>
+	?>
+    <div>
     <h2>WP Mautic</h2>
     <p>Enable Base URL for Mautic Integration.</p>
     <form action="options.php" method="post">
-        <?php settings_fields( 'wpmautic_options' ); ?>
-        <?php do_settings_sections( 'wpmautic' ); ?>
-        <?php submit_button(); ?>
+		<?php settings_fields( 'wpmautic_options' ); ?>
+		<?php do_settings_sections( 'wpmautic' ); ?>
+		<?php submit_button(); ?>
     </form>
     <h3>Shortcode Examples:</h3>
     <ul>
@@ -128,7 +129,7 @@ function wpmautic_script_location() {
 	?>
     <fieldset id="wpmautic_script_location">
         <label><input type="radio" name="wpmautic_options[script_location]" value="header" <?php if ( 'footer' !== $position ) : ?>checked<?php endif; ?> />
-            <?php esc_html_e( 'Embedded within the `wp_head` hook', 'mautic-wordpress' ); ?>
+			<?php esc_html_e( 'Embedded within the `wp_head` hook', 'mautic-wordpress' ); ?>
         </label>
         <br/>
         <label>
@@ -144,10 +145,11 @@ function wpmautic_script_location() {
  */
 function wpmautic_fallback_activated() {
 	$flag = wpmautic_option( 'fallback_activated', false );
-    ?>
-    <input id="wpmautic_fallback_activated" name="wpmautic_options[fallback_activated]" type="checkbox" value="1" <?php if ( true === $flag ) : ?>checked<?php endif; ?> />
+	?>
+    <input id="wpmautic_fallback_activated" name="wpmautic_options[fallback_activated]" type="checkbox" value="1"
+	       <?php if ( true === $flag ) : ?>checked<?php endif; ?> />
     <label for="wpmautic_fallback_activated">
-        <?php esc_html_e( 'Activate it when JavaScript is disabled ?', 'mautic-wordpress' ); ?>
+		<?php esc_html_e( 'Activate it when JavaScript is disabled ?', 'mautic-wordpress' ); ?>
     </label>
 	<?php
 }
@@ -163,52 +165,52 @@ function wpmautic_tracking_fields() {
 
 	?>
     <table>
-        <tr>
-            <th><?php _e( 'Send', 'mautic-wordpress' ); ?></th>
-            <th><?php _e( 'Field name', 'mautic-wordpress' ); ?></th>
-            <th><?php _e( 'Mautic field name', 'mautic-wordpress' ); ?></th>
-            <th><?php _e( 'Your field value', 'mautic-wordpress' ); ?></th>
-        </tr><?php
+    <tr>
+    <th><?php _e( 'Send', 'mautic-wordpress' ); ?></th>
+    <th><?php _e( 'Field name', 'mautic-wordpress' ); ?></th>
+    <th><?php _e( 'Mautic field name', 'mautic-wordpress' ); ?></th>
+    <th><?php _e( 'Your field value', 'mautic-wordpress' ); ?></th>
+    </tr><?php
 
-		global $wpdb;
-		$current_user = wp_get_current_user();
-		$results      = $wpdb->get_results( "SHOW columns FROM $wpdb->users", ARRAY_A );
-		$val          = '';
-		foreach ( $results as $result ) {
-			$result_field = $result['Field'];
-			$checked      = '';
-			if ( isset( $user_fields[ $result_field ] ) && $user_fields[ $result_field ] == 'on' ) {
+	global $wpdb;
+	$current_user = wp_get_current_user();
+	$results      = $wpdb->get_results( "SHOW columns FROM $wpdb->users", ARRAY_A );
+	$val          = '';
+	foreach ( $results as $result ) {
+		$result_field = $result['Field'];
+		$checked      = '';
+		if ( isset( $user_fields[ $result_field ] ) && $user_fields[ $result_field ] == 'on' ) {
+			$checked = ' checked="checked" ';
+		}
+
+		if ( isset( $field_name[ $result_field ] ) ) {
+			$val = $field_name[ $result_field ];
+		}
+		echo '<tr class="wp_users">';
+		echo '<td><input name="wpmautic_options[wpmautic_tracking_user_field][' . $result_field . ']" type="checkbox" ' . $checked . '/></td><td>' . $result_field . '</td><td><input type="text" name="wpmautic_options[mautic_field_name][' . $result_field . ']" value="' . $val . '" /></td><td>' . $current_user->$result_field . '</td>';
+		echo '</tr>';
+	}
+
+
+	$results = $wpdb->get_results( "SELECT DISTINCT meta_key FROM {$wpdb->usermeta}", ARRAY_A );
+
+	foreach ( $results as $result ) {
+		$meta_value = get_user_meta( $current_user->ID, $result['meta_key'], true );
+		if ( ! is_array( $meta_value ) ) {
+			$checked = '';
+			if ( isset( $meta_fields[ $result['meta_key'] ] ) && $meta_fields[ $result['meta_key'] ] == 'on' ) {
 				$checked = ' checked="checked" ';
 			}
-
-			if ( isset( $field_name[ $result_field ] ) ) {
-				$val = $field_name[ $result_field ];
+			if ( isset( $field_name[ $result['meta_key'] ] ) ) {
+				$val = $field_name[ $result['meta_key'] ];
 			}
-			echo '<tr class="wp_users">';
-			echo '<td><input name="wpmautic_options[wpmautic_tracking_user_field][' . $result_field . ']" type="checkbox" ' . $checked . '/></td><td>' . $result_field . '</td><td><input type="text" name="wpmautic_options[mautic_field_name][' . $result_field . ']" value="' . $val . '" /></td><td>' . $current_user->$result_field . '</td>';
+			echo '<tr class="wp_usermeta">';
+			echo '<td><input name="wpmautic_options[wpmautic_tracking_meta_field][' . $result['meta_key'] . ']" type="checkbox" ' . $checked . '/></td><td>' . $result['meta_key'] . '</td><td><input type="text"  name="wpmautic_options[mautic_field_name][' . $result['meta_key'] . ']" value="' . $val . '" /></td><td>' . $meta_value . '</td>';
 			echo '</tr>';
 		}
+	}
 
-
-		$results = $wpdb->get_results( "SELECT DISTINCT meta_key FROM {$wpdb->usermeta}", ARRAY_A );
-
-		foreach ( $results as $result ) {
-			$meta_value = get_user_meta( $current_user->ID, $result['meta_key'], true );
-			if ( ! is_array( $meta_value ) ) {
-				$checked = '';
-				if ( isset( $meta_fields[ $result['meta_key'] ] ) && $meta_fields[ $result['meta_key'] ] == 'on' ) {
-					$checked = ' checked="checked" ';
-				}
-				if ( isset( $field_name[ $result['meta_key'] ] ) ) {
-					$val = $field_name[ $result['meta_key'] ];
-				}
-				echo '<tr class="wp_usermeta">';
-				echo '<td><input name="wpmautic_options[wpmautic_tracking_meta_field][' . $result['meta_key'] . ']" type="checkbox" ' . $checked . '/></td><td>' . $result['meta_key'] . '</td><td><input type="text"  name="wpmautic_options[mautic_field_name][' . $result['meta_key'] . ']" value="' . $val . '" /></td><td>' . $meta_value . '</td>';
-				echo '</tr>';
-			}
-		}
-
-		?></table><?php
+	?></table><?php
 }
 
 /**
@@ -231,7 +233,7 @@ function wpmautic_options_validate( $input ) {
 
 	$options['fallback_activated'] = isset( $input['fallback_activated'] ) && '1' === $input['fallback_activated'] ? true : false;
 
-	$options['mautic_field_name'] = isset( $input['mautic_field_name'] ) ? $input['mautic_field_name'] : '';
+	$options['mautic_field_name']            = isset( $input['mautic_field_name'] ) ? $input['mautic_field_name'] : '';
 	$options['wpmautic_tracking_user_field'] = isset( $input['wpmautic_tracking_user_field'] ) ? $input['wpmautic_tracking_user_field'] : '';
 	$options['wpmautic_tracking_meta_field'] = isset( $input['wpmautic_tracking_meta_field'] ) ? $input['wpmautic_tracking_meta_field'] : '';
 
