@@ -3,7 +3,7 @@
  * Plugin Name: WP Mautic
  * Plugin URI: https://github.com/mautic/mautic-wordpress
  * Description: This plugin will allow you to add Mautic (Free Open Source Marketing Automation) tracking to your site
- * Version: 2.0.2
+ * Version: 2.0.4
  * Author: Mautic community
  * Author URI: http://mautic.org
  * Text Domain: mautic-wordpress
@@ -48,7 +48,7 @@ function wpmautic_settings() {
  * Settings Link in the ``Installed Plugins`` page
  *
  * @param  array  $links array of plugin action links.
- * @param  string $file  Path to the plugin file relative to the plugins directory.
+ * @param  string $file Path to the plugin file relative to the plugins directory.
  *
  * @return array
  */
@@ -62,17 +62,19 @@ function wpmautic_plugin_actions( $links, $file ) {
 		// Add the settings link before other links.
 		array_unshift( $links, $settings_link );
 	}
+
 	return $links;
 }
+
 add_filter( 'plugin_action_links', 'wpmautic_plugin_actions', 10, 2 );
 
 /**
  * Retrieve one of the wpmautic options but sanitized
  *
- * @param  string $option  Option name to be retrieved (base_url, script_location).
+ * @param  string $option Option name to be retrieved (base_url, script_location).
  * @param  string $default Default option value return if not exists.
  *
- * @return string
+ * @return string|array
  *
  * @throws InvalidArgumentException Thrown when the option name is not given.
  */
@@ -84,6 +86,10 @@ function wpmautic_option( $option, $default = null ) {
 			return ! isset( $options[ $option ] ) ? 'header' : $options[ $option ];
 		case 'fallback_activated':
 			return isset( $options[ $option ] ) ? (bool) $options[ $option ] : true;
+		case 'mautic_field_name':
+		case 'wpmautic_tracking_user_field':
+		case 'wpmautic_tracking_meta_field':
+			return is_null( $options[ $option ] ) ? array() : $options[ $option ];
 		default:
 			if ( ! isset( $options[ $option ] ) ) {
 				if ( isset( $default ) ) {
@@ -132,14 +138,17 @@ function wpmautic_inject_script() {
 		$extra_info = ', ' . wp_json_encode( $user_query );
 	}
 
-	?><script type="text/javascript">
-	(function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
-		w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
-		m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','<?php echo esc_url( $base_url ); ?>/mtc.js','mt');
-
-	mt('send', 'pageview'<?php echo esc_attr( $extra_info ); ?>);
-</script>
+	?>
+	<script type="text/javascript">(function (w, d, t, u, n, a, m) {
+			w['MauticTrackingObject'] = n;
+			w[n] = w[n] || function () {
+				(w[n].q = w[n].q || []).push(arguments)
+			}, a = d.createElement(t), m = d.getElementsByTagName(t)[0];
+			a.async = 1;
+			a.src = u;
+			m.parentNode.insertBefore(a, m)
+		})(window,document,'script','<?php echo esc_url( $base_url ); ?>/mtc.js','mt');
+		mt('send', 'pageview'<?php echo $extra_info; ?>);</script>
 	<?php
 }
 
@@ -158,12 +167,11 @@ function wpmautic_inject_noscript() {
 	global $wp;
 
 	$url_query = wpmautic_get_url_query();
-	$payload = rawurlencode( base64_encode( serialize( $url_query ) ) );
+	$payload   = rawurlencode( base64_encode( serialize( $url_query ) ) );
 	?>
 	<noscript>
-		<img src="<?php echo esc_url( $base_url ); ?>/mtracking.gif?d=<?php echo esc_attr( $payload ); ?>"  style="display:none;" alt="" />
-	</noscript>
-	<?php
+	<img src="<?php echo esc_url( $base_url ); ?>/mtracking.gif?d=<?php echo esc_attr( $payload ); ?>" style="display:none;" alt=""/>
+	</noscript><?php
 }
 
 /**
@@ -175,7 +183,7 @@ function wpmautic_get_url_query() {
 	global $wp;
 	$current_url = add_query_arg( $wp->query_string, '', home_url( $wp->request ) );
 
-	$attrs = array();
+	$attrs               = array();
 	$attrs['page_url']   = $current_url;
 	$attrs['page_title'] = function_exists( 'wp_get_document_title' )
 		? wp_get_document_title()
@@ -192,29 +200,38 @@ function wpmautic_get_url_query() {
 }
 
 /**
- * Adds the user email, and other known elements about the user.
+ * Adds the user email, and other known elements about the user
+ * to the tracking pixel.
  *
  * @return array
  */
 function wpmautic_get_user_query() {
-	global $wp;
 
-	if ( true === wpmautic_option( 'track_logged_user', false ) && is_user_logged_in() ) {
-		$attrs = array();
-		$current_user = wp_get_current_user();
-		$attrs['email']	 = $current_user->user_email;
-		$attrs['firstname']  = $current_user->user_firstname;
-		$attrs['lastname']  = $current_user->user_lastname;
+	$attrs = array();
 
-		// Following Mautic fields has to be created manually and the fields must match these names.
-		$attrs['wp_user']  = $current_user->user_login;
-		$attrs['wp_alias']  = $current_user->display_name;
-		$attrs['registration_date'] = date(
-			'Y-m-d',
-			strtotime( $current_user->user_registered )
-		);
+	if ( is_user_logged_in() ) {
+
+		$current_user   = wp_get_current_user();
+		$attrs['email'] = $current_user->user_email;
+
+		$user_fields = wpmautic_option( 'wpmautic_tracking_user_field' );
+		$meta_fields = wpmautic_option( 'wpmautic_tracking_meta_field' );
+		$field_name  = wpmautic_option( 'mautic_field_name' );
+
+		foreach ( $user_fields as $key => $value ) {
+			if ( $value == 'on' && strlen( $field_name[ $key ] ) > 0 && strlen( $current_user->$key ) > 0 ) {
+				$attrs[ $field_name[ $key ] ] = $current_user->$key;
+			}
+		}
+
+		foreach ( $meta_fields as $key => $value ) {
+			if ( $value == 'on' && strlen( $field_name[ $key ] ) > 0 && strlen( get_user_meta( $current_user->ID, $key, true ) ) > 0 ) {
+				$attrs[ $field_name[ $key ] ] = get_user_meta( $current_user->ID, $key, true );
+			}
+		}
+
 		return $attrs;
-	} else {
-		return null;
 	}
+
+	return null;
 }
