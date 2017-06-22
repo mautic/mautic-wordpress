@@ -2,7 +2,7 @@
 /**
  * Option page definition
  *
- * @package wpmautic
+ * @package wp-mautic
  */
 
 // Prevent direct access to this file.
@@ -60,28 +60,28 @@ function wpmautic_admin_init() {
 
 	add_settings_section(
 		'wpmautic_main',
-		__( 'Main Settings', 'mautic-wordpress' ),
+		__( 'Main Settings', 'wp-mautic' ),
 		'wpmautic_section_text',
 		'wpmautic'
 	);
 
 	add_settings_field(
 		'wpmautic_base_url',
-		__( 'Mautic Base URL', 'mautic-wordpress' ),
+		__( 'Mautic Base URL', 'wp-mautic' ),
 		'wpmautic_base_url',
 		'wpmautic',
 		'wpmautic_main'
 	);
 	add_settings_field(
 		'wpmautic_script_location',
-		__( 'Tracking script location', 'mautic-wordpress' ),
+		__( 'Tracking script location', 'wp-mautic' ),
 		'wpmautic_script_location',
 		'wpmautic',
 		'wpmautic_main'
 	);
 	add_settings_field(
 		'wpmautic_fallback_activated',
-		__( 'Fallback image', 'mautic-wordpress' ),
+		__( 'Fallback image', 'wp-mautic' ),
 		'wpmautic_fallback_activated',
 		'wpmautic',
 		'wpmautic_main'
@@ -128,7 +128,7 @@ function wpmautic_script_location() {
 				value="header"
 				<?php if ( 'footer' !== $position ) : ?>checked<?php endif; ?>
 			/>
-			<?php esc_html_e( 'Embedded within the `wp_head` hook', 'mautic-wordpress' ); ?>
+			<?php esc_html_e( 'Embedded within the `wp_head` hook', 'wp-mautic' ); ?>
 		</label>
 		<br/>
 		<label>
@@ -138,7 +138,7 @@ function wpmautic_script_location() {
 				value="footer"
 				<?php if ( 'footer' === $position ) : ?>checked<?php endif; ?>
 			/>
-			<?php esc_html_e( 'Embedded within the `wp_footer` hook', 'mautic-wordpress' ); ?>
+			<?php esc_html_e( 'Embedded within the `wp_footer` hook', 'wp-mautic' ); ?>
 		</label>
 	</fieldset>
 	<?php
@@ -159,7 +159,7 @@ function wpmautic_fallback_activated() {
 		<?php if ( true === $flag ) : ?>checked<?php endif; ?>
 	/>
 	<label for="wpmautic_fallback_activated">
-		<?php esc_html_e( 'Activate it when JavaScript is disabled ?', 'mautic-wordpress' ); ?>
+		<?php esc_html_e( 'Activate it when JavaScript is disabled ?', 'wp-mautic' ); ?>
 	</label>
 	<?php
 }

@@ -6,10 +6,10 @@
  * Version: 2.0.4
  * Author: Mautic community
  * Author URI: http://mautic.org
- * Text Domain: mautic-wordpress
+ * Text Domain: wp-mautic
  * License: GPL2
  *
- * @package wpmautic
+ * @package wp-mautic
  */
 
 // Prevent direct access to this file.
@@ -36,8 +36,8 @@ function wpmautic_settings() {
 	include_once( VPMAUTIC_PLUGIN_DIR . '/options.php' );
 
 	add_options_page(
-		__( 'WP Mautic Settings', 'mautic-wordpress' ),
-		__( 'WPMautic', 'mautic-wordpress' ),
+		__( 'WP Mautic Settings', 'wp-mautic' ),
+		__( 'WPMautic', 'wp-mautic' ),
 		'manage_options',
 		'wpmautic',
 		'wpmautic_options_page'

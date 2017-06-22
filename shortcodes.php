@@ -2,7 +2,7 @@
 /**
  * Shortcode definition
  *
- * @package wpmautic
+ * @package wp-mautic
  */
 
 // Prevent direct access to this file.
