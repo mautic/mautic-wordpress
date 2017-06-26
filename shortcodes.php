@@ -121,11 +121,11 @@ function wpmautic_video_shortcode( $atts ) {
 	), $atts);
 
 	if ( empty( $atts['src'] ) ) {
-		return __( 'You must provide a video source. Add a src="URL" attribute to your shortcode. Replace URL with the source url for your video.', 'mautic-wordpress' );
+		return __( 'You must provide a video source. Add a src="URL" attribute to your shortcode. Replace URL with the source url for your video.', 'wp-mautic' );
 	}
 
 	if ( empty( $atts['form-id'] ) ) {
-		return __( 'You must provide a mautic form id. Add a form-id="#" attribute to your shortcode. Replace # with the id of the form you want to use.', 'mautic-wordpress' );
+		return __( 'You must provide a mautic form id. Add a form-id="#" attribute to your shortcode. Replace # with the id of the form you want to use.', 'wp-mautic' );
 	}
 
 	if ( preg_match( '/^.*((youtu.be)|(youtube.com))\/((v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))?\??v?=?([^#\&\?]*).*/', $atts['src'] ) ) {
@@ -139,7 +139,7 @@ function wpmautic_video_shortcode( $atts ) {
 	}
 
 	if ( empty( $atts['video-type'] ) ) {
-		return __( 'Please define a valid video type with video-type="#".', 'mautic-wordpress' );
+		return __( 'Please define a valid video type with video-type="#".', 'wp-mautic' );
 	}
 
 	return sprintf(
@@ -182,7 +182,7 @@ function wpmautic_tags_shortcode( $atts ) {
 		'<img src="%s/mtracking.gif?tags=%s" alt="%s" />',
 		esc_url( $base_url ),
 		esc_attr( $atts['values'] ),
-		esc_attr__( 'Mautic Tags', 'mautic-wordpress' )
+		esc_attr__( 'Mautic Tags', 'wp-mautic' )
 	);
 }
 
