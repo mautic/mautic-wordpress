@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 ### Changed
+- Add valid text domain and start official translation process.
 
 ## [v2.0.4] - 2017-06-03
 ### Changed
