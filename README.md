@@ -53,6 +53,19 @@ Tracking script works right after you finish the configuration steps. That means
 </script>
 ```
 
+#### Custom attributes handling
+
+If you need to send custom attributes within Mautic events, you can use the `wpmautic_tracking_attributes` filter.
+
+```php
+add_filter('wpmautic_tracking_attributes', function($attrs) {
+    $attrs['preferred_locale'] = $customVar;
+    return $attrs;
+});
+```
+
+The returned attributes will be added to Mautic payload.
+
 ### Mautic Forms
 
 To load a Mautic Form to your WP post, insert this shortcode to the place you want the form to appear:

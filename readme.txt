@@ -36,13 +36,24 @@ And that's it !
 Tracking script works right after you finish the configuration steps. That means it will insert the `mtc.js` script from your Mautic instance. You can check HTML source code (CTRL + U) of your WP website to make sure the plugin works. You should be able to find something like this:
 
     <script>
-        (function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
-            w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
-            m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','http://yourmauticsite.com/mtc.js','mt');
+      (function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
+        w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
+        m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','http://yourmauticsite.com/mtc.js','mt');
 
-        mt('send', 'pageview');
+      mt('send', 'pageview');
     </script>
+
+#### Custom attributes handling
+
+If you need to send custom attributes within Mautic events, you can use the `wpmautic_tracking_attributes` filter.
+
+    add_filter('wpmautic_tracking_attributes', function($attrs) {
+      $attrs['preferred_locale'] = $customVar;
+      return $attrs;
+    });
+
+The returned attributes will be added to Mautic payload.
 
 ### Mautic Forms
 
