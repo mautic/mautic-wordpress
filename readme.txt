@@ -5,7 +5,7 @@ Donate link: http://mautic.org/
 Tags: marketing, automation
 Tested up to: 4.7
 Requires at least: 4.6
-Stable tag: 2.0.4
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
