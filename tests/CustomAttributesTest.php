@@ -8,6 +8,18 @@
  */
 class CustomAttributesTest extends WP_UnitTestCase
 {
+    public function wpmautic_tracking_attributes_filter_1()
+    {
+        throw new RuntimeException('Message from filter');
+    }
+
+    public function wpmautic_tracking_attributes_filter_2($attrs)
+    {
+        $attrs['custom'] = 'toto';
+        return $attrs;
+    }
+
+
     public function test_custom_attributes_are_empty_by_default()
     {
         $payload = wpmautic_get_tracking_attributes();
@@ -17,23 +29,18 @@ class CustomAttributesTest extends WP_UnitTestCase
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException RuntimeException
      * @expectedExceptionMessage Message from filter
      */
     public function test_custom_attributes_are_injected_by_filter()
     {
-        add_filter('wpmautic_tracking_attributes', function() {
-            throw new Exception('Message from filter');
-        });
+        add_filter('wpmautic_tracking_attributes', array($this, 'wpmautic_tracking_attributes_filter_1'));
         wpmautic_get_tracking_attributes();
     }
 
     public function test_custom_attributes_from_filter_are_returned()
     {
-        add_filter('wpmautic_tracking_attributes', function($attrs) {
-            $attrs['custom'] = 'toto';
-            return $attrs;
-        });
+        add_filter('wpmautic_tracking_attributes', array($this, 'wpmautic_tracking_attributes_filter_2'));
         $payload = wpmautic_get_tracking_attributes();
 
         $this->assertArrayHasKey('custom', $payload);

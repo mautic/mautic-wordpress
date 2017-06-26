@@ -88,10 +88,7 @@ class ScriptInjectionTest extends WP_UnitTestCase
         $base_url = 'http://example.com';
         update_option('wpmautic_options', array('base_url' => $base_url, 'script_location' => 'footer'));
 
-        add_filter('wpmautic_tracking_attributes', function($attrs) {
-            $attrs['preferred_locale'] = 'xx';
-            return $attrs;
-        });
+        add_filter('wpmautic_tracking_attributes', array($this, 'wpmautic_tracking_attributes_filter'));
 
         do_action('plugins_loaded');
 
@@ -135,10 +132,7 @@ class ScriptInjectionTest extends WP_UnitTestCase
         $this->go_to( $base_url );
         update_option('wpmautic_options', array('base_url' => $base_url));
 
-        add_filter('wpmautic_tracking_attributes', function($attrs) {
-            $attrs['preferred_locale'] = 'xx';
-            return $attrs;
-        });
+        add_filter('wpmautic_tracking_attributes', array($this, 'wpmautic_tracking_attributes_filter'));
 
         do_action('plugins_loaded');
 
@@ -146,5 +140,13 @@ class ScriptInjectionTest extends WP_UnitTestCase
 
         $payload = rawurlencode( base64_encode( serialize( wpmautic_get_url_query() ) ) );
         $this->assertContains(sprintf("%s/mtracking.gif?d=%s", $base_url, $payload), $output);
+    }
+
+    //---------------
+
+    public function wpmautic_tracking_attributes_filter($attrs)
+    {
+        $attrs['preferred_locale'] = 'xx';
+        return $attrs;
     }
 }
