@@ -110,7 +110,6 @@ function wpmautic_dwc_shortcode( $atts, $content = null ) {
  * @return string
  */
 function wpmautic_video_shortcode( $atts ) {
-	$video_type = '';
 	$atts = shortcode_atts(array(
 		'gate-time' => 15,
 		'form-id' => '',

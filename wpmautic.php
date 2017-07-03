@@ -70,7 +70,7 @@ add_filter( 'plugin_action_links', 'wpmautic_plugin_actions', 10, 2 );
  * Retrieve one of the wpmautic options but sanitized
  *
  * @param  string $option  Option name to be retrieved (base_url, script_location).
- * @param  string $default Default option value return if not exists.
+ * @param  mixed  $default Default option value return if not exists.
  *
  * @return string
  *
@@ -148,8 +148,6 @@ function wpmautic_inject_noscript() {
 	if ( empty( $base_url ) ) {
 		return;
 	}
-
-	global $wp;
 
 	$url_query = wpmautic_get_url_query();
 	$payload = rawurlencode( base64_encode( serialize( $url_query ) ) );
