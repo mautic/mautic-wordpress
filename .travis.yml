@@ -96,7 +96,9 @@ script:
     # Run valid PHPUnit version depending environment
     $WP_PHPUNIT --version
     if [[ "$COVERAGE" == "1" ]]; then
-      $WP_PHPUNIT --coverage-text
+      $WP_PHPUNIT --coverage-clover=coverage.clover
+      wget https://scrutinizer-ci.com/ocular.phar
+      php ocular.phar code-coverage:upload --format=php-clover coverage.clover
     else
       $WP_PHPUNIT
     fi
