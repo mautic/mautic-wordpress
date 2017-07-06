@@ -83,6 +83,22 @@ class ScriptInjectionTest extends WP_UnitTestCase
         $this->assertContains(sprintf("%s/mtracking.gif?d=", $base_url), $output);
     }
 
+    public function test_script_is_injected_with_custom_attributes_when_defined()
+    {
+        $base_url = 'http://example.com';
+        update_option('wpmautic_options', array('base_url' => $base_url, 'script_location' => 'footer'));
+
+        add_filter('wpmautic_tracking_attributes', array($this, 'wpmautic_tracking_attributes_filter'));
+
+        do_action('plugins_loaded');
+
+        $output = $this->renderRawPage(false, true);
+
+        $this->assertContains(sprintf("(window,document,'script','{$base_url}/mtc.js','mt')"), $output);
+        $this->assertContains("['MauticTrackingObject']", $output);
+        $this->assertContains("mt('send', 'pageview', {\"preferred_locale\":\"xx\"})", $output);
+    }
+
     public function test_tracking_image_is_not_injected_when_disabled()
     {
         $base_url = 'http://example.com';
@@ -108,5 +124,29 @@ class ScriptInjectionTest extends WP_UnitTestCase
 
         $payload = rawurlencode( base64_encode( serialize( wpmautic_get_url_query() ) ) );
         $this->assertContains(sprintf("%s/mtracking.gif?d=%s", $base_url, $payload), $output);
+    }
+
+    public function test_tracking_image_payload_is_valid_with_custom_data()
+    {
+        $base_url = 'http://example.com';
+        $this->go_to( $base_url );
+        update_option('wpmautic_options', array('base_url' => $base_url));
+
+        add_filter('wpmautic_tracking_attributes', array($this, 'wpmautic_tracking_attributes_filter'));
+
+        do_action('plugins_loaded');
+
+        $output = $this->renderRawPage();
+
+        $payload = rawurlencode( base64_encode( serialize( wpmautic_get_url_query() ) ) );
+        $this->assertContains(sprintf("%s/mtracking.gif?d=%s", $base_url, $payload), $output);
+    }
+
+    //---------------
+
+    public function wpmautic_tracking_attributes_filter($attrs)
+    {
+        $attrs['preferred_locale'] = 'xx';
+        return $attrs;
     }
 }

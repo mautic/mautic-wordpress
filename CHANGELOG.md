@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Added
 - Call translation on all labels, plugin is translation ready !
+- Add a new function `wpmautic_get_tracking_attributes` which defines attributes to be sent through JS and Image trackers.
+- Add a filter `wpmautic_tracking_attributes` to allow developers injecting custom attributes in trackers.
 
 ### Changed
 - Add valid text domain and start official translation process.

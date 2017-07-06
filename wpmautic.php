@@ -126,13 +126,15 @@ function wpmautic_inject_script() {
 		return;
 	}
 
+	$attrs = wpmautic_get_tracking_attributes();
+
 	?><script type="text/javascript">
 	(function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
 		w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
 		m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
 	})(window,document,'script','<?php echo esc_url( $base_url ); ?>/mtc.js','mt');
 
-	mt('send', 'pageview');
+	mt('send', 'pageview'<?php echo count( $attrs ) > 0?', ' . wp_json_encode( $attrs ):'' ?>);
 </script>
 	<?php
 }
@@ -167,12 +169,13 @@ function wpmautic_get_url_query() {
 	global $wp;
 	$current_url = add_query_arg( $wp->query_string, '', home_url( $wp->request ) );
 
-	$attrs = array();
+	$attrs = wpmautic_get_tracking_attributes();
+
+	$attrs['language']   = get_locale();
 	$attrs['page_url']   = $current_url;
 	$attrs['page_title'] = function_exists( 'wp_get_document_title' )
 		? wp_get_document_title()
 		: wp_title( '&raquo;', false );
-	$attrs['language']   = get_locale();
 	$attrs['referrer']   = function_exists( 'wp_get_raw_referer' )
 		? wp_get_raw_referer()
 		: null;
@@ -181,4 +184,25 @@ function wpmautic_get_url_query() {
 	}
 
 	return $attrs;
+}
+
+/**
+ * Create custom query parameters to be injected inside tracking
+ *
+ * @return array
+ */
+function wpmautic_get_tracking_attributes() {
+	$attrs = array();
+
+	/**
+	 * Update / add data to be send withing Mautic tracker
+	 *
+	 * Default data only contains the 'language' key but every added key to the
+	 * array will be sent to Mautic.
+	 *
+	 * @since 2.1.0
+	 *
+	 * @param array $attrs Attributes to be filters, default ['language' => get_locale()]
+	 */
+	return apply_filters( 'wpmautic_tracking_attributes', $attrs );
 }
