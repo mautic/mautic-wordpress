@@ -84,6 +84,8 @@ function wpmautic_option( $option, $default = null ) {
 			return ! isset( $options[ $option ] ) ? 'header' : $options[ $option ];
 		case 'fallback_activated':
 			return isset( $options[ $option ] ) ? (bool) $options[ $option ] : true;
+		case 'track_logged_user':
+			return isset( $options[ $option ] ) ? (bool) $options[ $option ] : false;
 		default:
 			if ( ! isset( $options[ $option ] ) ) {
 				if ( isset( $default ) ) {
