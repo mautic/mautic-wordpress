@@ -135,7 +135,7 @@ function wpmautic_script_location() {
 				value="header"
 				<?php if ( 'footer' !== $position ) : ?>checked<?php endif; ?>
 			/>
-			<?php esc_html_e( 'Embedded within the `wp_head` hook', 'wp-mautic' ); ?>
+			<?php esc_html_e( 'Embedded within the `wp_head` action.', 'wp-mautic' ); ?>
 		</label>
 		<br/>
 		<label>
@@ -145,7 +145,7 @@ function wpmautic_script_location() {
 				value="footer"
 				<?php if ( 'footer' === $position ) : ?>checked<?php endif; ?>
 			/>
-			<?php esc_html_e( 'Embedded within the `wp_footer` hook', 'wp-mautic' ); ?>
+			<?php esc_html_e( 'Embedded within the `wp_footer` action.', 'wp-mautic' ); ?>
 		</label>
 	</fieldset>
 	<?php
