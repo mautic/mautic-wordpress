@@ -5,10 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [v2.1.0] - 2017-07-19
 ### Added
 - Call translation on all labels, plugin is translation ready !
 - Add a new function `wpmautic_get_tracking_attributes` which defines attributes to be sent through JS and Image trackers.
 - Add a filter `wpmautic_tracking_attributes` to allow developers injecting custom attributes in trackers.
+- Add the ability to track logged user (within an option)
 
 ### Changed
 - Add valid text domain and start official translation process.
