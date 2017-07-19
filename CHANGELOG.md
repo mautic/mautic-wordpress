@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [v2.1.1] - 2017-07-19
+### Changed
+- Update some labels which are not clear enough.
+
 ## [v2.1.0] - 2017-07-19
 ### Added
 - Call translation on all labels, plugin is translation ready !

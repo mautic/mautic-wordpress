@@ -5,7 +5,7 @@ Donate link: http://mautic.org/
 Tags: marketing, automation
 Tested up to: 4.8
 Requires at least: 4.6
-Stable tag: 2.1.0
+Stable tag: 2.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -128,6 +128,10 @@ Fix a bug introduced in the 2.0.2 version, you must upgrade asap because there w
 
 == Changelog ==
 
+= v2.1.1 =
+
+* Changed
+  * Update some labels which are not clear enough.
 
 = v2.1.0 =
 
@@ -141,6 +145,7 @@ Release date : 2017-07-19
 
 * Changed
   * Add valid text domain and start official translation process.
+
 = v2.0.4 =
 
 Release date : 2017-06-03
