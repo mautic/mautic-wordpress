@@ -67,7 +67,7 @@ function wpmautic_admin_init() {
 
 	add_settings_field(
 		'wpmautic_base_url',
-		__( 'Mautic Base URL', 'wp-mautic' ),
+		__( 'Mautic URL', 'wp-mautic' ),
 		'wpmautic_base_url',
 		'wpmautic',
 		'wpmautic_main'
@@ -81,7 +81,7 @@ function wpmautic_admin_init() {
 	);
 	add_settings_field(
 		'wpmautic_fallback_activated',
-		__( 'Fallback image', 'wp-mautic' ),
+		__( 'Tracking image', 'wp-mautic' ),
 		'wpmautic_fallback_activated',
 		'wpmautic',
 		'wpmautic_main'
