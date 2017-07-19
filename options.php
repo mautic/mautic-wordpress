@@ -19,7 +19,7 @@ function wpmautic_options_page() {
 	?>
 	<div>
 		<h2><?php esc_html_e( 'WP Mautic', 'wp-mautic' ); ?></h2>
-		<p><?php esc_html_e( 'Enable Base URL for Mautic Integration.', 'wp-mautic' ); ?></p>
+		<p><?php esc_html_e( 'Add Mautic tracking capabilities to your website.', 'wp-mautic' ); ?></p>
 		<form action="options.php" method="post">
 			<?php settings_fields( 'wpmautic' ); ?>
 			<?php do_settings_sections( 'wpmautic' ); ?>
@@ -83,6 +83,13 @@ function wpmautic_admin_init() {
 		'wpmautic_fallback_activated',
 		__( 'Fallback image', 'wp-mautic' ),
 		'wpmautic_fallback_activated',
+		'wpmautic',
+		'wpmautic_main'
+	);
+	add_settings_field(
+		'wpmautic_track_logged_user',
+		__( 'Logged user', 'wp-mautic' ),
+		'wpmautic_track_logged_user',
 		'wpmautic',
 		'wpmautic_main'
 	);
@@ -165,6 +172,26 @@ function wpmautic_fallback_activated() {
 }
 
 /**
+ * Define the input field for Mautic logged user tracking flag
+ */
+function wpmautic_track_logged_user() {
+	$flag = wpmautic_option( 'track_logged_user', false );
+
+	?>
+	<input
+		id="wpmautic_track_logged_user"
+		name="wpmautic_options[track_logged_user]"
+		type="checkbox"
+		value="1"
+		<?php if ( true === $flag ) : ?>checked<?php endif; ?>
+	/>
+	<label for="wpmautic_track_logged_user">
+		<?php esc_html_e( 'Track user information when logged ?', 'wp-mautic' ); ?>
+	</label>
+	<?php
+}
+
+/**
  * Validate base URL input value
  *
  * @param  array $input Input data.
@@ -186,6 +213,9 @@ function wpmautic_options_validate( $input ) {
 	}
 
 	$options['fallback_activated'] = isset( $input['fallback_activated'] ) && '1' === $input['fallback_activated']
+		? true
+		: false;
+	$options['track_logged_user'] = isset( $input['track_logged_user'] ) && '1' === $input['track_logged_user']
 		? true
 		: false;
 
