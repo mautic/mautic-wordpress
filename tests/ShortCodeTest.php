@@ -78,74 +78,86 @@ class ShortCodeTest extends WP_UnitTestCase
             ),
             array(
                 '[mautic type="video" src="https://www.youtube.com/watch?v=1234" form-id="1" width="148"]',
-                '<video height="360" width="148" data-form-id="1" data-gate-time="15">' .
+                '<video height="360" width="148" data-form-id="1" data-gate-time="15" data-mautic-video="true">' .
                     '<source type="video/youtube" src="https://www.youtube.com/watch?v=1234" />' .
                 '</video>'
             ),
             array(
                 '[mauticvideo src="https://www.youtube.com/watch?v=1234" form-id="1" width="148"]',
-                '<video height="360" width="148" data-form-id="1" data-gate-time="15">' .
+                '<video height="360" width="148" data-form-id="1" data-gate-time="15" data-mautic-video="true">' .
                     '<source type="video/youtube" src="https://www.youtube.com/watch?v=1234" />' .
                 '</video>'
             ),
             array(
                 '[mautic type="video" src="https://vimeo.com/218680983" form-id="1" height="272"]',
-                '<video height="272" width="640" data-form-id="1" data-gate-time="15">' .
+                '<video height="272" width="640" data-form-id="1" data-gate-time="15" data-mautic-video="true">' .
                     '<source type="video/vimeo" src="https://vimeo.com/218680983" />' .
                 '</video>'
             ),
             array(
                 '[mauticvideo src="https://vimeo.com/218680983" form-id="1" height="272"]',
-                '<video height="272" width="640" data-form-id="1" data-gate-time="15">' .
+                '<video height="272" width="640" data-form-id="1" data-gate-time="15" data-mautic-video="true">' .
                     '<source type="video/vimeo" src="https://vimeo.com/218680983" />' .
                 '</video>'
             ),
             array(
                 '[mautic type="video" src="https://vimeo.com/218680983" form-id="1" gate-time="25"]',
-                '<video height="360" width="640" data-form-id="1" data-gate-time="25">' .
+                '<video height="360" width="640" data-form-id="1" data-gate-time="25" data-mautic-video="true">' .
                     '<source type="video/vimeo" src="https://vimeo.com/218680983" />' .
                 '</video>'
             ),
             array(
                 '[mauticvideo src="https://vimeo.com/218680983" form-id="1" gate-time="25"]',
-                '<video height="360" width="640" data-form-id="1" data-gate-time="25">' .
+                '<video height="360" width="640" data-form-id="1" data-gate-time="25" data-mautic-video="true">' .
                     '<source type="video/vimeo" src="https://vimeo.com/218680983" />' .
                 '</video>'
             ),
             array(
                 '[mautic type="video" src="https://vimeo.com/218680983" form-id="1" video-type="mp4"]',
-                '<video height="360" width="640" data-form-id="1" data-gate-time="15">' .
+                '<video height="360" width="640" data-form-id="1" data-gate-time="15" data-mautic-video="true">' .
                     '<source type="video/vimeo" src="https://vimeo.com/218680983" />' .
                 '</video>'
             ),
             array(
                 '[mauticvideo src="https://vimeo.com/218680983" form-id="1" video-type="mp4"]',
-                '<video height="360" width="640" data-form-id="1" data-gate-time="15">' .
+                '<video height="360" width="640" data-form-id="1" data-gate-time="15" data-mautic-video="true">' .
                     '<source type="video/vimeo" src="https://vimeo.com/218680983" />' .
                 '</video>'
             ),
             array(
                 '[mautic type="video" src="https://example.com/mavideo.mov" form-id="1" video-type="mov"]',
-                '<video height="360" width="640" data-form-id="1" data-gate-time="15">' .
+                '<video height="360" width="640" data-form-id="1" data-gate-time="15" data-mautic-video="true">' .
                     '<source type="video/mov" src="https://example.com/mavideo.mov" />' .
                 '</video>'
             ),
             array(
                 '[mauticvideo src="https://example.com/mavideo.mov" form-id="1" video-type="mov"]',
-                '<video height="360" width="640" data-form-id="1" data-gate-time="15">' .
+                '<video height="360" width="640" data-form-id="1" data-gate-time="15" data-mautic-video="true">' .
                     '<source type="video/mov" src="https://example.com/mavideo.mov" />' .
                 '</video>'
             ),
             array(
                 '[mautic type="video" src="https://example.com/mavideo.mp4" form-id="1"]',
-                '<video height="360" width="640" data-form-id="1" data-gate-time="15">' .
+                '<video height="360" width="640" data-form-id="1" data-gate-time="15" data-mautic-video="true">' .
                     '<source type="video/mp4" src="https://example.com/mavideo.mp4" />' .
                 '</video>'
             ),
             array(
                 '[mauticvideo src="https://example.com/mavideo.mp4" form-id="1"]',
-                '<video height="360" width="640" data-form-id="1" data-gate-time="15">' .
+                '<video height="360" width="640" data-form-id="1" data-gate-time="15" data-mautic-video="true">' .
                     '<source type="video/mp4" src="https://example.com/mavideo.mp4" />' .
+                '</video>'
+            ),
+            array(
+                '[mautic type="video" src="https://www.youtube.com/watch?v=1234" form-id="1" width="148" mautic-video="false"]',
+                '<video height="360" width="148" data-form-id="1" data-gate-time="15" data-mautic-video="false">' .
+                    '<source type="video/youtube" src="https://www.youtube.com/watch?v=1234" />' .
+                '</video>'
+            ),
+            array(
+                '[mauticvideo src="https://www.youtube.com/watch?v=1234" form-id="1" width="148" mautic-video="false"]',
+                '<video height="360" width="148" data-form-id="1" data-gate-time="15" data-mautic-video="false">' .
+                    '<source type="video/youtube" src="https://www.youtube.com/watch?v=1234" />' .
                 '</video>'
             ),
         );

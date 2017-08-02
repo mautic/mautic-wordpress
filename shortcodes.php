@@ -115,6 +115,7 @@ function wpmautic_video_shortcode( $atts ) {
 		'form-id' => '',
 		'src' => '',
 		'video-type' => '',
+		'mautic-video' => 'true',
 		'width' => 640,
 		'height' => 360,
 	), $atts);
@@ -142,13 +143,14 @@ function wpmautic_video_shortcode( $atts ) {
 	}
 
 	return sprintf(
-		'<video height="%s" width="%s" data-form-id="%s" data-gate-time="%s">' .
+		'<video height="%s" width="%s" data-form-id="%s" data-gate-time="%s" data-mautic-video="%s">' .
 			'<source type="video/%s" src="%s" />' .
 		'</video>',
 		esc_attr( $atts['height'] ),
 		esc_attr( $atts['width'] ),
 		esc_attr( $atts['form-id'] ),
 		esc_attr( $atts['gate-time'] ),
+		esc_attr( $atts['mautic-video'] ),
 		esc_attr( $atts['video-type'] ),
 		esc_attr( $atts['src'] )
 	);
