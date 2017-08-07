@@ -5,7 +5,7 @@ Donate link: http://mautic.org/
 Tags: marketing, automation
 Tested up to: 4.8
 Requires at least: 4.6
-Stable tag: 2.1.1
+Stable tag: 2.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -132,7 +132,16 @@ Fix a bug introduced in the 2.0.2 version, you must upgrade asap because there w
 
 == Changelog ==
 
+= v2.2.0 =
+
+Release date : 2017-08-07
+
+* Changed
+  * Add compatibility with the new Mautic 2.9.1 video features. It allow to track video even when not linked to a form ID (https://github.com/mautic/mautic/pull/4438).
+
 = v2.1.1 =
+
+Release date : 2017-07-19
 
 * Changed
   * Update some labels which are not clear enough.
