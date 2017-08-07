@@ -90,8 +90,12 @@ To load gated videos into your WP content, insert this shortcode where you'd lik
 
     [mautic type="video" gate-time="#" form-id="#" src="URL"]
     [mauticvideo gate-time="#" form-id="#" src="URL"]
+    [mautic type="video" src="URL"]
+    [mauticvideo src="URL"]
 
 Replace the # signs with the appropriate number. For gate-time, enter the time (in seconds) where you want to pause the video and show the mautic form. For form-id, enter the id of the mautic form that you'd like to display as the gate. Replace URL with the browser URL to view the video. In the case of Youtube or Vimeo, you can simply use the URL as it appears in your address bar when viewing the video normally on the providing website. For MP4 videos, enter the full http URL to the MP4 file on the server.
+
+Since the Mautic v2.9.1 release, the form-id is not mandatory anymore, mautic video can be tracked.
 
 ### Mautic Tags
 

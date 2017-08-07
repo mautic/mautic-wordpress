@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [v2.2.0] - 2017-08-07
+### Changed
+- Add compatibility with the new Mautic 2.9.1 video features. It allow to track video even when not linked to a form ID (https://github.com/mautic/mautic/pull/4438).
+
 ## [v2.1.1] - 2017-07-19
 ### Changed
 - Update some labels which are not clear enough.
