@@ -124,7 +124,7 @@ function wpmautic_video_shortcode( $atts ) {
 		return __( 'You must provide a video source. Add a src="URL" attribute to your shortcode. Replace URL with the source url for your video.', 'wp-mautic' );
 	}
 
-	if ( empty( $atts['form-id'] ) ) {
+	if ( empty( $atts['form-id'] ) && 'true' !== $atts['mautic-video'] ) {
 		return __( 'You must provide a mautic form id. Add a form-id="#" attribute to your shortcode. Replace # with the id of the form you want to use.', 'wp-mautic' );
 	}
 
@@ -143,8 +143,8 @@ function wpmautic_video_shortcode( $atts ) {
 	}
 
 	return sprintf(
-		'<video height="%s" width="%s" data-form-id="%s" data-gate-time="%s" data-mautic-video="%s">' .
-			'<source type="video/%s" src="%s" />' .
+		'<video height="%1$s" width="%2$s"' . (empty( $atts['form-id'] ) ? '' : ' data-form-id="%3$s"') . ' data-gate-time="%4$s" data-mautic-video="%5$s">' .
+			'<source type="video/%6$s" src="%7$s" />' .
 		'</video>',
 		esc_attr( $atts['height'] ),
 		esc_attr( $atts['width'] ),

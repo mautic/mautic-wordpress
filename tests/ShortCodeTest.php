@@ -160,6 +160,18 @@ class ShortCodeTest extends WP_UnitTestCase
                     '<source type="video/youtube" src="https://www.youtube.com/watch?v=1234" />' .
                 '</video>'
             ),
+            array(
+                '[mautic type="video" src="https://www.youtube.com/watch?v=1234" width="148" mautic-video="true"]',
+                '<video height="360" width="148" data-gate-time="15" data-mautic-video="true">' .
+                    '<source type="video/youtube" src="https://www.youtube.com/watch?v=1234" />' .
+                '</video>'
+            ),
+            array(
+                '[mauticvideo src="https://www.youtube.com/watch?v=1234" width="148" mautic-video="true"]',
+                '<video height="360" width="148" data-gate-time="15" data-mautic-video="true">' .
+                    '<source type="video/youtube" src="https://www.youtube.com/watch?v=1234" />' .
+                '</video>'
+            ),
         );
     }
 
@@ -236,9 +248,9 @@ class ShortCodeTest extends WP_UnitTestCase
         );
     }
 
-    public function test_no_form_id_on_video_shortcode()
+    public function test_no_form_id_on_video_shortcode_when_mautic_tracking_disabled()
     {
-        $result = do_shortcode("[mautic type='video' src='mavideo.mov']");
+        $result = do_shortcode("[mautic type='video' src='mavideo.mov' mautic-video='false']");
         $this->assertEquals(
             'You must provide a mautic form id. Add a form-id="#" attribute to your shortcode. '.
             'Replace # with the id of the form you want to use.',
