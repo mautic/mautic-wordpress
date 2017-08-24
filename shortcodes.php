@@ -13,6 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 add_shortcode( 'mautic', 'wpmautic_shortcode' );
+
+// Backward compatibilities.
 add_shortcode( 'mauticcontent', 'wpmautic_dwc_shortcode' );
 add_shortcode( 'mauticvideo', 'wpmautic_video_shortcode' );
 add_shortcode( 'mauticform', 'wpmautic_form_shortcode' );
@@ -50,7 +52,6 @@ function wpmautic_shortcode( $atts, $content = null ) {
 
 /**
  * Handle mauticform shortcode
- * example: [mauticform id="1"]
  * example: [mautic type="form" id="1"]
  *
  * @param  array $atts Shortcode attributes.
@@ -81,7 +82,6 @@ function wpmautic_form_shortcode( $atts ) {
 /**
  * Dynamic content shortcode handling
  * example: [mautic type="content" slot="slot_name"]Default Content[/mautic]
- * example: [mauticcontent slot="slot_name"]Default Content[/mauticcontent]
  *
  * @param  array       $atts    Shortcode attributes.
  * @param  string|null $content Default content to be displayed.
@@ -103,7 +103,6 @@ function wpmautic_dwc_shortcode( $atts, $content = null ) {
 /**
  * Video shortcode handling
  * example: [mautic type="video" gate-time="15" form-id="1" src="https://www.youtube.com/watch?v=QT6169rdMdk"]
- * example: [mauticvideo gate-time="15" form-id="1" src="https://www.youtube.com/watch?v=QT6169rdMdk"]
  *
  * @param  array $atts Shortcode attributes.
  *
@@ -159,7 +158,6 @@ function wpmautic_video_shortcode( $atts ) {
 /**
  * Handle mautic tags by Wordpress shortcodes
  * example: [mautic type="tags" values="addtag,-removetag"]
- * example: [mautictags values="addtag,-removetag"]
  *
  * @param  array $atts Shortcode attributes.
  *
