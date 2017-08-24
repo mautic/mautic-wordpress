@@ -5,7 +5,7 @@ Donate link: http://mautic.org/
 Tags: marketing, automation
 Tested up to: 4.8
 Requires at least: 4.6
-Stable tag: 2.2.0
+Stable tag: 2.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -118,6 +118,9 @@ If the installation via official WP plugin repository doesn't work for you, foll
 
 == Upgrade Notice ==
 
+= v2.2.1 =
+Fix an escaping error introduced in the 2.0.0 version. If you tried to use HTML inside Dynamic Content shortcode, the HTML code is escaped so it became unusable.
+
 = v2.0.4 =
 Fix a bug introduced in the 2.0.2 version, you must upgrade asap because the async attribute on form generator script blocks `document.write`.
 
@@ -125,6 +128,14 @@ Fix a bug introduced in the 2.0.2 version, you must upgrade asap because the asy
 Fix a bug introduced in the 2.0.2 version, you must upgrade asap because there was a typo in the option page name which forbid option to be saved.
 
 == Changelog ==
+
+= v2.2.1 =
+
+Release date : 2017-08-24
+
+* Changed
+  * Fix an escaping error when using HTML in Mautic Dynamic Content shortcode. Previously, the HTML code was escaped...
+  * Remove obsolete shortcode syntax from documentation and code comments. They are still handled and not marked deprecated at the moment.
 
 = v2.2.0 =
 
