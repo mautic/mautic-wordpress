@@ -96,7 +96,7 @@ function wpmautic_dwc_shortcode( $atts, $content = null ) {
 	return sprintf(
 		'<div class="mautic-slot" data-slot-name="%s">%s</div>',
 		esc_attr( $atts['slot'] ),
-		esc_textarea( $content )
+		wp_kses( $content, wp_kses_allowed_html( 'post' ) )
 	);
 }
 

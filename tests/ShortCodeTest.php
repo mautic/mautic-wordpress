@@ -77,6 +77,14 @@ class ShortCodeTest extends WP_UnitTestCase
                 '<div class="mautic-slot" data-slot-name="name">content</div>'
             ),
             array(
+                '[mautic type="content" slot="name"]<div class="my-class">content</div>[/mautic]',
+                '<div class="mautic-slot" data-slot-name="name"><div class="my-class">content</div></div>'
+            ),
+            array(
+                '[mautic type="content" slot="name"]<script type="text/javascript">content</script>[/mautic]',
+                '<div class="mautic-slot" data-slot-name="name">content</div>'
+            ),
+            array(
                 '[mautic type="video" src="https://www.youtube.com/watch?v=1234" form-id="1" width="148"]',
                 '<video height="360" width="148" data-form-id="1" data-gate-time="15" data-mautic-video="true">' .
                     '<source type="video/youtube" src="https://www.youtube.com/watch?v=1234" />' .
