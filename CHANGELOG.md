@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+
+## [v2.2.1] - 2017-08-24
+### Changed
+- Fix an escaping error when using HTML in Mautic Dynamic Content shortcode. Previously, the HTML code was escaped...
+- Remove obsolete shortcode syntax from documentation and code comments. They are still handled and not marked deprecated at the moment.
+
 ## [v2.2.0] - 2017-08-07
 ### Changed
 - Add compatibility with the new Mautic 2.9.1 video features. It allow to track video even when not linked to a form ID (https://github.com/mautic/mautic/pull/4438).
