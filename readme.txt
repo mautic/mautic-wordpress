@@ -3,7 +3,7 @@ Author: mautic
 Contributors: mautic,hideokamoto,shulard,escopecz,dbhurley
 Donate link: http://mautic.org/
 Tags: marketing, automation
-Tested up to: 4.8
+Tested up to: 4.9
 Requires at least: 4.6
 Stable tag: 2.2.1
 License: GPLv2 or later
