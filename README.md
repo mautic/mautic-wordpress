@@ -1,7 +1,7 @@
 Mautic WordPress plugin [![Build Status](https://travis-ci.org/mautic/mautic-wordpress.svg?branch=master)](https://travis-ci.org/mautic/mautic-wordpress) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mautic/mautic-wordpress/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mautic/mautic-wordpress/?branch=master) [![Code Coverage](https://scrutinizer-ci.com/g/mautic/mautic-wordpress/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/mautic/mautic-wordpress/?branch=master)
 =======================
 
-[Mautic](http://mautic.org) [Wordpress Plugin](https://wordpress.org/plugins/wp-mautic/) inserts Mautic tracking image and forms to the WP website. Your Mautic instance will be able to track information about your visitors that way.
+[Mautic](http://mautic.org) [Wordpress Plugin](https://wordpress.org/plugins/wp-mautic/) injects Mautic tracking script and image in the WP website. Your Mautic instance will be able to track information about your visitors. You can also insert Mautic content inside your website using different shortcodes.
 
 ## Key features
 - You don't have to edit source code of your template to insert tracking code.
