@@ -6,14 +6,14 @@
 /**
  * Test mautic settings page
  */
-class SettingsTest extends WP_UnitTestCase
+class SettingsTest extends WPMauticTestCase
 {
     public function setUp()
     {
         parent::setUp();
         require_once(VPMAUTIC_PLUGIN_DIR.'/options.php');
 
-        $this->setOutputCallback(create_function('', ''));
+        $this->setOutputCallback(array($this, 'returnVoid'));
     }
 
     public function test_nonce_fields_are_present()

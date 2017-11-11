@@ -6,11 +6,11 @@
 /**
  * Test Mautic Script injection
  */
-class ScriptInjectionTest extends WP_UnitTestCase
+class ScriptInjectionTest extends WPMauticTestCase
 {
     private function renderRawPage($header = true, $footer = true)
     {
-        $this->setOutputCallback(create_function('', ''));
+        $this->setOutputCallback(array($this, 'returnVoid'));
         if (true === $header) {
             wp_head();
         }
