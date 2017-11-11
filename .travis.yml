@@ -22,10 +22,9 @@ matrix:
     - php: 5.6
       env: WP_VERSION=4.4
     - php: 7.0
-      env: WP_VERSION=4.7 WP_MULTISITE=1 COVERAGE=1 OUTDATED=1
-    # WP >= 4.7 is needed for PHP 7.1
+      env: WP_VERSION=4.9
     - php: 7.1
-      env: WP_VERSION=4.8
+      env: WP_VERSION=4.9 WP_MULTISITE=1 COVERAGE=1 OUTDATED=1
     - php: 7.1
       env: WP_VERSION=master
     - php: hhvm
