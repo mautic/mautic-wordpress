@@ -5,7 +5,7 @@ Donate link: http://mautic.org/
 Tags: marketing, automation
 Tested up to: 4.9
 Requires at least: 4.6
-Stable tag: 2.2.1
+Stable tag: 2.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -128,6 +128,13 @@ Fix a bug introduced in the 2.0.2 version, you must upgrade asap because the asy
 Fix a bug introduced in the 2.0.2 version, you must upgrade asap because there was a typo in the option page name which forbid option to be saved.
 
 == Changelog ==
+
+= v2.2.2 =
+
+Release date : 2017-11-13
+
+* Changed
+  * We are now compatible with PHP7.2 and WordPress 4.9.
 
 = v2.2.1 =
 

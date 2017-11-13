@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [v2.2.2] - 2017-11-13
+### Changed
+- We are now compatible with PHP7.2 and WordPress 4.9.
 
 ## [v2.2.1] - 2017-08-24
 ### Changed
