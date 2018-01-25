@@ -7,7 +7,8 @@ Mautic WordPress plugin [![Build Status](https://travis-ci.org/mautic/mautic-wor
 - You don't have to edit source code of your template to insert tracking code.
 - Plugin adds additional information to tracking image URL so you get better results than using just plain HTML code of tracking image.
 - You can use Mautic form embed with shortcode described below.
-- You can choose where the script is injected (header / footer)
+- You can choose where the script is injected (header / footer).
+- Tracking image can be used as fallback when JavaScript is disabled.
 
 ## Installation
 
@@ -107,13 +108,7 @@ To load gated videos into your WP content, insert this shortcode where you'd lik
 [mautic type="video" src="URL"]
 ```
 
-Replace the # signs with the appropriate number. For gate-time, enter the time
-(in seconds) where you want to pause the video and show the mautic form. For
-form-id, enter the id of the mautic form that you'd like to display as the
-gate. Replace URL with the browser URL to view the video. In the case of
-Youtube or Vimeo, you can simply use the URL as it appears in your address
-bar when viewing the video normally on the providing website. For MP4 videos,
-enter the full http URL to the MP4 file on the server.
+Replace the # signs with the appropriate number. For gate-time, enter the time (in seconds) where you want to pause the video and show the mautic form. For form-id, enter the id of the mautic form that you'd like to display as the gate. Replace URL with the browser URL to view the video. In the case of Youtube or Vimeo, you can simply use the URL as it appears in your address bar when viewing the video normally on the providing website. For MP4 videos, enter the full http URL to the MP4 file on the server.
 
 Since the Mautic v2.9.1 release, the form-id is not mandatory anymore, mautic video can be tracked.
 
