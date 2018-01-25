@@ -15,27 +15,42 @@
  */
 function parse_markdown( string $file ) :array {
 	$source = fopen( $file, 'r' );
-	$content = [];
+	$content = ['default' => ''];
 	$current = 'default';
 	$complement = '';
 	$level = 0;
+	$sourceCode = false;
 	while ( ! feof( $source ) ) {
-		$line = trim( fgets( $source ) );
+		$line = rtrim(fgets( $source ));
 		if ( '' === $line ) {
+			$content[ $current ] .= PHP_EOL;
 			continue;
 		}
 		if ( strpos( $line, '#' ) === 0 ) {
 			$tmp = strpos( $line, ' ' );
-			if ( $level > 1 && $tmp > $level ) {
-				$complement = $current . '{}';
-			} elseif ( $tmp < $level ) {
+			if ( $level > 1 ) {
+				if( $tmp > $level ) {
+					$complement = $current . '{}';
+				} elseif($tmp < $level) {
+					$exploded = explode('{}', $current);
+					$complement = count($exploded) <= 2
+						? ''
+						: implode('{}', array_slice($exploded, 0, count($exploded)-2)).'{}';
+
+				}
+			} else {
 				$complement = '';
 			}
 			$current = $complement . trim( substr( $line, $tmp ) );
 			$content[ $current ] = '';
 			$level = $tmp;
 		} else {
-			$content[ $current ] .= $line . PHP_EOL;
+			if (0 === strpos($line, '`')) {
+				$sourceCode = !$sourceCode;
+				continue;
+			}
+
+			$content[ $current ] .= (true === $sourceCode?'    ':'').$line . PHP_EOL;
 		}
 	}
 
@@ -56,7 +71,6 @@ Donate link: http://mautic.org/
 %heading%
 
 ## Key features
-
 %key-features%
 
 ## Configuration
@@ -73,8 +87,7 @@ Donate link: http://mautic.org/
 
 == Upgrade Notice ==
 
-%upgrade%
-== Changelog ==
+%upgrade%== Changelog ==
 
 %changelog%
 TXT;
@@ -108,7 +121,7 @@ foreach ( parse_markdown( __DIR__ . '/../UPGRADE.md' ) as $key => $notice ) {
 
 	$notices[] = "= $key =\n$notice";
 }
-$notices = implode( PHP_EOL, $notices );
+$notices = implode( $notices );
 
 // -----------------------------------------------------------------------------
 // Extract changelog
@@ -123,7 +136,32 @@ foreach ( parse_markdown( __DIR__ . '/../CHANGELOG.md' ) as $key => $notice ) {
 		$changelog .= "= {$matches[1]} =\n\nRelease date: {$matches[2]}\n\n";
 	} else {
 		$tmp = explode( '{}', $key );
-		$changelog .= "* {$tmp[1]}\n" . str_replace( '- ', '  * ', $notice ) . PHP_EOL;
+		$changelog .= "* {$tmp[1]}\n" . str_replace( '- ', '  * ', $notice );
+	}
+}
+
+// -----------------------------------------------------------------------------
+// Extract README details
+$sections = [];
+
+$readme = parse_markdown( __DIR__ . '/../README.md' );
+
+$header = explode('=======================', $readme['default'] ?? '');
+$heading = end($header);
+$keyFeature = $readme['Key features'] ?? '';
+$configuration = $readme['Configuration'] ?? '';
+$documentation = '';
+$installation = '';
+foreach ( $readme as $key => $bloc ) {
+	$tmp = [];
+	if (false !== strpos( $key, '{}' )) {
+		$tmp = explode( '{}', $key );
+	}
+	if (0 === strpos($key, 'Usage')) {
+		$documentation .= (count($tmp) > 1 ? str_repeat('#', count($tmp)+1).' '.end($tmp).PHP_EOL : '').$bloc;
+	}
+	if (0 === strpos($key, 'Installation')) {
+		$installation .= (count($tmp) > 1 ? str_repeat('#', count($tmp)+1).' '.end($tmp).PHP_EOL : '').$bloc;
 	}
 }
 
@@ -131,10 +169,21 @@ foreach ( parse_markdown( __DIR__ . '/../CHANGELOG.md' ) as $key => $notice ) {
 // Export template
 echo str_replace([
     '%tags%',
+    '%heading%',
+    '%key-features%',
+    '%configuration%',
+    '%documentation%',
+    '%installation%',
     '%changelog%',
+    '%upgrade%',
     '%upgrade%',
 ], [
     $tags,
+    trim($heading),
+    trim($keyFeature),
+    trim($configuration),
+    trim($documentation),
+    trim($installation),
     $changelog,
     $notices
 ], $template);
