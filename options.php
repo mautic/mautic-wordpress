@@ -135,7 +135,7 @@ function wpmautic_script_location() {
 				value="header"
 				<?php if ( 'footer' !== $position ) : ?>checked<?php endif; ?>
 			/>
-			<?php esc_html_e( 'Embedded within the `wp_head` action.', 'wp-mautic' ); ?>
+			<?php echo __( 'Added in the <code>wp_head</code> action.<br/>Inserts the tracking code before the <code>&lt;/head&gt;</code> tag; can be slightly slower since page load is delayed until all scripts in <code>&lt;head&gt;</code> are loaded and processed.', 'wp-mautic' ); ?>
 		</label>
 		<br/>
 		<label>
@@ -145,7 +145,7 @@ function wpmautic_script_location() {
 				value="footer"
 				<?php if ( 'footer' === $position ) : ?>checked<?php endif; ?>
 			/>
-			<?php esc_html_e( 'Embedded within the `wp_footer` action.', 'wp-mautic' ); ?>
+			<?php echo __( 'Embedded within the <code>wp_footer</code> action.<br/>Inserts the tracking code before the <code>&lt;/body&gt;</code> tag; slightly better for performance but may track less reliably if users close the page before the script has loaded.', 'wp-mautic' ); ?>
 		</label>
 	</fieldset>
 	<?php
@@ -166,7 +166,7 @@ function wpmautic_fallback_activated() {
 		<?php if ( true === $flag ) : ?>checked<?php endif; ?>
 	/>
 	<label for="wpmautic_fallback_activated">
-		<?php esc_html_e( 'Activate it when JavaScript is disabled ?', 'wp-mautic' ); ?>
+		<?php esc_html_e( 'Activate the tracking image when JavaScript is disabled', 'wp-mautic' ); ?>
 	</label>
 	<?php
 }
@@ -186,7 +186,7 @@ function wpmautic_track_logged_user() {
 		<?php if ( true === $flag ) : ?>checked<?php endif; ?>
 	/>
 	<label for="wpmautic_track_logged_user">
-		<?php esc_html_e( 'Track user information when logged ?', 'wp-mautic' ); ?>
+		<?php esc_html_e( 'Track user information for logged-in users', 'wp-mautic' ); ?>
 	</label>
 	<?php
 }
