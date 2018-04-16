@@ -124,7 +124,11 @@ function wpmautic_base_url() {
  * Define the input field for Mautic script location
  */
 function wpmautic_script_location() {
-	$position = wpmautic_option( 'script_location', '' );
+	$position     = wpmautic_option( 'script_location', '' );
+	$allowed_tags = array(
+		'br'   => [],
+		'code' => [],
+	);
 
 	?>
 	<fieldset id="wpmautic_script_location">
@@ -135,7 +139,7 @@ function wpmautic_script_location() {
 				value="header"
 				<?php if ( 'footer' !== $position ) : ?>checked<?php endif; ?>
 			/>
-			<?php echo __( 'Added in the <code>wp_head</code> action.<br/>Inserts the tracking code before the <code>&lt;/head&gt;</code> tag; can be slightly slower since page load is delayed until all scripts in <code>&lt;head&gt;</code> are loaded and processed.', 'wp-mautic' ); ?>
+			<?php echo wp_kses( __( 'Added in the <code>wp_head</code> action.<br/>Inserts the tracking code before the <code>&lt;head&gt;</code> tag; can be slightly slower since page load is delayed until all scripts in <code><head></code> are loaded and processed.', 'wp-mautic' ), $allowed_tags ); ?>
 		</label>
 		<br/>
 		<label>
@@ -145,7 +149,7 @@ function wpmautic_script_location() {
 				value="footer"
 				<?php if ( 'footer' === $position ) : ?>checked<?php endif; ?>
 			/>
-			<?php echo __( 'Embedded within the <code>wp_footer</code> action.<br/>Inserts the tracking code before the <code>&lt;/body&gt;</code> tag; slightly better for performance but may track less reliably if users close the page before the script has loaded.', 'wp-mautic' ); ?>
+			<?php echo wp_kses( __( 'Embedded within the <code>wp_footer</code> action.<br/>Inserts the tracking code before the <code>&lt;/body&gt;</code> tag; slightly better for performance but may track less reliably if users close the page before the script has loaded.', 'wp-mautic' ), $allowed_tags ); ?>
 		</label>
 	</fieldset>
 	<?php
