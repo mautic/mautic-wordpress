@@ -137,7 +137,7 @@ function wpmautic_script_location() {
 				type="radio"
 				name="wpmautic_options[script_location]"
 				value="header"
-				<?php if ( 'footer' !== $position ) : ?>checked<?php endif; ?>
+				<?php checked( 'footer' !== $position ); ?>
 			/>
 			<?php echo wp_kses( __( 'Added in the <code>wp_head</code> action.<br/>Inserts the tracking code before the <code>&lt;head&gt;</code> tag; can be slightly slower since page load is delayed until all scripts in <code><head></code> are loaded and processed.', 'wp-mautic' ), $allowed_tags ); ?>
 		</label>
@@ -147,7 +147,7 @@ function wpmautic_script_location() {
 				type="radio"
 				name="wpmautic_options[script_location]"
 				value="footer"
-				<?php if ( 'footer' === $position ) : ?>checked<?php endif; ?>
+				<?php checked( 'footer' === $position ); ?>
 			/>
 			<?php echo wp_kses( __( 'Embedded within the <code>wp_footer</code> action.<br/>Inserts the tracking code before the <code>&lt;/body&gt;</code> tag; slightly better for performance but may track less reliably if users close the page before the script has loaded.', 'wp-mautic' ), $allowed_tags ); ?>
 		</label>
@@ -167,7 +167,7 @@ function wpmautic_fallback_activated() {
 		name="wpmautic_options[fallback_activated]"
 		type="checkbox"
 		value="1"
-		<?php if ( true === $flag ) : ?>checked<?php endif; ?>
+		<?php checked( $flag ); ?>
 	/>
 	<label for="wpmautic_fallback_activated">
 		<?php esc_html_e( 'Activate the tracking image when JavaScript is disabled', 'wp-mautic' ); ?>
@@ -187,7 +187,7 @@ function wpmautic_track_logged_user() {
 		name="wpmautic_options[track_logged_user]"
 		type="checkbox"
 		value="1"
-		<?php if ( true === $flag ) : ?>checked<?php endif; ?>
+		<?php checked( $flag ); ?>
 	/>
 	<label for="wpmautic_track_logged_user">
 		<?php esc_html_e( 'Track user information for logged-in users', 'wp-mautic' ); ?>
@@ -208,7 +208,7 @@ function wpmautic_options_validate( $input ) {
 		? trim( $input['base_url'], " \t\n\r\0\x0B/" )
 		: '';
 
-	$options['base_url'] = esc_url_raw( trim( $input['base_url'], " \t\n\r\0\x0B/" ) );
+	$options['base_url']        = esc_url_raw( trim( $input['base_url'], " \t\n\r\0\x0B/" ) );
 	$options['script_location'] = isset( $input['script_location'] )
 		? trim( $input['script_location'] )
 		: 'header';
@@ -219,7 +219,7 @@ function wpmautic_options_validate( $input ) {
 	$options['fallback_activated'] = isset( $input['fallback_activated'] ) && '1' === $input['fallback_activated']
 		? true
 		: false;
-	$options['track_logged_user'] = isset( $input['track_logged_user'] ) && '1' === $input['track_logged_user']
+	$options['track_logged_user']  = isset( $input['track_logged_user'] ) && '1' === $input['track_logged_user']
 		? true
 		: false;
 
