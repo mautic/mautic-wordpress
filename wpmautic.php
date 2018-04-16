@@ -31,13 +31,13 @@ define( 'VPMAUTIC_PLUGIN_FILE', __FILE__ );
 add_action( 'admin_menu', 'wpmautic_settings' );
 add_action( 'plugins_loaded', 'wpmautic_injector' );
 
-include_once( VPMAUTIC_PLUGIN_DIR . '/shortcodes.php' );
+require_once VPMAUTIC_PLUGIN_DIR . '/shortcodes.php';
 
 /**
  * Declare option page
  */
 function wpmautic_settings() {
-	include_once( VPMAUTIC_PLUGIN_DIR . '/options.php' );
+	include_once VPMAUTIC_PLUGIN_DIR . '/options.php';
 
 	add_options_page(
 		__( 'WP Mautic Settings', 'wp-mautic' ),
@@ -140,7 +140,7 @@ function wpmautic_inject_script() {
 		m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
 	})(window,document,'script','<?php echo esc_url( $base_url ); ?>/mtc.js','mt');
 
-	mt('send', 'pageview'<?php echo count( $attrs ) > 0?', ' . wp_json_encode( $attrs ):'' ?>);
+	mt('send', 'pageview'<?php echo count( $attrs ) > 0 ? ', ' . wp_json_encode( $attrs ) : ''; ?>);
 </script>
 	<?php
 }
@@ -158,7 +158,7 @@ function wpmautic_inject_noscript() {
 	}
 
 	$url_query = wpmautic_get_url_query();
-	$payload = rawurlencode( base64_encode( serialize( $url_query ) ) );
+	$payload   = rawurlencode( base64_encode( serialize( $url_query ) ) );
 	?>
 	<noscript>
 		<img src="<?php echo esc_url( $base_url ); ?>/mtracking.gif?d=<?php echo esc_attr( $payload ); ?>"  style="display:none;" alt="" />
@@ -225,14 +225,14 @@ function wpmautic_get_user_query() {
 		true === wpmautic_option( 'track_logged_user', false ) &&
 		is_user_logged_in()
 	) {
-		$current_user = wp_get_current_user();
-		$attrs['email']	 = $current_user->user_email;
-		$attrs['firstname']  = $current_user->user_firstname;
+		$current_user       = wp_get_current_user();
+		$attrs['email']     = $current_user->user_email;
+		$attrs['firstname'] = $current_user->user_firstname;
 		$attrs['lastname']  = $current_user->user_lastname;
 
 		// Following Mautic fields has to be created manually and the fields must match these names.
-		$attrs['wp_user']  = $current_user->user_login;
-		$attrs['wp_alias']  = $current_user->display_name;
+		$attrs['wp_user']              = $current_user->user_login;
+		$attrs['wp_alias']             = $current_user->display_name;
 		$attrs['wp_registration_date'] = date(
 			'Y-m-d',
 			strtotime( $current_user->user_registered )
