@@ -68,10 +68,21 @@ before_script:
   - |
     # Install the specified version of PHPUnit depending on the PHP version:
     case "$TRAVIS_PHP_VERSION" in
-      5.6|7.1|7.0|hhvm|nightly)
-        echo "Using bundled PHPUnit (5.7)"
+      7.2|7.1|hhvm|nightly)
+        echo "Using bundled PHPUnit (7.*)"
         composer install --no-interaction --prefer-source
         export WP_PHPUNIT=vendor/bin/phpunit
+        ;;
+
+      7.0)
+        echo "Using bundled PHPUnit (6.5)"
+        composer global require "phpunit/phpunit=6.5.*"
+        export PATH=`composer config --list --global | grep '\[home\]' | { read a; echo "${a#* }/vendor/bin:$PATH"; }`
+        ;;
+      5.6)
+        echo "Using PHPUnit 5.7"
+        composer global require "phpunit/phpunit=5.7.*"
+        export PATH=`composer config --list --global | grep '\[home\]' | { read a; echo "${a#* }/vendor/bin:$PATH"; }`
         ;;
       5.5|5.4|5.3)
         echo "Using PHPUnit 4.8"
