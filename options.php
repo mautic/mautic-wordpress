@@ -124,7 +124,11 @@ function wpmautic_base_url() {
  * Define the input field for Mautic script location
  */
 function wpmautic_script_location() {
-	$position = wpmautic_option( 'script_location', '' );
+	$position     = wpmautic_option( 'script_location', '' );
+	$allowed_tags = array(
+		'br'   => array(),
+		'code' => array(),
+	);
 
 	?>
 	<fieldset id="wpmautic_script_location">
@@ -138,7 +142,7 @@ function wpmautic_script_location() {
 					?>
 					checked<?php endif; ?>
 			/>
-			<?php esc_html_e( 'Embedded within the `wp_head` action.', 'wp-mautic' ); ?>
+			<?php echo wp_kses( __( 'Added in the <code>wp_head</code> action.<br/>Inserts the tracking code before the <code>&lt;head&gt;</code> tag; can be slightly slower since page load is delayed until all scripts in <code><head></code> are loaded and processed.', 'wp-mautic' ), $allowed_tags ); ?>
 		</label>
 		<br/>
 		<label>
@@ -151,7 +155,7 @@ function wpmautic_script_location() {
 					?>
 					checked<?php endif; ?>
 			/>
-			<?php esc_html_e( 'Embedded within the `wp_footer` action.', 'wp-mautic' ); ?>
+			<?php echo wp_kses( __( 'Embedded within the <code>wp_footer</code> action.<br/>Inserts the tracking code before the <code>&lt;/body&gt;</code> tag; slightly better for performance but may track less reliably if users close the page before the script has loaded.', 'wp-mautic' ), $allowed_tags ); ?>
 		</label>
 	</fieldset>
 	<?php
@@ -175,7 +179,7 @@ function wpmautic_fallback_activated() {
 			checked<?php endif; ?>
 	/>
 	<label for="wpmautic_fallback_activated">
-		<?php esc_html_e( 'Activate it when JavaScript is disabled ?', 'wp-mautic' ); ?>
+		<?php esc_html_e( 'Activate the tracking image when JavaScript is disabled', 'wp-mautic' ); ?>
 	</label>
 	<?php
 }
@@ -198,7 +202,7 @@ function wpmautic_track_logged_user() {
 			checked<?php endif; ?>
 	/>
 	<label for="wpmautic_track_logged_user">
-		<?php esc_html_e( 'Track user information when logged ?', 'wp-mautic' ); ?>
+		<?php esc_html_e( 'Track user information for logged-in users', 'wp-mautic' ); ?>
 	</label>
 	<?php
 }
