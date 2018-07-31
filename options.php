@@ -126,8 +126,8 @@ function wpmautic_base_url() {
 function wpmautic_script_location() {
 	$position     = wpmautic_option( 'script_location', '' );
 	$allowed_tags = array(
-		'br'   => [],
-		'code' => [],
+		'br'   => array(),
+		'code' => array(),
 	);
 
 	?>
