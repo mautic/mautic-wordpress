@@ -25,4 +25,7 @@
     <rule ref="WordPress.WP.EnqueuedResources">
         <exclude-pattern>*/wpmautic.php</exclude-pattern>
     </rule>
+    <rule ref="WordPress.PHP.DiscouragedPHPFunctions">
+        <exclude-pattern>*/wpmautic.php</exclude-pattern>
+    </rule>
 </ruleset>

@@ -12,7 +12,6 @@ $GLOBALS['wp_tests_options'] = array(
 	'active_plugins' => array( 'mautic-wordpress/wpmautic.php' ),
 );
 
-
 // Allow to define where WordPress source is installed.
 if ( false !== getenv( 'WP_DEVELOP_DIR' ) ) {
     require rtrim( getenv( 'WP_DEVELOP_DIR' ), DIRECTORY_SEPARATOR ) . '/tests/phpunit/includes/bootstrap.php';
@@ -22,3 +21,4 @@ if ( false !== getenv( 'WP_DEVELOP_DIR' ) ) {
 }
 
 require_once dirname(__FILE__).'/WPMauticTestCase.php';
+require_once dirname(__FILE__).'/../wpmautic.php';
