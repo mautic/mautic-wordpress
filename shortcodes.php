@@ -30,9 +30,11 @@ add_shortcode( 'mauticfocus', 'wpmautic_focus_shortcode' );
  * @return string
  */
 function wpmautic_shortcode( $atts, $content = null ) {
-	$default = shortcode_atts(array(
-		'type' => null,
-	), $atts);
+	$default = shortcode_atts(
+		array(
+			'type' => null,
+		), $atts
+	);
 
 	switch ( $default['type'] ) {
 		case 'form':
@@ -64,9 +66,11 @@ function wpmautic_form_shortcode( $atts ) {
 		return false;
 	}
 
-	$atts = shortcode_atts( array(
-		'id' => '',
-	), $atts );
+	$atts = shortcode_atts(
+		array(
+			'id' => '',
+		), $atts
+	);
 
 	if ( empty( $atts['id'] ) ) {
 		return false;
@@ -89,9 +93,11 @@ function wpmautic_form_shortcode( $atts ) {
  * @return string
  */
 function wpmautic_dwc_shortcode( $atts, $content = null ) {
-	$atts     = shortcode_atts( array(
-		'slot' => '',
-	), $atts, 'mautic' );
+	$atts = shortcode_atts(
+		array(
+			'slot' => '',
+		), $atts, 'mautic'
+	);
 
 	return sprintf(
 		'<div class="mautic-slot" data-slot-name="%s">%s</div>',
@@ -109,15 +115,17 @@ function wpmautic_dwc_shortcode( $atts, $content = null ) {
  * @return string
  */
 function wpmautic_video_shortcode( $atts ) {
-	$atts = shortcode_atts(array(
-		'gate-time' => 15,
-		'form-id' => '',
-		'src' => '',
-		'video-type' => '',
-		'mautic-video' => 'true',
-		'width' => 640,
-		'height' => 360,
-	), $atts);
+	$atts = shortcode_atts(
+		array(
+			'gate-time'    => 15,
+			'form-id'      => '',
+			'src'          => '',
+			'video-type'   => '',
+			'mautic-video' => 'true',
+			'width'        => 640,
+			'height'       => 360,
+		), $atts
+	);
 
 	if ( empty( $atts['src'] ) ) {
 		return __( 'You must provide a video source. Add a src="URL" attribute to your shortcode. Replace URL with the source url for your video.', 'wp-mautic' );
@@ -142,7 +150,7 @@ function wpmautic_video_shortcode( $atts ) {
 	}
 
 	return sprintf(
-		'<video height="%1$s" width="%2$s"' . (empty( $atts['form-id'] ) ? '' : ' data-form-id="%3$s"') . ' data-gate-time="%4$s" data-mautic-video="%5$s">' .
+		'<video height="%1$s" width="%2$s"' . ( empty( $atts['form-id'] ) ? '' : ' data-form-id="%3$s"' ) . ' data-gate-time="%4$s" data-mautic-video="%5$s">' .
 			'<source type="video/%6$s" src="%7$s" />' .
 		'</video>',
 		esc_attr( $atts['height'] ),
@@ -156,7 +164,7 @@ function wpmautic_video_shortcode( $atts ) {
 }
 
 /**
- * Handle mautic tags by Wordpress shortcodes
+ * Handle mautic tags by WordPress shortcodes
  * example: [mautic type="tags" values="addtag,-removetag"]
  *
  * @param  array $atts Shortcode attributes.
@@ -169,9 +177,11 @@ function wpmautic_tags_shortcode( $atts ) {
 		return false;
 	}
 
-	$atts = shortcode_atts( array(
-		'values' => '',
-	), $atts );
+	$atts = shortcode_atts(
+		array(
+			'values' => '',
+		), $atts
+	);
 
 	if ( empty( $atts['values'] ) ) {
 		return false;
@@ -186,7 +196,7 @@ function wpmautic_tags_shortcode( $atts ) {
 }
 
 /**
- * Handle mautic focus itens on Wordpress Page
+ * Handle mautic focus itens on WordPress Page
  * example: [mautic type="focus" id="1"]
  *
  * @param  array $atts Shortcode attributes.
@@ -199,9 +209,11 @@ function wpmautic_focus_shortcode( $atts ) {
 		return false;
 	}
 
-	$atts = shortcode_atts( array(
-		'id' => '',
-	), $atts );
+	$atts = shortcode_atts(
+		array(
+			'id' => '',
+		), $atts
+	);
 
 	if ( empty( $atts['id'] ) ) {
 		return false;
