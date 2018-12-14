@@ -23,9 +23,11 @@ matrix:
       env: WP_VERSION=4.4
     - php: 7.0
       env: WP_VERSION=4.9
-    - php: 7.1
-      env: WP_VERSION=4.9 WP_MULTISITE=1 COVERAGE=1 OUTDATED=1
-    - php: 7.1
+    - php: 7.3
+      env: WP_VERSION=5.0
+    - php: 7.3
+      env: WP_VERSION=5.0 WP_MULTISITE=1 COVERAGE=1 OUTDATED=1
+    - php: 7.3
       env: WP_VERSION=master
     - php: hhvm
       env: WP_VERSION=4.7
@@ -54,12 +56,6 @@ before_install:
     sed -i "s/yourpasswordhere//" wp-tests-config.php
     svn checkout https://plugins.svn.wordpress.org/wordpress-importer/trunk tests/phpunit/data/plugins/wordpress-importer
   - cd -
-  - |
-    # Remove Xdebug for a huge performance increase, but not from nightly, hhvm and code coverage analysis:
-    stable='^[0-9\.]+$'
-    if [[ "$TRAVIS_PHP_VERSION" =~ $stable ]] && [[ "$COVERAGE" != "1" ]]; then
-      phpenv config-rm xdebug.ini
-    fi
 
 before_script:
   - PLUGIN_SLUG=$(basename $(pwd))
@@ -68,7 +64,7 @@ before_script:
   - |
     # Install the specified version of PHPUnit depending on the PHP version:
     case "$TRAVIS_PHP_VERSION" in
-      7.2|7.1|hhvm|nightly)
+      7.3|7.2|7.1|hhvm|nightly)
         echo "Using bundled PHPUnit (7.*)"
         composer install --no-interaction --prefer-source
         export WP_PHPUNIT=vendor/bin/phpunit
