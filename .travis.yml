@@ -59,9 +59,6 @@ before_install:
   - cd -
 
 before_script:
-  - PLUGIN_SLUG=$(basename $(pwd))
-  - PLUGIN_PATH=$(pwd)
-  - cd "$WP_DEVELOP_DIR/src/wp-content/plugins" && ln -s $PLUGIN_PATH $PLUGIN_SLUG && cd $PLUGIN_PATH
   - |
     # Install the specified version of PHPUnit depending on the PHP version:
     case "$TRAVIS_PHP_VERSION" in
