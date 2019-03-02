@@ -54,6 +54,7 @@ before_install:
     sed -i "s/youremptytestdbnamehere/wordpress_tests/" wp-tests-config.php
     sed -i "s/yourusernamehere/root/" wp-tests-config.php
     sed -i "s/yourpasswordhere//" wp-tests-config.php
+    echo -n "define('SCRIPT_DEBUG', false);" >> wp-tests-config.php
     svn checkout https://plugins.svn.wordpress.org/wordpress-importer/trunk tests/phpunit/data/plugins/wordpress-importer
   - cd -
 
