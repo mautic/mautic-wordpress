@@ -24,7 +24,7 @@ matrix:
     - php: 7.0
       env: WP_VERSION=4.9
     - php: 7.3
-      env: WP_VERSION=5.0
+      env: WP_VERSION=5.1
     - php: 7.3
       env: WP_VERSION=5.0 WP_MULTISITE=1 COVERAGE=1 OUTDATED=1
     - php: 7.3
@@ -54,13 +54,11 @@ before_install:
     sed -i "s/youremptytestdbnamehere/wordpress_tests/" wp-tests-config.php
     sed -i "s/yourusernamehere/root/" wp-tests-config.php
     sed -i "s/yourpasswordhere//" wp-tests-config.php
+    echo -n "define('SCRIPT_DEBUG', false);" >> wp-tests-config.php
     svn checkout https://plugins.svn.wordpress.org/wordpress-importer/trunk tests/phpunit/data/plugins/wordpress-importer
   - cd -
 
 before_script:
-  - PLUGIN_SLUG=$(basename $(pwd))
-  - PLUGIN_PATH=$(pwd)
-  - cd "$WP_DEVELOP_DIR/src/wp-content/plugins" && ln -s $PLUGIN_PATH $PLUGIN_SLUG && cd $PLUGIN_PATH
   - |
     # Install the specified version of PHPUnit depending on the PHP version:
     case "$TRAVIS_PHP_VERSION" in

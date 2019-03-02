@@ -6,7 +6,7 @@
  * Description: This plugin will allow you to add Mautic (Free Open Source Marketing Automation) tracking to your site
  * Version: 2.2.2
  * Requires at least: 4.6
- * Tested up to: 5.0
+ * Tested up to: 5.1
  * Author: Mautic community
  * Author URI: http://mautic.org
  * Text Domain: wp-mautic
@@ -57,7 +57,7 @@ function wpmautic_settings() {
  * @return array
  */
 function wpmautic_plugin_actions( $links, $file ) {
-	if ( plugin_basename( VPMAUTIC_PLUGIN_FILE ) === $file && function_exists( 'admin_url' ) ) {
+	if ( function_exists( 'admin_url' ) ) {
 		$settings_link = sprintf(
 			'<a href="%s">%s</a>',
 			admin_url( 'options-general.php?page=wpmautic' ),

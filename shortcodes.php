@@ -33,7 +33,8 @@ function wpmautic_shortcode( $atts, $content = null ) {
 	$default = shortcode_atts(
 		array(
 			'type' => null,
-		), $atts
+		),
+		$atts
 	);
 
 	switch ( $default['type'] ) {
@@ -69,7 +70,8 @@ function wpmautic_form_shortcode( $atts ) {
 	$atts = shortcode_atts(
 		array(
 			'id' => '',
-		), $atts
+		),
+		$atts
 	);
 
 	if ( empty( $atts['id'] ) ) {
@@ -96,7 +98,9 @@ function wpmautic_dwc_shortcode( $atts, $content = null ) {
 	$atts = shortcode_atts(
 		array(
 			'slot' => '',
-		), $atts, 'mautic'
+		),
+		$atts,
+		'mautic'
 	);
 
 	return sprintf(
@@ -124,7 +128,8 @@ function wpmautic_video_shortcode( $atts ) {
 			'mautic-video' => 'true',
 			'width'        => 640,
 			'height'       => 360,
-		), $atts
+		),
+		$atts
 	);
 
 	if ( empty( $atts['src'] ) ) {
@@ -180,7 +185,8 @@ function wpmautic_tags_shortcode( $atts ) {
 	$atts = shortcode_atts(
 		array(
 			'values' => '',
-		), $atts
+		),
+		$atts
 	);
 
 	if ( empty( $atts['values'] ) ) {
@@ -212,7 +218,8 @@ function wpmautic_focus_shortcode( $atts ) {
 	$atts = shortcode_atts(
 		array(
 			'id' => '',
-		), $atts
+		),
+		$atts
 	);
 
 	if ( empty( $atts['id'] ) ) {
