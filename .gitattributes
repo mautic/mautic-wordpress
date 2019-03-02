@@ -18,3 +18,4 @@ composer.lock export-ignore
 tests export-ignore
 dist export-ignore
 vendor export-ignore
+Makefile export-ignore

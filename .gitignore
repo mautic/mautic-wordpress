@@ -2,3 +2,4 @@
 /vendor/
 /phpunit.xml
 /readme.txt
+/tests-coverage/

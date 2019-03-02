@@ -51,12 +51,11 @@ function wpmautic_settings() {
 /**
  * Settings Link in the ``Installed Plugins`` page
  *
- * @param  array  $links array of plugin action links.
- * @param  string $file  Path to the plugin file relative to the plugins directory.
+ * @param array $links array of plugin action links.
  *
  * @return array
  */
-function wpmautic_plugin_actions( $links, $file ) {
+function wpmautic_plugin_actions( $links ) {
 	if ( function_exists( 'admin_url' ) ) {
 		$settings_link = sprintf(
 			'<a href="%s">%s</a>',
