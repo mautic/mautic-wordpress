@@ -57,7 +57,7 @@ function wpmautic_settings() {
  * @return array
  */
 function wpmautic_plugin_actions( $links, $file ) {
-	if ( plugin_basename( VPMAUTIC_PLUGIN_FILE ) === $file && function_exists( 'admin_url' ) ) {
+	if ( function_exists( 'admin_url' ) ) {
 		$settings_link = sprintf(
 			'<a href="%s">%s</a>',
 			admin_url( 'options-general.php?page=wpmautic' ),
