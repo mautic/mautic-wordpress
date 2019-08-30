@@ -7,6 +7,9 @@ env:
     - WP_PHPUNIT=phpunit
     - COMPOSER_DISABLE_XDEBUG_WARN=1
 
+services:
+  - mysql
+
 matrix:
   fast_finish: true
   include:
@@ -24,7 +27,7 @@ matrix:
     - php: 7.0
       env: WP_VERSION=4.9
     - php: 7.3
-      env: WP_VERSION=5.1
+      env: WP_VERSION=5.2
     - php: 7.3
       env: WP_VERSION=5.0 WP_MULTISITE=1 COVERAGE=1 OUTDATED=1
     - php: 7.3
@@ -67,7 +70,6 @@ before_script:
         composer install --no-interaction --prefer-source
         export WP_PHPUNIT=vendor/bin/phpunit
         ;;
-
       7.0)
         echo "Using bundled PHPUnit (6.5)"
         composer global require "phpunit/phpunit=6.5.*"
