@@ -121,12 +121,27 @@ function wpmautic_injector() {
 }
 
 /**
+ * Generate the mautic script URL to be used outside of the plugin when
+ * necessary
+ *
+ * @return string
+ */
+function wpmautic_base_script() {
+	$base_url = wpmautic_option( 'base_url', '' );
+	if ( empty( $base_url ) ) {
+		return;
+	}
+
+	return $base_url . '/mtc.js';
+}
+
+/**
  * Writes Tracking JS to the HTML source
  *
  * @return void
  */
 function wpmautic_inject_script() {
-	$base_url = wpmautic_option( 'base_url', '' );
+	$base_url = wpmautic_base_script();
 	if ( empty( $base_url ) ) {
 		return;
 	}
@@ -137,7 +152,7 @@ function wpmautic_inject_script() {
 	(function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
 		w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
 		m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','<?php echo esc_url( $base_url ); ?>/mtc.js','mt');
+	})(window,document,'script','<?php echo esc_url( $base_url ); ?>','mt');
 
 	mt('send', 'pageview'<?php echo count( $attrs ) > 0 ? ', ' . wp_json_encode( $attrs ) : ''; ?>);
 </script>
