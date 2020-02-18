@@ -33,6 +33,22 @@ class OptionsValidationTest extends WP_UnitTestCase
         $this->assertEquals('header', $options['script_location']);
     }
 
+    public function test_validation_with_footer_script_location()
+    {
+        $options = wpmautic_options_validate(array(
+            'script_location' => 'footer'
+        ));
+        $this->assertEquals('footer', $options['script_location']);
+    }
+
+    public function test_validation_with_disabled_script_location()
+    {
+        $options = wpmautic_options_validate(array(
+            'script_location' => 'disabled'
+        ));
+        $this->assertEquals('disabled', $options['script_location']);
+    }
+
     public function test_validation_with_whitespaces_in_values()
     {
         $options = wpmautic_options_validate(array(

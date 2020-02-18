@@ -111,11 +111,11 @@ function wpmautic_injector() {
 	$script_location = wpmautic_option( 'script_location' );
 	if ( 'header' === $script_location ) {
 		add_action( 'wp_head', 'wpmautic_inject_script' );
-	} else {
+	} elseif ( 'footer' === $script_location ) {
 		add_action( 'wp_footer', 'wpmautic_inject_script' );
 	}
 
-	if ( true === wpmautic_option( 'fallback_activated', false ) ) {
+	if ( 'disabled' !== $script_location && true === wpmautic_option( 'fallback_activated', false ) ) {
 		add_action( 'wp_footer', 'wpmautic_inject_noscript' );
 	}
 }
