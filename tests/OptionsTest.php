@@ -46,6 +46,14 @@ class OptionsTest extends WP_UnitTestCase
         $this->assertEquals('footer', wpmautic_option('script_location'));
     }
 
+    public function test_script_location_with_disabled_value()
+    {
+        update_option('wpmautic_options', array(
+            'script_location' => 'disabled'
+        ));
+        $this->assertEquals('disabled', wpmautic_option('script_location'));
+    }
+
     public function test_fallback_activated_when_empty()
     {
         update_option('wpmautic_options', array());

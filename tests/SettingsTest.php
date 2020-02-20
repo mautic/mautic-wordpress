@@ -64,6 +64,19 @@ class SettingsTest extends WPMauticTestCase
         $this->assertRegExp('/value="header"\s+checked/', $output);
     }
 
+    public function test_script_location_setting_with_disabled_checked()
+    {
+        update_option('wpmautic_options', array(
+            'script_location' => 'disabled'
+        ));
+
+        wpmautic_script_location();
+        $output = $this->getActualOutput();
+        $this->assertContains("wpmautic_script_location", $output);
+        $this->assertContains("wpmautic_options[script_location]", $output);
+        $this->assertRegExp('/value="disabled"\s+checked/', $output);
+    }
+
     public function test_script_location_setting_with_footer_checked()
     {
         update_option('wpmautic_options', array(

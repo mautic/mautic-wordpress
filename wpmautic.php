@@ -6,7 +6,7 @@
  * Description: This plugin will allow you to add Mautic (Free Open Source Marketing Automation) tracking to your site
  * Version: 2.2.2
  * Requires at least: 4.6
- * Tested up to: 5.1
+ * Tested up to: 5.3
  * Author: Mautic community
  * Author URI: http://mautic.org
  * Text Domain: wp-mautic
@@ -111,13 +111,28 @@ function wpmautic_injector() {
 	$script_location = wpmautic_option( 'script_location' );
 	if ( 'header' === $script_location ) {
 		add_action( 'wp_head', 'wpmautic_inject_script' );
-	} else {
+	} elseif ( 'footer' === $script_location ) {
 		add_action( 'wp_footer', 'wpmautic_inject_script' );
 	}
 
-	if ( true === wpmautic_option( 'fallback_activated', false ) ) {
+	if ( 'disabled' !== $script_location && true === wpmautic_option( 'fallback_activated', false ) ) {
 		add_action( 'wp_footer', 'wpmautic_inject_noscript' );
 	}
+}
+
+/**
+ * Generate the mautic script URL to be used outside of the plugin when
+ * necessary
+ *
+ * @return string
+ */
+function wpmautic_base_script() {
+	$base_url = wpmautic_option( 'base_url', '' );
+	if ( empty( $base_url ) ) {
+		return;
+	}
+
+	return $base_url . '/mtc.js';
 }
 
 /**
@@ -126,7 +141,7 @@ function wpmautic_injector() {
  * @return void
  */
 function wpmautic_inject_script() {
-	$base_url = wpmautic_option( 'base_url', '' );
+	$base_url = wpmautic_base_script();
 	if ( empty( $base_url ) ) {
 		return;
 	}
@@ -137,7 +152,7 @@ function wpmautic_inject_script() {
 	(function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
 		w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
 		m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','<?php echo esc_url( $base_url ); ?>/mtc.js','mt');
+	})(window,document,'script','<?php echo esc_url( $base_url ); ?>','mt');
 
 	mt('send', 'pageview'<?php echo count( $attrs ) > 0 ? ', ' . wp_json_encode( $attrs ) : ''; ?>);
 </script>

@@ -83,6 +83,24 @@ class ScriptInjectionTest extends WPMauticTestCase
         $this->assertContains(sprintf("%s/mtracking.gif?d=", $base_url), $output);
     }
 
+    public function test_script_is_not_injected_when_disabled()
+    {
+        $base_url = 'http://example.com';
+        update_option('wpmautic_options', array(
+            'base_url' => $base_url,
+            'fallback_activated' => false,
+            'script_location' => 'disabled'
+        ));
+        do_action('plugins_loaded');
+
+        $output = $this->renderRawPage();
+
+        $this->assertNotContains(sprintf("(window,document,'script','{$base_url}/mtc.js','mt')"), $output);
+        $this->assertNotContains("['MauticTrackingObject']", $output);
+        $this->assertNotContains("mt('send', 'pageview')", $output);
+        $this->assertNotContains(sprintf("%s/mtracking.gif?d=", $base_url), $output);
+    }
+
     public function test_script_is_injected_with_custom_attributes_when_defined()
     {
         $base_url = 'http://example.com';

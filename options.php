@@ -136,9 +136,22 @@ function wpmautic_script_location() {
 			<input
 				type="radio"
 				name="wpmautic_options[script_location]"
+				value="disabled"
+				<?php
+				if ( 'disabled' === $position ) :
+					?>
+					checked<?php endif; ?>
+			/>
+			<?php echo wp_kses( __( 'Tracking script will not be loaded when rendering the page; this means that Mautic tracking capability is disabled but you can still use shortcodes to embed Mautic dynamic contents. Use this option to comply with GDPR regulation rules, then load the script by yourself if user accepted tracking.', 'wp-mautic' ), $allowed_tags ); ?>
+		</label>
+		<br/>
+		<label>
+			<input
+				type="radio"
+				name="wpmautic_options[script_location]"
 				value="header"
 				<?php
-				if ( 'footer' !== $position ) :
+				if ( 'footer' !== $position && 'disabled' !== $position ) :
 					?>
 					checked<?php endif; ?>
 			/>
@@ -224,7 +237,7 @@ function wpmautic_options_validate( $input ) {
 	$options['script_location'] = isset( $input['script_location'] )
 		? trim( $input['script_location'] )
 		: 'header';
-	if ( ! in_array( $options['script_location'], array( 'header', 'footer' ), true ) ) {
+	if ( ! in_array( $options['script_location'], array( 'header', 'footer', 'disabled' ), true ) ) {
 		$options['script_location'] = 'header';
 	}
 

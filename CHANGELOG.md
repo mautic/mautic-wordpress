@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- Refine wording on the settings page, to be more meaningful.
+- Introduce readme.txt generator to avoid manual manipulation during release.
+- Add Makefile to simplify the command to run inside the project.
+- Add a new `script_location` value to disable script rendering on page load (GDPR compliance).
+
+### Changes
+- We are now compatible with PHP 7.4 and WordPress 5.3.*
 
 ## [v2.2.2] - 2017-11-13
 ### Changed
