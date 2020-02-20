@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [v2.3.0] - 2020-02-20
 ### Added
 - Refine wording on the settings page, to be more meaningful.
 - Introduce readme.txt generator to avoid manual manipulation during release.
