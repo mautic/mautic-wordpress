@@ -57,7 +57,7 @@ function wpmautic_tarteaucitron_orientation() {
 					?>
 					checked<?php endif; ?>
 			/>
-			<?php echo wp_kses( __( 'Dont use GDPR cookie management with Tarteaucitron.', 'wp-mautic' ), $allowed_tags ); ?>
+			<?php echo wp_kses( __( 'Don\'t use GDPR cookie management with Tarteaucitron.', 'wp-mautic' ), $allowed_tags ); ?>
 		</label>
 		<br/>
 		<label>
