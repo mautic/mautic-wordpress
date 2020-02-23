@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-require_once( 'tarteaucitron-options.php');
+require_once 'tarteaucitron-options.php';
 
 /**
  * HTML for the Mautic option page
@@ -233,7 +233,7 @@ function wpmautic_track_logged_user() {
  */
 function wpmautic_options_validate( $input ) {
 	$options = get_option( 'wpmautic_options' );
-	
+
 	$input['base_url'] = isset( $input['base_url'] )
 		? trim( $input['base_url'], " \t\n\r\0\x0B/" )
 		: '';
@@ -253,7 +253,7 @@ function wpmautic_options_validate( $input ) {
 		? true
 		: false;
 
-	$options = wpmautic_options_validate_tarteaucitron($input, $options);
+	$options = wpmautic_options_validate_tarteaucitron( $input, $options );
 
 	return $options;
 }

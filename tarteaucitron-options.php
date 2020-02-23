@@ -12,7 +12,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-function wpmautic_admin_init_tarteaucitron(){
+
+/**
+ * Define admin_init hook logic for tarteaucitron
+ */
+function wpmautic_admin_init_tarteaucitron() {
 	add_settings_section(
 		'wpmautic_tarteaucitron',
 		__( 'GDPR with Tarteaucitron', 'wp-mautic' ),
@@ -39,7 +43,7 @@ function wpmautic_admin_init_tarteaucitron(){
  * Configure tracking with Tarteaucitron
  */
 function wpmautic_tarteaucitron_orientation() {
-	$orientation     = wpmautic_option( 'tarteaucitron_orientation', '' );
+	$orientation  = wpmautic_option( 'tarteaucitron_orientation', '' );
 	$allowed_tags = array();
 	?>
 	<fieldset id="wpmautic_tarteaucitron_orientation">
@@ -114,7 +118,7 @@ function wpmautic_tarteaucitron_tagmanager() {
 		size="14"
 		type="text"
 		placeholder="GTM-......."
-		value="<?php echo esc_attr($tagmanager); ?>"
+		value="<?php echo esc_attr( $tagmanager ); ?>"
 	/>
 	<?php
 }
@@ -124,17 +128,18 @@ function wpmautic_tarteaucitron_tagmanager() {
  * Validate base URL input value
  *
  * @param  array $input Input data.
+ * @param  array $options Array Associative array with wpmautic options.
  * @return array
  */
 function wpmautic_options_validate_tarteaucitron( $input, $options ) {
-	
+
 	$options['tarteaucitron_orientation'] = isset( $input['tarteaucitron_orientation'] )
 		? trim( $input['tarteaucitron_orientation'] )
 		: '';
 	if ( ! in_array( $options['tarteaucitron_orientation'], array( 'top', 'middle', 'bottom' ), true ) ) {
 		$options['tarteaucitron_orientation'] = '';
 	}
-	
-	$options['tarteaucitron_tagmanager'] = esc_attr(trim( $input['tarteaucitron_tagmanager']) );
+
+	$options['tarteaucitron_tagmanager'] = esc_attr( trim( $input['tarteaucitron_tagmanager'] ) );
 	return $options;
 }
