@@ -37,6 +37,12 @@ Once installed, the plugin must appared in your plugin list :
 
 And that's it !
 
+### GDPR Popup
+
+Add a GDPR Cookie Popup to your page and only track the user if he agrees. Available tracking services are: Mautic, Google Tag Manager.
+
+Based on: https://github.com/AmauriC/tarteaucitron.js
+
 ## Usage
 
 ### Mautic Tracking Script
@@ -119,3 +125,4 @@ You can add or remove multiple lead tags on specific pages using commas. To remo
 ```
 [mautic type="tags" values="mytag,anothertag,-removetag"]
 ```
+

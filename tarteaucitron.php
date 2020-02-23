@@ -1,11 +1,11 @@
 <?php
 /**
- * Integrate with Tarteaucitron
+ * Integrate Tarteaucitron with WP-Mautic
  * Author: Mautic community
- * Author URI: http://mautic.org
+ * Author URI: https://mautic.org
  * Text Domain: wp-mautic
  * License: GPLv2 or later
- * License URI: http://www.gnu.org/licenses/gpl-2.0.html
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  *
  * @package wp-mautic
  */
