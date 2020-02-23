@@ -112,11 +112,16 @@ function wpmautic_injector() {
 	$script_location = wpmautic_option( 'script_location' );
 	if ( 'header' === $script_location ) {
 		add_action( 'wp_head', 'wpmautic_inject_script' );
-	} else {
+		add_action( 'wp_head', 'wpmautic_inject_send_script' );
+	} elseif ( 'footer' === $script_location ) {
 		add_action( 'wp_footer', 'wpmautic_inject_script' );
+		add_action( 'wp_footer', 'wpmautic_inject_send_script' );
+	} else {
+		// Place the function wpmautic_send() in the footer, so it can be called via 3rd party JS.
+		add_action( 'wp_footer', 'wpmautic_inject_send_script' );
 	}
 
-	if ( true === wpmautic_option( 'fallback_activated', false ) ) {
+	if ( 'disabled' !== $script_location && true === wpmautic_option( 'fallback_activated', false ) ) {
 		add_action( 'wp_footer', 'wpmautic_inject_noscript' );
 	}
 }
@@ -146,19 +151,34 @@ function wpmautic_inject_script() {
 	if ( empty( $base_url ) ) {
 		return;
 	}
-
-	$attrs = wpmautic_get_tracking_attributes();
-
 	?><script type="text/javascript">
-	// (function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
-	// 	w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
-	// 	m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
-	// })(window,document,'script','<?php echo esc_url( $base_url ); ?>','mt');
+	(function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
+		w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
+		m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','<?php echo esc_url( $base_url ); ?>','mt');
+</script>
+	<?php
+}
+/**
+ * Add the mt('send', 'pageview') script with optional tracking attributes
+ */
+function wpmautic_inject_send_script() {
+	$attrs           = wpmautic_get_tracking_attributes();
+	$script_location = wpmautic_option( 'script_location' );
 
+	?>
+	<script type="text/javascript">
 	function wpmautic_send(){
 		mt('send', 'pageview'<?php echo count( $attrs ) > 0 ? ', ' . wp_json_encode( $attrs ) : ''; ?>);
 	}
-</script>
+	<?php
+	if ( 'disabled' !== $script_location ) {
+		?>
+			wpmautic_send();
+		<?php
+	}
+	?>
+	</script>
 	<?php
 }
 
