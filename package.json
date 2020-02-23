@@ -1,0 +1,17 @@
+{
+  "name": "wp-mautic",
+  "version": "1.0.0",
+  "description": "Plugin to integrate Mautic with WordPress",
+  "license": "GPLv2 or later",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mautic/mautic-wordpress"
+  },
+  "author": "Mautic Community",
+  "bugs": {
+    "url": "https://github.com/mautic/mautic-wordpress/issues"
+  },
+  "dependencies": {
+    "tarteaucitronjs": "^1.3.1"
+  }
+}

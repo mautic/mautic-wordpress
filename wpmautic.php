@@ -32,6 +32,7 @@ add_action( 'admin_menu', 'wpmautic_settings' );
 add_action( 'plugins_loaded', 'wpmautic_injector' );
 
 require_once VPMAUTIC_PLUGIN_DIR . '/shortcodes.php';
+require_once VPMAUTIC_PLUGIN_DIR . '/tarteaucitron.php';
 
 /**
  * Declare option page
@@ -142,8 +143,6 @@ function wpmautic_base_script() {
  */
 function wpmautic_inject_script() {
 	$base_url = wpmautic_base_script();
-	$script_location = wpmautic_option( 'script_location' );
-
 	if ( empty( $base_url ) ) {
 		return;
 	}
@@ -151,21 +150,14 @@ function wpmautic_inject_script() {
 	$attrs = wpmautic_get_tracking_attributes();
 
 	?><script type="text/javascript">
-	(function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
-		w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
-		m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','<?php echo esc_url( $base_url ); ?>','mt');
+	// (function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
+	// 	w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
+	// 	m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
+	// })(window,document,'script','<?php echo esc_url( $base_url ); ?>','mt');
 
 	function wpmautic_send(){
 		mt('send', 'pageview'<?php echo count( $attrs ) > 0 ? ', ' . wp_json_encode( $attrs ) : ''; ?>);
 	}
-	<?php
-	if ( 'disabled' !== $script_location ) {
-		?>
-		wpmautic_send();
-		<?php
-	}
-	?>
 </script>
 	<?php
 }
