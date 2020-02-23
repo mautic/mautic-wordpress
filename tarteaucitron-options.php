@@ -12,6 +12,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+function wpmautic_admin_init_tarteaucitron(){
+	add_settings_section(
+		'wpmautic_tarteaucitron',
+		__( 'GDPR with Tarteaucitron', 'wp-mautic' ),
+		'wpmautic_section_text',
+		'wpmautic'
+	);
+	add_settings_field(
+		'wpmautic_tarteaucitron_orientation',
+		__( 'Orientation', 'wp-mautic' ),
+		'wpmautic_tarteaucitron_orientation',
+		'wpmautic',
+		'wpmautic_tarteaucitron'
+	);
+	add_settings_field(
+		'wpmautic_tarteaucitron_tagmanager',
+		__( 'Google Tag Manager', 'wp-mautic' ),
+		'wpmautic_tarteaucitron_tagmanager',
+		'wpmautic',
+		'wpmautic_tarteaucitron'
+	);
+}
 
 /**
  * Configure tracking with Tarteaucitron
@@ -105,6 +127,7 @@ function wpmautic_tarteaucitron_tagmanager() {
  * @return array
  */
 function wpmautic_options_validate_tarteaucitron( $input, $options ) {
+	
 	$options['tarteaucitron_orientation'] = isset( $input['tarteaucitron_orientation'] )
 		? trim( $input['tarteaucitron_orientation'] )
 		: '';
