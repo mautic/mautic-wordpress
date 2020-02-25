@@ -12,8 +12,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-require_once 'tarteaucitron-options.php';
-
 /**
  * HTML for the Mautic option page
  */
@@ -48,9 +46,6 @@ function wpmautic_options_page() {
 			</li>
 			<li>
 				<a href="https://www.mautic.org/community/" target="_blank"><?php esc_html_e( 'Mautic forum', 'wp-mautic' ); ?></a>
-			</li>
-			<li>
-				<a href="https://github.com/AmauriC/tarteaucitron.js" target="_blank"><?php esc_html_e( 'Tarteaucitron.js', 'wp-mautic' ); ?></a>
 			</li>
 		</ul>
 	</div>
@@ -99,7 +94,6 @@ function wpmautic_admin_init() {
 	);
 }
 add_action( 'admin_init', 'wpmautic_admin_init' );
-add_action( 'admin_init', 'wpmautic_admin_init_tarteaucitron' );
 
 /**
  * Section text
@@ -252,8 +246,6 @@ function wpmautic_options_validate( $input ) {
 	$options['track_logged_user']  = isset( $input['track_logged_user'] ) && '1' === $input['track_logged_user']
 		? true
 		: false;
-
-	$options = wpmautic_options_validate_tarteaucitron( $input, $options );
 
 	return $options;
 }

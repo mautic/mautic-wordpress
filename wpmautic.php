@@ -32,7 +32,6 @@ add_action( 'admin_menu', 'wpmautic_settings' );
 add_action( 'plugins_loaded', 'wpmautic_injector' );
 
 require_once VPMAUTIC_PLUGIN_DIR . '/shortcodes.php';
-require_once VPMAUTIC_PLUGIN_DIR . '/tarteaucitron.php';
 
 /**
  * Declare option page
