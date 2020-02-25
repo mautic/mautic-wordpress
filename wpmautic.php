@@ -167,16 +167,20 @@ function wpmautic_inject_send_script() {
 
 	?>
 	<script type="text/javascript">
-	function wpmautic_send(){
-		mt('send', 'pageview'<?php echo count( $attrs ) > 0 ? ', ' . wp_json_encode( $attrs ) : ''; ?>);
-	}
-	<?php
-	if ( 'disabled' !== $script_location ) {
-		?>
-			wpmautic_send();
+		function wpmautic_send(){
+			if (typeof mt === 'undefined'){
+				console.warn('mt not defined. Did you load mtc.js?');
+				return false;
+			}
+			mt('send', 'pageview'<?php echo count( $attrs ) > 0 ? ', ' . wp_json_encode( $attrs ) : ''; ?>);
+		}
 		<?php
-	}
-	?>
+		if ( 'disabled' !== $script_location ) {
+			?>
+				wpmautic_send();
+			<?php
+		}
+		?>
 	</script>
 	<?php
 }
