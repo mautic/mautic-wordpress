@@ -111,13 +111,8 @@ function wpmautic_injector() {
 	$script_location = wpmautic_option( 'script_location' );
 	if ( 'header' === $script_location ) {
 		add_action( 'wp_head', 'wpmautic_inject_script' );
-		add_action( 'wp_head', 'wpmautic_inject_send_script' );
-	} elseif ( 'footer' === $script_location ) {
+	} elseif ( 'footer' === $script_location || 'disabled' === $script_location ) {
 		add_action( 'wp_footer', 'wpmautic_inject_script' );
-		add_action( 'wp_footer', 'wpmautic_inject_send_script' );
-	} else {
-		// Place the function wpmautic_send() in the footer, so it can be called via 3rd party JS.
-		add_action( 'wp_footer', 'wpmautic_inject_send_script' );
 	}
 
 	if ( 'disabled' !== $script_location && true === wpmautic_option( 'fallback_activated', false ) ) {
@@ -146,42 +141,55 @@ function wpmautic_base_script() {
  * @return void
  */
 function wpmautic_inject_script() {
-	$base_url = wpmautic_base_script();
-	if ( empty( $base_url ) ) {
+	?>
+	<script type="text/javascript">
+		<?php
+		wpmautic_inject_base_script();
+		wpmautic_inject_send_script();
+		?>
+	</script>
+	<?php
+}
+
+/**
+ * Load the Mautic tracking library mtc.js if it is not disabled.
+ */
+function wpmautic_inject_base_script() {
+	$base_url        = wpmautic_base_script();
+	$script_location = wpmautic_option( 'script_location' );
+
+	if ( empty( $base_url ) || 'disabled' === $script_location ) {
 		return;
 	}
-	?><script type="text/javascript">
+	?>
 	(function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
 		w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
 		m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
 	})(window,document,'script','<?php echo esc_url( $base_url ); ?>','mt');
-</script>
 	<?php
 }
+
 /**
  * Add the mt('send', 'pageview') script with optional tracking attributes
  */
 function wpmautic_inject_send_script() {
 	$attrs           = wpmautic_get_tracking_attributes();
 	$script_location = wpmautic_option( 'script_location' );
-
 	?>
-	<script type="text/javascript">
-		function wpmautic_send(){
-			if (typeof mt === 'undefined'){
-				console.warn('mt not defined. Did you load mtc.js?');
-				return false;
-			}
-			mt('send', 'pageview'<?php echo count( $attrs ) > 0 ? ', ' . wp_json_encode( $attrs ) : ''; ?>);
+	function wpmautic_send(){
+		if ('undefined' === typeof mt){
+			console.warn('mt not defined. Did you load mtc.js?');
+			return false;
 		}
-		<?php
-		if ( 'disabled' !== $script_location ) {
-			?>
-				wpmautic_send();
-			<?php
-		}
+		mt('send', 'pageview'<?php echo count( $attrs ) > 0 ? ', ' . wp_json_encode( $attrs ) : ''; ?>);
+	}
+	<?php
+	if ( 'disabled' !== $script_location ) {
 		?>
-	</script>
+			wpmautic_send();
+		<?php
+	}
+	?>
 	<?php
 }
 
