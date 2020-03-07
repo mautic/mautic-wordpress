@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Changes
+- We are now compatible with WordPress 5.4.*
 
 ## [v2.3.0] - 2020-02-20
 ### Added
