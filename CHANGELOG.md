@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Changes
 - We are now compatible with WordPress 5.4.*
+- Our "settings" link in the "Plugins" screen is now only applied to WPMautic.
 
 ## [v2.3.0] - 2020-02-20
 ### Added

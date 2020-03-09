@@ -25,12 +25,13 @@ class PluginTest extends WP_UnitTestCase
 
     public function test_filter_loaded()
     {
-        $this->assertTrue(false !== has_filter('plugin_action_links', 'wpmautic_plugin_actions'));
+        var_dump('plugin_action_links_wpmautic');
+        $this->assertTrue(false !== has_filter('plugin_action_links_wpmautic', 'wpmautic_plugin_actions'));
     }
 
     public function test_settings_link_is_present()
     {
-        $links = apply_filters('plugin_action_links', array(), 'mautic-wordpress/wpmautic.php');
+        $links = apply_filters('plugin_action_links_wpmautic', array(), 'mautic-wordpress/wpmautic.php');
 
         $this->assertCount(1, $links);
         $this->assertContains('options-general.php?page=wpmautic', $links[0]);
