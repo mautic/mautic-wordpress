@@ -67,7 +67,7 @@ function wpmautic_plugin_actions( $links ) {
 	}
 	return $links;
 }
-add_filter( 'plugin_action_links_wpmautic', 'wpmautic_plugin_actions', 10, 2 );
+add_filter( 'plugin_action_links_wp-mautic', 'wpmautic_plugin_actions', 10, 2 );
 
 /**
  * Retrieve one of the wpmautic options but sanitized
