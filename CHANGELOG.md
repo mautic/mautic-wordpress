@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [v2.3.2] - 2020-03-09
+### Changes
+- Fix error in the `plugin_action_links` named call which to the filter to never being called.
+
 ## [v2.3.1] - 2020-03-09
 ### Changes
 - We are now compatible with WordPress 5.4.*
