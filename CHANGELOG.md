@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [v2.3.1] - 2020-03-09
 ### Changes
 - We are now compatible with WordPress 5.4.*
 - Our "settings" link in the "Plugins" screen is now only applied to WPMautic.
