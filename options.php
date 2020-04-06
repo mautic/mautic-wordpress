@@ -142,7 +142,7 @@ function wpmautic_script_location() {
 					?>
 					checked<?php endif; ?>
 			/>
-			<?php echo wp_kses( __( 'Tracking script will not be loaded when rendering the page; this means that Mautic tracking capability is disabled but you can still use shortcodes to embed Mautic dynamic contents. Use this option to comply with GDPR regulation rules, then load the script by yourself if user accepted tracking.', 'wp-mautic' ), $allowed_tags ); ?>
+			<?php echo wp_kses( __( 'Visitor will not be tracked when rendering the page; shortcodes can still be used. Use this option to comply with GDPR regulations. If the visitor accepted tracking then load execute JavaScript function wpmautic_send() by 3rd party code.', 'wp-mautic' ), $allowed_tags ); ?>
 		</label>
 		<br/>
 		<label>
