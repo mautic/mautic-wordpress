@@ -111,7 +111,7 @@ function wpmautic_injector() {
 	$script_location = wpmautic_option( 'script_location' );
 	if ( 'header' === $script_location ) {
 		add_action( 'wp_head', 'wpmautic_inject_script' );
-	} elseif ( 'footer' === $script_location || 'disabled' === $script_location ) {
+	} else {
 		add_action( 'wp_footer', 'wpmautic_inject_script' );
 	}
 
