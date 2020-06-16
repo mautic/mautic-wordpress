@@ -141,55 +141,42 @@ function wpmautic_base_script() {
  * @return void
  */
 function wpmautic_inject_script() {
-	?>
-	<script type="text/javascript">
-		<?php
-		wpmautic_inject_base_script();
-		wpmautic_inject_send_script();
-		?>
-	</script>
-	<?php
-}
-
-/**
- * Load the Mautic tracking library mtc.js if it is not disabled.
- */
-function wpmautic_inject_base_script() {
+	// Load the Mautic tracking library mtc.js if it is not disabled.
 	$base_url        = wpmautic_base_script();
 	$script_location = wpmautic_option( 'script_location' );
+	$attrs           = wpmautic_get_tracking_attributes();
+	?>
+	<script type="text/javascript" >
+		function wpmautic_send(){
+			if ('undefined' === typeof mt){
+				console.warn('mt not defined. Did you load mtc.js?');
+				return false;
+			}
+			mt('send', 'pageview'<?php echo count( $attrs ) > 0 ? ', ' . wp_json_encode( $attrs ) : ''; ?>);
+		}
+	</script>
 
+	<?php
+	// Mautic is not configured, or user disabled automatic tracking on page load (GDPR).
 	if ( empty( $base_url ) || 'disabled' === $script_location ) {
 		return;
 	}
 	?>
-	(function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
-		w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
-		m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','<?php echo esc_url( $base_url ); ?>','mt');
-	<?php
-}
+	<script type="text/javascript" >
+		(function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
+			w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
+			m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','<?php echo esc_url( $base_url ); ?>','mt');
 
-/**
- * Add the mt('send', 'pageview') script with optional tracking attributes
- */
-function wpmautic_inject_send_script() {
-	$attrs           = wpmautic_get_tracking_attributes();
-	$script_location = wpmautic_option( 'script_location' );
-	?>
-	function wpmautic_send(){
-		if ('undefined' === typeof mt){
-			console.warn('mt not defined. Did you load mtc.js?');
-			return false;
-		}
-		mt('send', 'pageview'<?php echo count( $attrs ) > 0 ? ', ' . wp_json_encode( $attrs ) : ''; ?>);
-	}
-	<?php
-	if ( 'disabled' !== $script_location ) {
-		?>
-			wpmautic_send();
 		<?php
-	}
-	?>
+		// Add the mt('send', 'pageview') script with optional tracking attributes.
+		if ( 'disabled' !== $script_location ) {
+			?>
+			wpmautic_send();
+			<?php
+		}
+		?>
+	</script>
 	<?php
 }
 
