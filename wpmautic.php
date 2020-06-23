@@ -148,34 +148,29 @@ function wpmautic_inject_script() {
 	?>
 	<script type="text/javascript" >
 		function wpmautic_send(){
-			if ('undefined' === typeof mt){
-				console.warn('mt not defined. Did you load mtc.js?');
+			if ('undefined' === typeof mt) {
+				if (console !== undefined) {
+					console.warn('WPMautic: mt not defined. Did you load mtc.js ?');
+				}
 				return false;
 			}
 			mt('send', 'pageview'<?php echo count( $attrs ) > 0 ? ', ' . wp_json_encode( $attrs ) : ''; ?>);
 		}
-	</script>
 
 	<?php
 	// Mautic is not configured, or user disabled automatic tracking on page load (GDPR).
-	if ( empty( $base_url ) || 'disabled' === $script_location ) {
-		return;
-	}
-	?>
-	<script type="text/javascript" >
+	if ( ! empty( $base_url ) && 'disabled' !== $script_location ) :
+		?>
 		(function(w,d,t,u,n,a,m){w['MauticTrackingObject']=n;
 			w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)},a=d.createElement(t),
 			m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
 		})(window,document,'script','<?php echo esc_url( $base_url ); ?>','mt');
 
-		<?php
 		// Add the mt('send', 'pageview') script with optional tracking attributes.
-		if ( 'disabled' !== $script_location ) {
-			?>
-			wpmautic_send();
-			<?php
-		}
-		?>
+		wpmautic_send();
+		<?php
+	endif;
+	?>
 	</script>
 	<?php
 }
