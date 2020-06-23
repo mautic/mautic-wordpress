@@ -136,19 +136,6 @@ function wpmautic_script_location() {
 			<input
 				type="radio"
 				name="wpmautic_options[script_location]"
-				value="disabled"
-				<?php
-				if ( 'disabled' === $position ) :
-					?>
-					checked<?php endif; ?>
-			/>
-			<?php echo wp_kses( __( 'Tracking script will not be loaded when rendering the page; this means that Mautic tracking capability is disabled but you can still use shortcodes to embed Mautic dynamic contents. Use this option to comply with GDPR regulation rules, then load the script by yourself if user accepted tracking.', 'wp-mautic' ), $allowed_tags ); ?>
-		</label>
-		<br/>
-		<label>
-			<input
-				type="radio"
-				name="wpmautic_options[script_location]"
 				value="header"
 				<?php
 				if ( 'footer' !== $position && 'disabled' !== $position ) :
@@ -169,6 +156,19 @@ function wpmautic_script_location() {
 					checked<?php endif; ?>
 			/>
 			<?php echo wp_kses( __( 'Embedded within the <code>wp_footer</code> action.<br/>Inserts the tracking code before the <code>&lt;/body&gt;</code> tag; slightly better for performance but may track less reliably if users close the page before the script has loaded.', 'wp-mautic' ), $allowed_tags ); ?>
+		</label>
+		<br />
+		<label>
+			<input
+				type="radio"
+				name="wpmautic_options[script_location]"
+				value="disabled"
+				<?php
+				if ( 'disabled' === $position ) :
+					?>
+					checked<?php endif; ?>
+			/>
+			<?php echo wp_kses( __( 'Visitor will not be tracked when rendering the page; shortcodes can still be used. Use this option to comply with GDPR regulations. If the visitor accepted tracking then execute JavaScript function wpmautic_send() by 3rd party code.', 'wp-mautic' ), $allowed_tags ); ?>
 		</label>
 	</fieldset>
 	<?php
