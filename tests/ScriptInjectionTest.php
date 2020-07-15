@@ -97,8 +97,9 @@ class ScriptInjectionTest extends WPMauticTestCase
 
         $this->assertNotContains(sprintf("(window,document,'script','{$base_url}/mtc.js','mt')"), $output);
         $this->assertNotContains("['MauticTrackingObject']", $output);
-        $this->assertNotContains("mt('send', 'pageview')", $output);
+        $this->assertNotContains("wpmautic_send();", $output);
         $this->assertNotContains(sprintf("%s/mtracking.gif?d=", $base_url), $output);
+        $this->assertContains("mt('send', 'pageview')", $output);
     }
 
     public function test_script_is_injected_with_custom_attributes_when_defined()
