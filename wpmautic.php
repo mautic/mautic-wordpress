@@ -154,6 +154,7 @@ function wpmautic_inject_script() {
 				}
 				return false;
 			}
+			// Add the mt('send', 'pageview') script with optional tracking attributes.
 			mt('send', 'pageview'<?php echo count( $attrs ) > 0 ? ', ' . wp_json_encode( $attrs ) : ''; ?>);
 		}
 
@@ -166,7 +167,6 @@ function wpmautic_inject_script() {
 			m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
 		})(window,document,'script','<?php echo esc_url( $base_url ); ?>','mt');
 
-		// Add the mt('send', 'pageview') script with optional tracking attributes.
 		wpmautic_send();
 		<?php
 	endif;
