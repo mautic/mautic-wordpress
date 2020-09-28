@@ -114,7 +114,7 @@ function wpmautic_base_url() {
 		name="wpmautic_options[base_url]"
 		size="40"
 		type="text"
-		placeholder="http://..."
+		placeholder="https://..."
 		value="<?php echo esc_url_raw( $url, array( 'http', 'https' ) ); ?>"
 	/>
 	<?php
@@ -168,7 +168,9 @@ function wpmautic_script_location() {
 					?>
 					checked<?php endif; ?>
 			/>
-			<?php echo wp_kses( __( 'Visitor will not be tracked when rendering the page; shortcodes can still be used. Use this option to comply with GDPR regulations. If the visitor accepted tracking then execute JavaScript function wpmautic_send() by 3rd party code.', 'wp-mautic' ), $allowed_tags ); ?>
+			<?php echo wp_kses( __( 'Visitor will not be tracked when rendering the page. Use this option to comply with GDPR regulations. If the visitor accept cookies you must execute the <code>wpmautic_send()</code> JavaScript function to start tracking.', 'wp-mautic' ), $allowed_tags ); ?>
+			<br/>
+			<?php echo wp_kses( __( 'However when using shortcodes, a tracking cookie will be added everytime even when tracking is disabled. This is because loading a Mautic resource (javascript or image) generate that cookie.', 'wp-mautic' ), $allowed_tags ); ?>
 		</label>
 	</fieldset>
 	<?php
@@ -178,7 +180,11 @@ function wpmautic_script_location() {
  * Define the input field for Mautic fallback flag
  */
 function wpmautic_fallback_activated() {
-	$flag = wpmautic_option( 'fallback_activated', false );
+	$flag         = wpmautic_option( 'fallback_activated', false );
+	$allowed_tags = array(
+		'br'   => array(),
+		'code' => array(),
+	);
 
 	?>
 	<input
@@ -192,7 +198,9 @@ function wpmautic_fallback_activated() {
 			checked<?php endif; ?>
 	/>
 	<label for="wpmautic_fallback_activated">
-		<?php esc_html_e( 'Activate the tracking image when JavaScript is disabled', 'wp-mautic' ); ?>
+		<?php esc_html_e( 'Activate the tracking image when JavaScript is disabled.', 'wp-mautic' ); ?>
+		<br/>
+		<?php echo wp_kses( __( 'Be warned, that the tracking image will always generate a cookie on the user browser side. If you want to control cookies and comply to GDPR, you must use JavaScript instead.', 'wp-mautic' ), $allowed_tags ); ?>
 	</label>
 	<?php
 }
