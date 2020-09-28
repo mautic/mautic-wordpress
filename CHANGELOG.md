@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [v2.4.0] - 2020-09-28
+### Changes
+- Update text to be more clear regarding tracking cookies injection when using
+  shortcodes and tracking pixel.
+- Create a specific `wpmautic_send` javascript function that can be called by
+  third party scripts to start tracking when user accepts it (GDPR compliance).
+
 ## [v2.3.2] - 2020-03-09
 ### Changes
 - Fix error in the `plugin_action_links` named call which to the filter to never being called.

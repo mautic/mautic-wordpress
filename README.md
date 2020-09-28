@@ -50,7 +50,7 @@ Tracking script works right after you finish the configuration steps. That means
         m=d.getElementsByTagName(t)[0];a.async=1;a.src=u;m.parentNode.insertBefore(a,m)
     })(window,document,'script','http://yourmauticsite.com/mtc.js','mt');
 
-    mt('send', 'pageview');
+    wpmautic_send();
 </script>
 ```
 

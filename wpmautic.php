@@ -4,9 +4,9 @@
  * Plugin URI: https://github.com/mautic/mautic-wordpress
  * Contributors: mautic,hideokamoto,shulard,escopecz,dbhurley,macbookandrew
  * Description: This plugin will allow you to add Mautic (Free Open Source Marketing Automation) tracking to your site
- * Version: 2.3.2
+ * Version: 2.4.0
  * Requires at least: 4.6
- * Tested up to: 5.4
+ * Tested up to: 5.5
  * Author: Mautic community
  * Author URI: http://mautic.org
  * Text Domain: wp-mautic
