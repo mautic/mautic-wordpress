@@ -194,7 +194,7 @@ function wpmautic_tags_shortcode( $atts ) {
 	}
 
 	return sprintf(
-		'<img src="%s/mtracking.gif?tags=%s" alt="%s" />',
+		'<img src="%s/mtracking.gif?tags=%s" alt="%s" style="display:none;" />',
 		esc_url( $base_url ),
 		esc_attr( $atts['values'] ),
 		esc_attr__( 'Mautic Tags', 'wp-mautic' )

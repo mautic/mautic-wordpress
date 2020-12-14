@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [v2.4.2] - 2020-12-14
+### Changes
+- Add missing style on shortcode embedded image.
+
 ## [v2.4.1] - 2020-12-14
 ### Changes
 - Add an alt text on the `<noscript>` image that can be handled with WP
