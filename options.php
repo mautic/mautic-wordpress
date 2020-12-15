@@ -27,8 +27,11 @@ function wpmautic_options_page() {
 		</form>
 		<h3><?php esc_html_e( 'Shortcode Examples:', 'wp-mautic' ); ?></h3>
 		<ul>
-			<li><?php esc_html_e( 'Mautic Form Embed:', 'wp-mautic' ); ?> <code>[mautic type="form" id="1"]</code></li>
-			<li><?php esc_html_e( 'Mautic Dynamic Content:', 'wp-mautic' ); ?> <code>[mautic type="content" slot="slot_name"]<?php esc_html_e( 'Default Text', 'wp-mautic' ); ?>[/mautic]</code></li>
+		    <li><?php esc_html_e( 'Mautic Forms:', 'wp-mautic' ); ?> <code>[mautic type="form" id="1"]</code></li>
+		    <li><?php esc_html_e( 'Mautic Focus:', 'wp-mautic' ); ?> <code>[mautic type="focus" id="1"]</code></li>
+		    <li><?php esc_html_e( 'Mautic Dynamic Content:', 'wp-mautic' ); ?> <code>[mautic type="content" slot="slot_name"]<?php esc_html_e( 'Default content to display in case of error or unknown contact.', 'wp-mautic' ); ?>[/mautic]</code></li>
+		    <li><?php esc_html_e( 'Mautic Gated Videos:', 'wp-mautic' ); ?> <code>[mautic type="video" gate-time="#" form-id="#" src="URL"]</code></li>  
+		    <li><?php esc_html_e( 'Mautic Tags:', 'wp-mautic' ); ?> <code>[mautic type="tags" values="mytag,anothertag,-removetag"]</code></li>  
 		</ul>
 		<h3><?php esc_html_e( 'Quick Links', 'wp-mautic' ); ?></h3>
 		<ul>
