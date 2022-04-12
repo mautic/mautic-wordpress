@@ -79,7 +79,7 @@ function wpmautic_form_shortcode( $atts ) {
 	}
 
 	return '<script type="text/javascript" ' . sprintf(
-		'src="%s/form/generate.js?id=%s"',
+		'src="%s/form/generate.js?id=%s" async',
 		esc_url( $base_url ),
 		esc_attr( $atts['id'] )
 	) . '></script>';
