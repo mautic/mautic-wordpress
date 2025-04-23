@@ -1,0 +1,28 @@
+# Exclude hidden files
+.git
+.github
+.wordpress-org
+.gitignore
+.distignore
+
+# Exclude development and build files
+node_modules/
+composer.lock
+package-lock.json
+webpack.config.js
+
+# Exclude test files
+tests/
+phpunit.xml
+phpunit.xml.dist
+
+# Exclude local environment files
+.env
+*.log
+
+# Exclude Git
+LICENSE
+TODO
+CHANGELOG.md
+README.md
+UPGRADE.md
