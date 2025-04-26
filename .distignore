@@ -16,6 +16,9 @@ tests/
 phpunit.xml
 phpunit.xml.dist
 
+# Exclude docs
+docs/
+
 # Exclude local environment files
 .env
 *.log
