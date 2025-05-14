@@ -167,23 +167,26 @@ foreach ( $readme as $key => $bloc ) {
 
 // -----------------------------------------------------------------------------
 // Export template
-echo str_replace([
-    '%tags%',
-    '%heading%',
-    '%key-features%',
-    '%configuration%',
-    '%documentation%',
-    '%installation%',
-    '%changelog%',
-    '%upgrade%',
-    '%upgrade%',
+$finalReadme = str_replace([
+	'%tags%',
+	'%heading%',
+	'%key-features%',
+	'%configuration%',
+	'%documentation%',
+	'%installation%',
+	'%changelog%',
+	'%upgrade%',
+	'%upgrade%',
 ], [
-    $tags,
-    trim($heading),
-    trim($keyFeature),
-    trim($configuration),
-    trim($documentation),
-    trim($installation),
-    $changelog,
-    $notices
+	$tags,
+	trim($heading),
+	trim($keyFeature),
+	trim($configuration),
+	trim($documentation),
+	trim($installation),
+	$changelog,
+	$notices
 ], $template);
+
+file_put_contents(__DIR__ . '/../readme.txt', $finalReadme);
+echo "✅ readme.txt successfully generated in the project root.\n";
