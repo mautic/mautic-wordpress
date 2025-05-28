@@ -3,16 +3,22 @@
 .github
 .wordpress-org
 .gitignore
+.gitattributes
 .distignore
+.travis.yml
 
 # Exclude development and build files
 node_modules/
+composer.lock
 composer.lock
 package-lock.json
 webpack.config.js
 
 # Exclude test files
+dist/
 tests/
+vendor/
+phpcs.xml
 phpunit.xml
 phpunit.xml.dist
 
@@ -20,9 +26,12 @@ phpunit.xml.dist
 .env
 *.log
 
+
 # Exclude Git
 LICENSE
 TODO
 CHANGELOG.md
+CONTRIBUTING.md
 README.md
 UPGRADE.md
+Makefile
