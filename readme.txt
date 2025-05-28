@@ -3,9 +3,9 @@ Author: mautic
 Tags: marketing, automation
 Contributors: mautic,hideokamoto,shulard,escopecz,dbhurley,macbookandrew
 Description: This plugin will allow you to add Mautic (Free Open Source Marketing Automation) tracking to your site
-Stable tag: 2.4.3
+Stable tag: 2.4.2
 Requires at least: 4.6
-Tested up to: 6.1
+Tested up to: 6.8
 Author URI: http://mautic.org
 Text Domain: wp-mautic
 License: GPLv2 or later
@@ -14,7 +14,7 @@ Donate link: http://mautic.org/
 
 == Description ==
 
-
+[Mautic](http://mautic.org) [Wordpress Plugin](https://wordpress.org/plugins/wp-mautic/) injects Mautic tracking script and image in the WP website. Your Mautic instance will be able to track information about your visitors. You can also insert Mautic content inside your website using different shortcodes.
 
 ## Key features
 - You don't have to edit source code of your template to insert tracking code.
@@ -296,4 +296,3 @@ Release date: 2015-03-02
 
 * Changed
   * First release made on the WordPress repository.
-
