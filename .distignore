@@ -9,7 +9,7 @@
 
 # Exclude development and build files
 node_modules/
-composer.lock
+composer.json
 composer.lock
 package-lock.json
 webpack.config.js
