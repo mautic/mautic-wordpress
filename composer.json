@@ -15,5 +15,29 @@
         "phpunit/phpunit": "^6.0",
         "squizlabs/php_codesniffer": "^3.0",
         "wp-coding-standards/wpcs": "^1.0"
+    },
+    "scripts": {
+        "build-readme": "@php dist/readme-builder.php",
+        "code-sniffer": [
+            "@composer install --no-interaction",
+            "./vendor/bin/phpcbf --standard=phpcs.xml",
+            "./vendor/bin/phpcs --standard=phpcs.xml"
+        ],
+        "test": [
+            "@composer install --no-interaction",
+            "@check-phpunit",
+            "./vendor/bin/phpunit"
+        ],
+        "test-coverage": [
+            "@composer install --no-interaction",
+            "@check-phpunit",
+            "./vendor/bin/phpunit --coverage-html ./tests-coverage"
+        ]
+    },
+    "scripts-descriptions": {
+        "build-readme": "Updates the current readme.txt file based on README.md and plugin headers",
+        "code-sniffer": "Run phpcbf and phpcs",
+        "test-coverage": "Run phpunit with test coverage",
+        "test": "Run phpunit tests"
     }
 }
