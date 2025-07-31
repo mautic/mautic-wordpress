@@ -1,9 +1,9 @@
 === WP Mautic ===
 Author: mautic
 Tags: marketing, automation
-Contributors: mautic,hideokamoto,shulard,escopecz,dbhurley,macbookandrew
+Contributors: mautic,hideokamoto,shulard,escopecz,dbhurley,macbookandrew,dogbytemarketing
 Description: This plugin will allow you to add Mautic (Free Open Source Marketing Automation) tracking to your site
-Stable tag: 2.4.3
+Stable tag: 2.5.0
 Requires at least: 4.6
 Tested up to: 6.1
 Author URI: http://mautic.org
