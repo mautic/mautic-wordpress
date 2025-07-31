@@ -1,4 +1,6 @@
 /.idea
-/vendor/
+/vendor/*
+!/vendor/autoload.php
+!/vendor/composer/
 /phpunit.xml
 /tests-coverage/
