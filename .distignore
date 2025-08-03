@@ -17,7 +17,19 @@ webpack.config.js
 # Exclude test files
 dist/
 tests/
-vendor/
+vendor/bin
+vendor/myclabs
+vendor/myclabs
+vendor/phar-io
+vendor/phpdocumentor
+vendor/phpspec
+vendor/phpunit
+vendor/sebastian
+vendor/squizlabs
+vendor/symfony
+vendor/theseer
+vendor/webmozart
+vendor/wp-coding-standards
 phpcs.xml
 phpunit.xml
 phpunit.xml.dist
