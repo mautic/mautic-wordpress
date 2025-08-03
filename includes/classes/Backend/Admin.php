@@ -290,7 +290,7 @@ class Admin {
       $settings_link = sprintf(
         '<a href="%s">%s</a>',
         admin_url( 'options-general.php?page=wpmautic' ),
-        __( 'Settings' )
+        __( 'Settings', 'wp-mautic' )
       );
       // Add the settings link before other links.
       array_unshift( $links, $settings_link );

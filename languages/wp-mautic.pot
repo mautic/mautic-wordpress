@@ -1,0 +1,174 @@
+# Copyright (C) 2025 Mautic community
+# This file is distributed under the GPLv2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Mautic 2.5.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/mautic-wordpress\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-08-03T19:05:42+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.11.0\n"
+"X-Domain: wp-mautic\n"
+
+#. Plugin Name of the plugin
+#: wpmautic.php
+#: includes/classes/Backend/Admin.php:39
+msgid "WP Mautic"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: wpmautic.php
+msgid "https://github.com/mautic/mautic-wordpress"
+msgstr ""
+
+#. Description of the plugin
+#: wpmautic.php
+msgid "This plugin will allow you to add Mautic (Free Open Source Marketing Automation) tracking to your site"
+msgstr ""
+
+#. Author of the plugin
+#: wpmautic.php
+msgid "Mautic community"
+msgstr ""
+
+#. Author URI of the plugin
+#: wpmautic.php
+msgid "http://mautic.org"
+msgstr ""
+
+#: includes/classes/Backend/Admin.php:25
+msgid "WP Mautic Settings"
+msgstr ""
+
+#: includes/classes/Backend/Admin.php:26
+msgid "WPMautic"
+msgstr ""
+
+#: includes/classes/Backend/Admin.php:40
+msgid "Add Mautic tracking capabilities to your website."
+msgstr ""
+
+#: includes/classes/Backend/Admin.php:46
+msgid "Shortcode Examples:"
+msgstr ""
+
+#: includes/classes/Backend/Admin.php:48
+msgid "Mautic Form Embed:"
+msgstr ""
+
+#: includes/classes/Backend/Admin.php:49
+msgid "Mautic Dynamic Content:"
+msgstr ""
+
+#: includes/classes/Backend/Admin.php:49
+msgid "Default Text"
+msgstr ""
+
+#: includes/classes/Backend/Admin.php:51
+msgid "Quick Links"
+msgstr ""
+
+#: includes/classes/Backend/Admin.php:54
+msgid "Plugin docs"
+msgstr ""
+
+#: includes/classes/Backend/Admin.php:57
+msgid "Plugin support"
+msgstr ""
+
+#: includes/classes/Backend/Admin.php:60
+msgid "Mautic project"
+msgstr ""
+
+#: includes/classes/Backend/Admin.php:63
+msgid "Mautic docs"
+msgstr ""
+
+#: includes/classes/Backend/Admin.php:66
+msgid "Mautic forum"
+msgstr ""
+
+#: includes/classes/Backend/Admin.php:82
+msgid "Main Settings"
+msgstr ""
+
+#: includes/classes/Backend/Admin.php:89
+msgid "Mautic URL"
+msgstr ""
+
+#: includes/classes/Backend/Admin.php:96
+msgid "Tracking script location"
+msgstr ""
+
+#: includes/classes/Backend/Admin.php:103
+msgid "Tracking image"
+msgstr ""
+
+#: includes/classes/Backend/Admin.php:110
+msgid "Logged user"
+msgstr ""
+
+#: includes/classes/Backend/Admin.php:163
+msgid "Added in the <code>wp_head</code> action.<br/>Inserts the tracking code before the <code>&lt;head&gt;</code> tag; can be slightly slower since page load is delayed until all scripts in <code><head></code> are loaded and processed."
+msgstr ""
+
+#: includes/classes/Backend/Admin.php:176
+msgid "Embedded within the <code>wp_footer</code> action.<br/>Inserts the tracking code before the <code>&lt;/body&gt;</code> tag; slightly better for performance but may track less reliably if users close the page before the script has loaded."
+msgstr ""
+
+#: includes/classes/Backend/Admin.php:189
+msgid "Visitor will not be tracked when rendering the page. Use this option to comply with GDPR regulations. If the visitor accept cookies you must execute the <code>wpmautic_send()</code> JavaScript function to start tracking."
+msgstr ""
+
+#: includes/classes/Backend/Admin.php:191
+msgid "However when using shortcodes, a tracking cookie will be added everytime even when tracking is disabled. This is because loading a Mautic resource (javascript or image) generate that cookie."
+msgstr ""
+
+#: includes/classes/Backend/Admin.php:220
+msgid "Activate the tracking image when JavaScript is disabled."
+msgstr ""
+
+#: includes/classes/Backend/Admin.php:222
+msgid "Be warned, that the tracking image will always generate a cookie on the user browser side. If you want to control cookies and comply to GDPR, you must use JavaScript instead."
+msgstr ""
+
+#: includes/classes/Backend/Admin.php:245
+msgid "Track user information for logged-in users"
+msgstr ""
+
+#: includes/classes/Backend/Admin.php:293
+msgid "Settings"
+msgstr ""
+
+#: includes/classes/Frontend/Enqueue.php:61
+msgid "WPMautic: mt not defined. Did you load mtc.js?"
+msgstr ""
+
+#: includes/classes/Frontend/Enqueue.php:102
+#: includes/classes/Frontend/Shortcodes.php:201
+msgid "Mautic Tags"
+msgstr ""
+
+#: includes/classes/Frontend/Shortcodes.php:137
+msgid "You must provide a video source. Add a src=\"URL\" attribute to your shortcode. Replace URL with the source url for your video."
+msgstr ""
+
+#: includes/classes/Frontend/Shortcodes.php:141
+msgid "You must provide a mautic form id. Add a form-id=\"#\" attribute to your shortcode. Replace # with the id of the form you want to use."
+msgstr ""
+
+#: includes/classes/Frontend/Shortcodes.php:155
+msgid "Please define a valid video type with video-type=\"#\"."
+msgstr ""
+
+#: includes/classes/Utils/Options.php:35
+msgid "You must give a valid option name !"
+msgstr ""
+
+#: wpmautic.php:22
+msgid "This file should not be accessed directly!"
+msgstr ""
