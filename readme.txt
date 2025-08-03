@@ -14,7 +14,7 @@ Donate link: http://mautic.org/
 
 == Description ==
 
-
+[Mautic](http://mautic.org) [Wordpress Plugin](https://wordpress.org/plugins/wp-mautic/) injects Mautic tracking script and image in the WP website. Your Mautic instance will be able to track information about your visitors. You can also insert Mautic content inside your website using different shortcodes.
 
 ## Key features
 - You don't have to edit source code of your template to insert tracking code.
@@ -296,4 +296,3 @@ Release date: 2015-03-02
 
 * Changed
   * First release made on the WordPress repository.
-
