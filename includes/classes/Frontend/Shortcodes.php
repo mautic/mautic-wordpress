@@ -11,7 +11,7 @@ class Shortcodes {
    *
    * @return void
    */
-    public function init() {
+  public function init() {
     add_shortcode('mautic', array($this, 'wpmautic_shortcode'));
 
     // Backward compatibilities.
@@ -203,7 +203,7 @@ class Shortcodes {
   }
 
   /**
-   * Handle mautic focus itens on WordPress Page
+   * Handle mautic focus items on WordPress Page
    * example: [mautic type="focus" id="1"]
    *
    * @param  array $atts Shortcode attributes.

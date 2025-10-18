@@ -227,7 +227,7 @@ class Admin {
   /**
    * Define the input field for Mautic logged user tracking flag
    */
-  function wpmautic_track_logged_user() {
+  public function wpmautic_track_logged_user() {
     $flag = Options::get( 'track_logged_user', false );
 
     ?>
