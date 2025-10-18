@@ -19,7 +19,6 @@ dist/
 tests/
 vendor/bin
 vendor/myclabs
-vendor/myclabs
 vendor/phar-io
 vendor/phpdocumentor
 vendor/phpspec
