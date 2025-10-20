@@ -51,19 +51,19 @@ class Admin {
       <h3><?php esc_html_e( 'Quick Links', 'wp-mautic' ); ?></h3>
       <ul>
         <li>
-          <a href="https://github.com/mautic/mautic-wordpress#mautic-wordpress-plugin" target="_blank"><?php esc_html_e( 'Plugin docs', 'wp-mautic' ); ?></a>
+          <a href="https://github.com/mautic/mautic-wordpress#mautic-wordpress-plugin" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Plugin docs', 'wp-mautic' ); ?></a>
         </li>
         <li>
-          <a href="https://github.com/mautic/mautic-wordpress/issues" target="_blank"><?php esc_html_e( 'Plugin support', 'wp-mautic' ); ?></a>
+          <a href="https://github.com/mautic/mautic-wordpress/issues" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Plugin support', 'wp-mautic' ); ?></a>
         </li>
         <li>
-          <a href="https://mautic.org" target="_blank"><?php esc_html_e( 'Mautic project', 'wp-mautic' ); ?></a>
+          <a href="https://mautic.org" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Mautic project', 'wp-mautic' ); ?></a>
         </li>
         <li>
-          <a href="http://docs.mautic.org/" target="_blank"><?php esc_html_e( 'Mautic docs', 'wp-mautic' ); ?></a>
+          <a href="http://docs.mautic.org/" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Mautic docs', 'wp-mautic' ); ?></a>
         </li>
         <li>
-          <a href="https://www.mautic.org/community/" target="_blank"><?php esc_html_e( 'Mautic forum', 'wp-mautic' ); ?></a>
+          <a href="https://www.mautic.org/community/" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Mautic forum', 'wp-mautic' ); ?></a>
         </li>
       </ul>
     </div>

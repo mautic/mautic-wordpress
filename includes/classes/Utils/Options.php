@@ -35,7 +35,8 @@ class Options {
           if ( isset( $default ) ) {
             return $default;
           }
-          throw new InvalidArgumentException( __('You must give a valid option name !', 'wp-mautic') );
+
+          throw new InvalidArgumentException( __('You must give a valid option name!', 'wp-mautic') );
         }
         return $options[ $option ];
     }

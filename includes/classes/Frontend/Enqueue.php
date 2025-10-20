@@ -63,7 +63,7 @@ class Enqueue {
       function wpmautic_send(){
         if ('undefined' === typeof mt) {
           if (console !== undefined) {
-            console.warn(<?php echo esc_js( __( 'WPMautic: mt not defined. Did you load mtc.js?', 'wp-mautic' ) ); ?>);
+            console.warn('<?php echo esc_js( __( 'WPMautic: mt not defined. Did you load mtc.js?', 'wp-mautic' ) ); ?>');
           }
           return false;
         }
@@ -178,7 +178,7 @@ class Enqueue {
     $attrs = $this->wpmautic_get_user_query();
 
     /**
-     * Update / add data to be send withing Mautic tracker
+     * Update / add data to be sent within Mautic tracker
      *
      * Default data only contains the 'language' key but every added key to the
      * array will be sent to Mautic.
@@ -191,7 +191,7 @@ class Enqueue {
   }
 
   /**
-   * Extract logged user informations to be send within Mautic tracker
+   * Extract logged user information to be sent within Mautic tracker
    *
    * @return array
    */

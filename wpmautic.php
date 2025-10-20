@@ -29,8 +29,8 @@ define( 'VPMAUTIC_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 // Store plugin main file path.
 define( 'VPMAUTIC_PLUGIN_FILE', __FILE__ );
 
-class WP_Mautic
-{
+class WP_Mautic {
+  
   
   /**
    * Init
