@@ -22,10 +22,14 @@ class Options {
     switch ( $option ) {
       case 'script_location':
         return ! isset( $options[ $option ] ) ? 'header' : $options[ $option ];
+
       case 'fallback_activated':
-        return isset( $options[ $option ] ) ? (bool) $options[ $option ] : true;
+        // Return saved value or default to '0' (Disabled)
+        return isset( $options[ $option ] ) ? $options[ $option ] : '0';
+
       case 'track_logged_user':
         return isset( $options[ $option ] ) ? (bool) $options[ $option ] : false;
+
       default:
         if ( ! isset( $options[ $option ] ) ) {
           if ( isset( $default ) ) {
@@ -34,7 +38,6 @@ class Options {
 
           throw new InvalidArgumentException( __('You must give a valid option name!', 'wp-mautic') );
         }
-
         return $options[ $option ];
     }
   }

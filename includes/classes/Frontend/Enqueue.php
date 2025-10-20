@@ -31,15 +31,20 @@ class Enqueue {
    */
   public function enqueue_scripts() {
     $script_location = Options::get( 'script_location' );
+    $fallback        = Options::get( 'fallback_activated', false );
     
-    if ( 'header' === $script_location ) {
-      add_action( 'wp_head', array( $this, 'wpmautic_inject_script' ) );
-    } else {
-      add_action( 'wp_footer', array( $this, 'wpmautic_inject_script' ) );
-    }
+    if ('0' === $fallback || '1' === $fallback) {
+      if ( 'header' === $script_location ) {
+        add_action( 'wp_head', array( $this, 'wpmautic_inject_script' ) );
+      } else {
+        add_action( 'wp_footer', array( $this, 'wpmautic_inject_script' ) );
+      }
 
-    if ( 'disabled' !== $script_location && true === Options::get( 'fallback_activated', false ) ) {
-      add_action( 'wp_footer', array( $this, 'wpmautic_inject_noscript' ) );
+      if ( 'disabled' !== $script_location && '1' === $fallback ) {
+        add_action( 'wp_footer', array( $this, 'wpmautic_inject_noscript' ) );
+      }
+    } elseif ('2' === $fallback) {
+      add_action( 'wp_footer', array( $this, 'wpmautic_inject_tracking_pixel' ) );
     }
   }
 
@@ -101,6 +106,25 @@ class Enqueue {
     <noscript>
       <img src="<?php echo esc_url( $base_url ); ?>/mtracking.gif?d=<?php echo esc_attr( $payload ); ?>" style="display:none;" alt="<?php echo esc_attr__( 'Mautic Tags', 'wp-mautic' ); ?>" />
     </noscript>
+    <?php
+  }
+
+  /**
+   * Writes Tracking image fallback to the HTML source
+   * This is a separated function because <noscript> tags are not allowed in header !
+   *
+   * @return void
+   */
+  public function wpmautic_inject_tracking_pixel() {
+    $base_url = Options::get( 'base_url', '' );
+    if ( empty( $base_url ) ) {
+      return;
+    }
+
+    $url_query = $this->wpmautic_get_url_query();
+    $payload   = rawurlencode( base64_encode( serialize( $url_query ) ) );
+    ?>
+    <img src="<?php echo esc_url( $base_url ); ?>/mtracking.gif?d=<?php echo esc_attr( $payload ); ?>" style="display:none;" alt="<?php echo esc_attr__( 'Mautic Tags', 'wp-mautic' ); ?>" />
     <?php
   }
 
