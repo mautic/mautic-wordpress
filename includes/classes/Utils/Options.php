@@ -32,7 +32,7 @@ class Options {
             return $default;
           }
 
-          throw new InvalidArgumentException( 'You must give a valid option name !' );
+          throw new InvalidArgumentException( __('You must give a valid option name!', 'wp-mautic') );
         }
 
         return $options[ $option ];

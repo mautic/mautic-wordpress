@@ -58,7 +58,7 @@ class Enqueue {
       function wpmautic_send(){
         if ('undefined' === typeof mt) {
           if (console !== undefined) {
-            console.warn('WPMautic: mt not defined. Did you load mtc.js ?');
+            console.warn('<?php echo esc_js( __( 'WPMautic: mt not defined. Did you load mtc.js?', 'wp-mautic' ) ); ?>');
           }
           return false;
         }

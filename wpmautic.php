@@ -19,7 +19,7 @@ namespace Mautic\WP_Mautic;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	header( 'HTTP/1.0 403 Forbidden' );
-	echo 'This file should not be accessed directly!';
+	echo __('This file should not be accessed directly!', 'wp-mautic');
 	exit; // Exit if accessed directly.
 }
 
