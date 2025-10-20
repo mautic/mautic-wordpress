@@ -154,7 +154,7 @@ class Enqueue {
     $attrs = $this->wpmautic_get_user_query();
 
     /**
-     * Update / add data to be send withing Mautic tracker
+     * Update / add data to be sent within Mautic tracker
      *
      * Default data only contains the 'language' key but every added key to the
      * array will be sent to Mautic.
