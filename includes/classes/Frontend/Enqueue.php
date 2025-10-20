@@ -167,7 +167,7 @@ class Enqueue {
   }
 
   /**
-   * Extract logged user informations to be send within Mautic tracker
+   * Extract logged user information to be sent within Mautic tracker
    *
    * @return array
    */
