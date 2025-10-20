@@ -203,7 +203,7 @@ class Shortcodes {
   }
 
   /**
-   * Handle mautic focus itens on WordPress Page
+   * Handle mautic focus items on WordPress Page
    * example: [mautic type="focus" id="1"]
    *
    * @param  array $atts Shortcode attributes.
