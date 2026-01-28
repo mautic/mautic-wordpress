@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-08-03T19:05:42+00:00\n"
+"POT-Creation-Date: 2025-08-03T19:55:07+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: wp-mautic\n"
@@ -128,27 +128,40 @@ msgstr ""
 msgid "However when using shortcodes, a tracking cookie will be added everytime even when tracking is disabled. This is because loading a Mautic resource (javascript or image) generate that cookie."
 msgstr ""
 
-#: includes/classes/Backend/Admin.php:220
-msgid "Activate the tracking image when JavaScript is disabled."
+#: includes/classes/Backend/Admin.php:210
+msgid "Disabled"
 msgstr ""
 
-#: includes/classes/Backend/Admin.php:222
+#: includes/classes/Backend/Admin.php:211
+msgid "Only When JavaScript is Disabled"
+msgstr ""
+
+#: includes/classes/Backend/Admin.php:212
+msgid "Replace mtc.js"
+msgstr ""
+
+#: includes/classes/Backend/Admin.php:216
+msgid "Use \"Replace mtc.js\" if you want to use the tracking pixel as the default and only way to track even if JavaScript is enabled/disabled."
+msgstr ""
+
+#: includes/classes/Backend/Admin.php:218
 msgid "Be warned, that the tracking image will always generate a cookie on the user browser side. If you want to control cookies and comply to GDPR, you must use JavaScript instead."
 msgstr ""
 
-#: includes/classes/Backend/Admin.php:245
+#: includes/classes/Backend/Admin.php:241
 msgid "Track user information for logged-in users"
 msgstr ""
 
-#: includes/classes/Backend/Admin.php:293
+#: includes/classes/Backend/Admin.php:288
 msgid "Settings"
 msgstr ""
 
-#: includes/classes/Frontend/Enqueue.php:61
+#: includes/classes/Frontend/Enqueue.php:66
 msgid "WPMautic: mt not defined. Did you load mtc.js?"
 msgstr ""
 
-#: includes/classes/Frontend/Enqueue.php:102
+#: includes/classes/Frontend/Enqueue.php:107
+#: includes/classes/Frontend/Enqueue.php:127
 #: includes/classes/Frontend/Shortcodes.php:201
 msgid "Mautic Tags"
 msgstr ""
@@ -165,7 +178,7 @@ msgstr ""
 msgid "Please define a valid video type with video-type=\"#\"."
 msgstr ""
 
-#: includes/classes/Utils/Options.php:35
+#: includes/classes/Utils/Options.php:38
 msgid "You must give a valid option name !"
 msgstr ""
 

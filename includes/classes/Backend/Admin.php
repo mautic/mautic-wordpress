@@ -206,19 +206,15 @@ class Admin {
     );
 
     ?>
-    <input
-      id="wpmautic_fallback_activated"
-      name="wpmautic_options[fallback_activated]"
-      type="checkbox"
-      value="1"
-      <?php
-      if ( true === $flag ) :
-        ?>
-        checked<?php endif; ?>
-    />
+    <select id="wpmautic_fallback_activated" name="wpmautic_options[fallback_activated]">
+      <option value="0" <?php selected( $flag, '0' ); ?>><?php esc_html_e( 'Disabled', 'wp-mautic' ); ?></option>
+      <option value="1" <?php selected( $flag, '1' ); ?>><?php esc_html_e( 'Only When JavaScript is Disabled', 'wp-mautic' ); ?></option>
+      <option value="2" <?php selected( $flag, '2' ); ?>><?php esc_html_e( 'Replace mtc.js', 'wp-mautic' ); ?></option>
+    </select>
+    <br />
     <label for="wpmautic_fallback_activated">
-      <?php esc_html_e( 'Activate the tracking image when JavaScript is disabled.', 'wp-mautic' ); ?>
-      <br/>
+      <?php echo wp_kses( __( 'Use "Replace mtc.js" if you want to use the tracking pixel as the default and only way to track even if JavaScript is enabled/disabled.', 'wp-mautic' ), $allowed_tags ); ?>
+      <br />
       <?php echo wp_kses( __( 'Be warned, that the tracking image will always generate a cookie on the user browser side. If you want to control cookies and comply to GDPR, you must use JavaScript instead.', 'wp-mautic' ), $allowed_tags ); ?>
     </label>
     <?php
@@ -268,12 +264,11 @@ class Admin {
       $options['script_location'] = 'header';
     }
 
-    $options['fallback_activated'] = isset( $input['fallback_activated'] ) && '1' === $input['fallback_activated']
-      ? true
-      : false;
-    $options['track_logged_user']  = isset( $input['track_logged_user'] ) && '1' === $input['track_logged_user']
-      ? true
-      : false;
+    if ( isset( $input['fallback_activated'] ) && in_array( $input['fallback_activated'], array( '0', '1', '2' ), true ) ) {
+      $options['fallback_activated'] = sanitize_text_field($input['fallback_activated']);
+    } else {
+      $options['fallback_activated'] = '0'; // Default to disabled
+    }
 
     return $options;
   }
