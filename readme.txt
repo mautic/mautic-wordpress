@@ -3,6 +3,7 @@ Author: mautic
 Tags: marketing, automation
 Contributors: mautic,hideokamoto,shulard,escopecz,dbhurley,macbookandrew,dogbytemarketing
 Description: This plugin will allow you to add Mautic (Free Open Source Marketing Automation) tracking to your site
+
 Stable tag: 2.5.1
 Requires at least: 4.6
 Tested up to: 6.8
