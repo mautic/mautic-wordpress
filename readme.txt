@@ -13,6 +13,8 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://opencollective.com/mautic/donate
 
+Privacy first marketing automation built for WordPress. Capture, manage, and grow your leads with powerful forms and dynamic content.
+
 == Description ==
 
 [Mautic](http://mautic.org) [Wordpress Plugin](https://wordpress.org/plugins/wp-mautic/) injects Mautic tracking script and image in the WP website. Your Mautic instance will be able to track information about your visitors. You can also insert Mautic content inside your website using different shortcodes.
