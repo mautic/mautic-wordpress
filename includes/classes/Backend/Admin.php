@@ -270,6 +270,8 @@ class Admin {
       $options['fallback_activated'] = '0'; // Default to disabled
     }
 
+	$options['track_logged_user'] = ! empty( $input['track_logged_user'] );
+
     return $options;
   }
 
