@@ -36,7 +36,7 @@ class Blocks {
     wp_register_script(
       'wpmautic-form-block',
       plugins_url( 'assets/js/form-block.js', VPMAUTIC_PLUGIN_FILE ),
-      array( 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-server-side-render', 'wp-i18n' ),
+      $this->wpmautic_form_block_script_dependencies(),
       (string) filemtime( $script_path ),
       true
     );
@@ -65,6 +65,29 @@ class Blocks {
         ),
       )
     );
+  }
+
+  /**
+   * Script handles available on the running WordPress version.
+   *
+   * wp-block-editor and wp-server-side-render exist since 5.3. Earlier
+   * editors expose InspectorControls and ServerSideRender on wp-editor.
+   * The plugin minimum stays 4.6; this block is skipped before 5.0.
+   *
+   * @return array
+   */
+  private function wpmautic_form_block_script_dependencies() {
+    $dependencies = array( 'wp-blocks', 'wp-element', 'wp-components', 'wp-i18n' );
+
+    global $wp_version;
+    if ( version_compare( $wp_version, '5.3', '>=' ) ) {
+      $dependencies[] = 'wp-block-editor';
+      $dependencies[] = 'wp-server-side-render';
+    } else {
+      $dependencies[] = 'wp-editor';
+    }
+
+    return $dependencies;
   }
 
   /**

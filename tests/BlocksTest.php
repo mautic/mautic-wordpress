@@ -45,6 +45,23 @@ class BlocksTest extends WPMauticTestCase
         parent::tearDown();
     }
 
+    public function test_editor_script_uses_available_block_editor_handle()
+    {
+        $this->blocks->wpmautic_register_form_block();
+        $script = wp_scripts()->query('wpmautic-form-block');
+
+        $this->assertNotFalse($script);
+
+        global $wp_version;
+        if (version_compare($wp_version, '5.3', '>=')) {
+            $this->assertContains('wp-block-editor', $script->deps);
+            $this->assertContains('wp-server-side-render', $script->deps);
+        } else {
+            $this->assertContains('wp-editor', $script->deps);
+            $this->assertNotContains('wp-block-editor', $script->deps);
+        }
+    }
+
     public function test_frontend_render_uses_generate_js()
     {
         $html = $this->blocks->wpmautic_render_form_block(array('formId' => '1'));

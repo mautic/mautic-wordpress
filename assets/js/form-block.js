@@ -1,11 +1,21 @@
-( function ( blocks, element, blockEditor, components, serverSideRender, i18n ) {
+( function ( blocks, element, blockEditor, editor, components, serverSideRender, i18n ) {
 	var el = element.createElement;
 	var __ = i18n.__;
-	var useBlockProps = blockEditor.useBlockProps;
-	var InspectorControls = blockEditor.InspectorControls;
+	var editorPackage = blockEditor || editor || {};
+	var InspectorControls = editorPackage.InspectorControls;
 	var PanelBody = components.PanelBody;
 	var TextControl = components.TextControl;
-	var ServerSideRender = serverSideRender.default || serverSideRender;
+	var ServerSideRender = ( serverSideRender && ( serverSideRender.default || serverSideRender ) )
+		|| editorPackage.ServerSideRender
+		|| ( components && components.ServerSideRender );
+
+	function getBlockProps( extra ) {
+		if ( editorPackage.useBlockProps ) {
+			return editorPackage.useBlockProps( extra );
+		}
+
+		return extra;
+	}
 
 	function mauticIcon() {
 		return el(
@@ -61,12 +71,9 @@
 		icon: mauticIcon,
 		edit: function ( props ) {
 			var formId = props.attributes.formId;
-			var blockProps = useBlockProps( { className: 'wpmautic-form-block' } );
-
-			return el(
-				'div',
-				blockProps,
-				el(
+			var blockProps = getBlockProps( { className: 'wpmautic-form-block' } );
+			var inspector = InspectorControls
+				? el(
 					InspectorControls,
 					null,
 					el(
@@ -74,23 +81,25 @@
 						{ title: __( 'Mautic Form', 'wp-mautic' ), initialOpen: true },
 						formIdControl( formId, props.setAttributes )
 					)
-				),
-				formId
-					? el( ServerSideRender, {
-						block: 'wp-mautic/form',
-						attributes: props.attributes
-					} )
-					: el(
-						'div',
-						{ className: 'wpmautic-form-block__setup' },
-						el( 'p', { className: 'wpmautic-form-block__title' }, __( 'Mautic Form', 'wp-mautic' ) ),
-						el( 'p', { className: 'wpmautic-form-block__help' }, __( 'Enter a form ID to insert the form and preview it here.', 'wp-mautic' ) ),
-						formIdControl( formId, props.setAttributes )
-					)
-			);
+				)
+				: null;
+			var preview = formId && ServerSideRender
+				? el( ServerSideRender, {
+					block: 'wp-mautic/form',
+					attributes: props.attributes
+				} )
+				: el(
+					'div',
+					{ className: 'wpmautic-form-block__setup' },
+					el( 'p', { className: 'wpmautic-form-block__title' }, __( 'Mautic Form', 'wp-mautic' ) ),
+					el( 'p', { className: 'wpmautic-form-block__help' }, __( 'Enter a form ID to insert the form and preview it here.', 'wp-mautic' ) ),
+					formIdControl( formId, props.setAttributes )
+				);
+
+			return el( 'div', blockProps, inspector, preview );
 		},
 		save: function () {
 			return null;
 		}
 	} );
-} )( window.wp.blocks, window.wp.element, window.wp.blockEditor, window.wp.components, window.wp.serverSideRender, window.wp.i18n );
+} )( window.wp.blocks, window.wp.element, window.wp.blockEditor, window.wp.editor, window.wp.components, window.wp.serverSideRender, window.wp.i18n );
