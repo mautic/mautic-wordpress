@@ -41,12 +41,28 @@ class Blocks {
       true
     );
 
+    // Register by name. Passing a directory is WP 5.8+ and is treated as a
+    // block name on 5.0-5.7, which still have register_block_type().
     register_block_type(
-      VPMAUTIC_PLUGIN_DIR . 'includes/blocks/form',
+      'wp-mautic/form',
       array(
+        'title'           => __( 'Mautic Form', 'wp-mautic' ),
+        'category'        => 'embed',
+        'description'     => __( 'Insert a Mautic form and preview it in the editor.', 'wp-mautic' ),
+        'keywords'        => array( 'mautic', 'form' ),
+        'supports'        => array(
+          'html'   => false,
+          'anchor' => false,
+        ),
         'editor_script'   => 'wpmautic-form-block',
         'editor_style'    => 'wpmautic-form-block-editor',
         'render_callback' => array( $this, 'wpmautic_render_form_block' ),
+        'attributes'      => array(
+          'formId' => array(
+            'type'    => 'string',
+            'default' => '',
+          ),
+        ),
       )
     );
   }

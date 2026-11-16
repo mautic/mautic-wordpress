@@ -44,6 +44,20 @@
 	}
 
 	blocks.registerBlockType( 'wp-mautic/form', {
+		title: __( 'Mautic Form', 'wp-mautic' ),
+		category: 'embed',
+		description: __( 'Insert a Mautic form and preview it in the editor.', 'wp-mautic' ),
+		keywords: [ 'mautic', 'form' ],
+		supports: {
+			html: false,
+			anchor: false
+		},
+		attributes: {
+			formId: {
+				type: 'string',
+				default: ''
+			}
+		},
 		icon: mauticIcon,
 		edit: function ( props ) {
 			var formId = props.attributes.formId;
