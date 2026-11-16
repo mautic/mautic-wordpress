@@ -83,12 +83,38 @@ class Blocks {
   }
 
   /**
-   * Server-side block rendering in the editor is a REST request.
+   * Gutenberg ServerSideRender uses WP_REST_Block_Renderer_Controller.
+   *
+   * That controller is registered at /wp/v2/block-renderer/{name} since
+   * WordPress 5.0. REST_REQUEST is also true for public post rendering
+   * (/wp/v2/pages, /wp/v2/posts), which must keep the JavaScript embed.
    *
    * @return bool
    */
   private function wpmautic_is_editor_preview() {
-    return defined( 'REST_REQUEST' ) && REST_REQUEST;
+    $route = $this->wpmautic_get_rest_route();
+
+    return '' !== $route && 0 === strpos( $route, '/wp/v2/block-renderer/' );
+  }
+
+  /**
+   * REST route from the query var registered by rest_api_init().
+   *
+   * rest_api_loaded() reads $GLOBALS['wp']->query_vars['rest_route'] during
+   * parse_request, before WP_Query is populated, so get_query_var() is empty.
+   *
+   * @return string
+   */
+  private function wpmautic_get_rest_route() {
+    if ( ! isset( $GLOBALS['wp'] ) || ! is_object( $GLOBALS['wp'] ) ) {
+      return '';
+    }
+
+    if ( empty( $GLOBALS['wp']->query_vars['rest_route'] ) || ! is_string( $GLOBALS['wp']->query_vars['rest_route'] ) ) {
+      return '';
+    }
+
+    return '/' . ltrim( untrailingslashit( $GLOBALS['wp']->query_vars['rest_route'] ), '/' );
   }
 
 }
