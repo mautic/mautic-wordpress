@@ -8,7 +8,7 @@ Mautic WordPress plugin [![Build Status](https://travis-ci.org/mautic/mautic-wor
 ## Key features
 - You don't have to edit source code of your template to insert tracking code.
 - Plugin adds additional information to tracking image URL so you get better results than using just plain HTML code of tracking image.
-- You can use Mautic form embed with shortcode described below.
+- You can use Mautic form embed with a shortcode, a Gutenberg block, or an Elementor widget.
 - You can choose where the script is injected (header / footer).
 - Tracking image can be used as fallback when JavaScript is disabled.
 
@@ -71,13 +71,15 @@ The returned attributes will be added to Mautic payload.
 
 ### Mautic Forms
 
-To load a Mautic Form to your WP post, insert this shortcode to the place you want the form to appear:
+You can insert a Mautic form in three ways:
 
-```
-[mautic type="form" id="1"]
-```
+- **Shortcode:** `[mautic type="form" id="1"]`
+- **Gutenberg:** add the **Mautic Form** block and enter the form ID.
+- **Elementor:** add the **Mautic Form** widget from the Mautic category and enter the form ID.
 
 Replace "1" with the form ID you want to load. To get the ID of the form, go to your Mautic, open the form detail and look at the URL. The ID is right there. For example in this URL: http://yourmautic.com/s/forms/view/3 the ID is 3.
+
+The Gutenberg block and Elementor widget preview the standalone Mautic form in the editor. The published page uses the same `form/generate.js` embed as the shortcode, so Mautic theme styles carry over when **Use theme style?** is enabled on the form.
 
 ### Mautic Focus
 

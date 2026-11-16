@@ -1,0 +1,70 @@
+/*
+ * Editor styles for the Mautic Form Gutenberg block and Elementor widget.
+ * Colors match the Mautic brand palette used on the settings screen.
+ */
+
+.wpmautic-form-block {
+	--wpmautic-blue: #4e5e9e;
+	--wpmautic-ink: #2c3148;
+	--wpmautic-muted: #5c6378;
+	--wpmautic-line: #e6e8f0;
+	--wpmautic-font-heading: "Titillium Web", "Segoe UI", sans-serif;
+	--wpmautic-font-body: "Source Sans 3", "Segoe UI", sans-serif;
+}
+
+.wpmautic-form-block__setup,
+.wpmautic-form-block__notice {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 20px 22px;
+	border: 1px solid var(--wpmautic-line, #e6e8f0);
+	border-radius: 12px;
+	background: #fff;
+	color: var(--wpmautic-ink, #2c3148);
+	font-family: var(--wpmautic-font-body, "Segoe UI", sans-serif);
+}
+
+.wpmautic-form-block__title {
+	margin: 0 0 6px;
+	color: var(--wpmautic-blue, #4e5e9e);
+	font-family: var(--wpmautic-font-heading, "Segoe UI", sans-serif);
+	font-size: 18px;
+	font-weight: 700;
+	line-height: 1.3;
+}
+
+.wpmautic-form-block__title::after {
+	content: "";
+	display: block;
+	width: 36px;
+	height: 3px;
+	margin-top: 8px;
+	border-radius: 999px;
+	background: #fdb933;
+}
+
+.wpmautic-form-block__help,
+.wpmautic-form-block__notice {
+	color: var(--wpmautic-muted, #5c6378);
+	font-size: 14px;
+	line-height: 1.5;
+}
+
+.wpmautic-form-block__help {
+	margin: 0 0 14px;
+}
+
+.wpmautic-form-preview {
+	display: block;
+	width: 100%;
+	height: 480px;
+	border: 1px solid var(--wpmautic-line, #e6e8f0);
+	border-radius: 12px;
+	background: #fff;
+}
+
+.elementor-widget-wpmautic-form .wpmautic-form-preview,
+.elementor-widget-wpmautic-form .wpmautic-form-block__setup,
+.elementor-widget-wpmautic-form .wpmautic-form-block__notice {
+	max-width: 100%;
+}

@@ -70,6 +70,7 @@ class Admin {
               <li>
                 <span class="wpmautic-shortcodes__label"><?php esc_html_e( 'Mautic Form Embed:', 'wp-mautic' ); ?></span>
                 <code>[mautic type="form" id="1"]</code>
+                <p class="wpmautic-shortcodes__help"><?php esc_html_e( 'You can also insert a form with the Mautic Form Gutenberg block or the Elementor widget.', 'wp-mautic' ); ?></p>
               </li>
               <li>
                 <span class="wpmautic-shortcodes__label"><?php esc_html_e( 'Mautic Dynamic Content:', 'wp-mautic' ); ?></span>
