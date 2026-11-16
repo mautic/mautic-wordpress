@@ -137,7 +137,7 @@ Fix a bug introduced in the 2.0.2 version, you must upgrade asap because there w
 
 == Changelog ==
 
-= v2.5.1 =
+= v2.6.0 =
 
 Release date: 2026-11-16
 
