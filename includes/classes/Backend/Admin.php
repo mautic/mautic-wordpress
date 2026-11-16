@@ -270,6 +270,9 @@ class Admin {
       $options['fallback_activated'] = '0'; // Default to disabled
     }
 
+    // Unchecked checkboxes are omitted from the request, so always store an explicit boolean.
+    $options['track_logged_user'] = isset( $input['track_logged_user'] ) && '1' === $input['track_logged_user'];
+
     return $options;
   }
 

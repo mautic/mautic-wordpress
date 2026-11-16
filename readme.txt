@@ -4,9 +4,9 @@ Tags: marketing, automation
 Contributors: mautic,hideokamoto,shulard,escopecz,dbhurley,macbookandrew,dogbytemarketing
 Description: This plugin will allow you to add Mautic (Free Open Source Marketing Automation) tracking to your site
 
-Stable tag: 2.5.1
+Stable tag: 2.6.0
 Requires at least: 4.6
-Tested up to: 6.8
+Tested up to: 7.1
 Author URI: http://mautic.org
 Text Domain: wp-mautic
 License: GPLv2 or later
@@ -132,6 +132,13 @@ Fix a bug introduced in the 2.0.2 version, you must upgrade asap because the asy
 Fix a bug introduced in the 2.0.2 version, you must upgrade asap because there was a typo in the option page name which forbid option to be saved.
 
 == Changelog ==
+
+= v2.5.1 =
+
+Release date: 2026-11-16
+
+* Changes
+  * Bugfix: No way to track users
 
 = v2.5.1 =
 
