@@ -138,6 +138,7 @@ Fix a bug introduced in the 2.0.2 version, you must upgrade asap because there w
 Release date: 2026-11-16
 
 * Changes
+  * Updated: Settings style
   * Bugfix: No way to track users
 
 = v2.5.1 =

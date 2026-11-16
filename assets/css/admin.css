@@ -1,0 +1,402 @@
+/*
+ * Settings screen for WP Mautic.
+ * Colors are the official brand palette: blue #4e5e9e, gold #fdb933, teal #00b49d.
+ * Titillium Web and Source Sans 3 are the brand fonts, served from assets/fonts.
+ */
+
+@font-face {
+	font-family: "Source Sans 3";
+	font-style: normal;
+	font-weight: 400 600;
+	font-display: swap;
+	src: url("../fonts/source-sans-3-latin-ext.woff2") format("woff2");
+	unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+	font-family: "Source Sans 3";
+	font-style: normal;
+	font-weight: 400 600;
+	font-display: swap;
+	src: url("../fonts/source-sans-3-latin.woff2") format("woff2");
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+	font-family: "Titillium Web";
+	font-style: normal;
+	font-weight: 600;
+	font-display: swap;
+	src: url("../fonts/titillium-web-600-latin-ext.woff2") format("woff2");
+	unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+	font-family: "Titillium Web";
+	font-style: normal;
+	font-weight: 600;
+	font-display: swap;
+	src: url("../fonts/titillium-web-600-latin.woff2") format("woff2");
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+	font-family: "Titillium Web";
+	font-style: normal;
+	font-weight: 700;
+	font-display: swap;
+	src: url("../fonts/titillium-web-700-latin-ext.woff2") format("woff2");
+	unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+	font-family: "Titillium Web";
+	font-style: normal;
+	font-weight: 700;
+	font-display: swap;
+	src: url("../fonts/titillium-web-700-latin.woff2") format("woff2");
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+.wpmautic-settings {
+	--wpmautic-blue: #4e5e9e;
+	--wpmautic-blue-dark: #3d4c86;
+	--wpmautic-gold: #fdb933;
+	--wpmautic-teal: #00b49d;
+	--wpmautic-ink: #2c3148;
+	--wpmautic-muted: #5c6378;
+	--wpmautic-line: #e6e8f0;
+	--wpmautic-soft: #f6f7fb;
+	--wpmautic-font-heading: "Titillium Web", "Segoe UI", sans-serif;
+	--wpmautic-font-body: "Source Sans 3", "Segoe UI", sans-serif;
+	box-sizing: border-box;
+	margin-top: 16px;
+	color: var(--wpmautic-ink);
+	font-family: var(--wpmautic-font-body);
+	font-size: 15px;
+	line-height: 1.5;
+	container-type: inline-size;
+}
+
+/*
+ * This stylesheet only loads on the WP Mautic settings screen.
+ * Hide shared admin notice classes. Keep Settings API feedback (.settings-error).
+ */
+body.settings_page_wpmautic .update-nag,
+body.settings_page_wpmautic .notice-info:not(.settings-error),
+body.settings_page_wpmautic .notice-warning:not(.settings-error),
+body.settings_page_wpmautic .notice-error:not(.settings-error),
+body.settings_page_wpmautic .notice-success:not(.settings-error),
+body.settings_page_wpmautic .updated:not(.settings-error) {
+	display: none;
+}
+
+.wpmautic-settings__header,
+.wpmautic-card {
+	background: #fff;
+	border: 1px solid var(--wpmautic-line);
+	border-radius: 12px;
+	box-shadow: 0 1px 2px rgba(44, 49, 72, 0.04);
+}
+
+.wpmautic-settings__header {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	padding: 20px 24px;
+}
+
+.wpmautic-settings__mark {
+	display: block;
+	width: 56px;
+	height: 56px;
+	flex: 0 0 56px;
+}
+
+.wpmautic-settings__intro {
+	min-width: 0;
+}
+
+.wpmautic-settings__title {
+	margin: 0;
+	padding: 0;
+	font-family: var(--wpmautic-font-heading);
+	font-size: 26px;
+	font-weight: 700;
+	line-height: 1.15;
+	color: var(--wpmautic-blue);
+}
+
+.wpmautic-settings__title::after {
+	content: "";
+	display: block;
+	width: 36px;
+	height: 3px;
+	margin-top: 8px;
+	border-radius: 999px;
+	background: var(--wpmautic-gold);
+}
+
+.wpmautic-settings__lead {
+	margin: 8px 0 0;
+	color: var(--wpmautic-muted);
+	font-size: 15px;
+}
+
+.wpmautic-settings__layout {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: 16px;
+	margin-top: 16px;
+	align-items: start;
+}
+
+@container (min-width: 820px) {
+	.wpmautic-settings__layout {
+		grid-template-columns: minmax(0, 1fr) 380px;
+	}
+}
+
+.wpmautic-settings__aside {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	min-width: 0;
+}
+
+.wpmautic-card {
+	padding: 22px 24px 20px;
+}
+
+.wpmautic-card__title,
+.wpmautic-card form > h2 {
+	margin: 0 0 16px;
+	padding: 0 0 12px;
+	border-bottom: 1px solid var(--wpmautic-line);
+	font-family: var(--wpmautic-font-heading);
+	font-size: 18px;
+	font-weight: 700;
+	line-height: 1.3;
+	color: var(--wpmautic-blue);
+}
+
+.wpmautic-settings .form-table {
+	margin: 0;
+}
+
+.wpmautic-settings .form-table tr {
+	display: block;
+	margin: 0 0 22px;
+}
+
+.wpmautic-settings .form-table th,
+.wpmautic-settings .form-table td {
+	display: block;
+	width: auto;
+	padding: 0;
+	font-weight: 400;
+}
+
+.wpmautic-settings .form-table th {
+	padding-bottom: 8px;
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--wpmautic-ink);
+}
+
+.wpmautic-settings input[type="text"],
+.wpmautic-settings select {
+	width: 100%;
+	min-height: 40px;
+	margin: 0;
+	padding: 8px 12px;
+	border: 1px solid #d5d9e6;
+	border-radius: 8px;
+	background: #fff;
+	box-shadow: none;
+	color: var(--wpmautic-ink);
+	font-family: var(--wpmautic-font-body);
+	font-size: 15px;
+	line-height: 1.4;
+}
+
+.wpmautic-settings input[type="text"]:focus,
+.wpmautic-settings select:focus {
+	border-color: var(--wpmautic-blue);
+	box-shadow: 0 0 0 3px rgba(78, 94, 158, 0.16);
+	outline: none;
+}
+
+.wpmautic-settings #wpmautic_script_location > br,
+.wpmautic-settings .form-table td > br {
+	display: none;
+}
+
+.wpmautic-settings #wpmautic_script_location label {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin: 0 0 8px;
+	padding: 12px 14px;
+	border: 1px solid var(--wpmautic-line);
+	border-radius: 10px;
+	background: #fff;
+	color: var(--wpmautic-muted);
+	font-size: 13px;
+	line-height: 1.45;
+}
+
+.wpmautic-settings #wpmautic_script_location label:last-child {
+	margin-bottom: 0;
+}
+
+.wpmautic-settings #wpmautic_script_location label:has(input:checked) {
+	border-color: var(--wpmautic-blue);
+	background: var(--wpmautic-soft);
+	color: var(--wpmautic-ink);
+}
+
+.wpmautic-settings #wpmautic_script_location input[type="radio"] {
+	flex: 0 0 auto;
+	margin: 0;
+	accent-color: var(--wpmautic-blue);
+}
+
+.wpmautic-choice__text {
+	min-width: 0;
+}
+
+.wpmautic-settings label[for="wpmautic_fallback_activated"] {
+	display: block;
+	margin-top: 8px;
+	color: var(--wpmautic-muted);
+	font-size: 13px;
+	line-height: 1.5;
+}
+
+.wpmautic-settings input[type="checkbox"] {
+	width: 16px;
+	height: 16px;
+	margin: 0 6px 0 0;
+	accent-color: var(--wpmautic-blue);
+	vertical-align: middle;
+}
+
+.wpmautic-settings label[for="wpmautic_track_logged_user"] {
+	color: var(--wpmautic-ink);
+	font-size: 14px;
+	vertical-align: middle;
+}
+
+.wpmautic-settings code {
+	padding: 1px 5px;
+	border-radius: 4px;
+	background: #eef0f6;
+	color: var(--wpmautic-blue-dark);
+	font-size: 12px;
+}
+
+.wpmautic-settings .submit {
+	margin: 4px 0 0;
+	padding: 16px 0 0;
+	border-top: 1px solid var(--wpmautic-line);
+}
+
+.wp-core-ui .wpmautic-settings .button-primary {
+	height: auto;
+	padding: 7px 16px;
+	border: 1px solid var(--wpmautic-blue);
+	border-radius: 8px;
+	background: var(--wpmautic-blue);
+	box-shadow: none;
+	color: #fff;
+	font-family: var(--wpmautic-font-body);
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 1.5;
+	text-shadow: none;
+}
+
+.wp-core-ui .wpmautic-settings .button-primary:hover,
+.wp-core-ui .wpmautic-settings .button-primary:focus {
+	border-color: var(--wpmautic-blue-dark);
+	background: var(--wpmautic-blue-dark);
+	color: #fff;
+	box-shadow: none;
+}
+
+.wpmautic-shortcodes,
+.wpmautic-links {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.wpmautic-shortcodes {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+}
+
+.wpmautic-shortcodes__label {
+	display: block;
+	margin-bottom: 6px;
+	color: var(--wpmautic-ink);
+	font-size: 13px;
+	font-weight: 600;
+}
+
+.wpmautic-shortcodes code {
+	display: block;
+	padding: 10px 12px;
+	overflow-x: auto;
+	border-radius: 8px;
+	background: var(--wpmautic-soft);
+	font-size: 12px;
+	line-height: 1.45;
+}
+
+.wpmautic-links a {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 10px 12px;
+	border-radius: 8px;
+	color: var(--wpmautic-ink);
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.wpmautic-links a:hover,
+.wpmautic-links a:focus {
+	background: var(--wpmautic-soft);
+	color: var(--wpmautic-blue);
+	box-shadow: none;
+}
+
+.wpmautic-links .dashicons {
+	width: 18px;
+	height: 18px;
+	font-size: 18px;
+	line-height: 1;
+	color: var(--wpmautic-blue);
+}
+
+.wpmautic-links .dashicons-external {
+	margin-left: auto;
+	width: 16px;
+	height: 16px;
+	font-size: 16px;
+	color: var(--wpmautic-teal);
+}
+
+@media (max-width: 782px) {
+	.wpmautic-settings__header {
+		align-items: flex-start;
+	}
+
+	.wpmautic-settings__header,
+	.wpmautic-card {
+		padding: 16px;
+	}
+}
