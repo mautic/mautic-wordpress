@@ -1,0 +1,20 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "wp-mautic/form",
+	"title": "Mautic Form",
+	"category": "embed",
+	"description": "Insert a Mautic form and preview it in the editor.",
+	"keywords": [ "mautic", "form" ],
+	"textdomain": "wp-mautic",
+	"attributes": {
+		"formId": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"supports": {
+		"html": false,
+		"anchor": false
+	}
+}

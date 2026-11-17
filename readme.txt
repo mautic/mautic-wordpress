@@ -4,9 +4,9 @@ Tags: marketing, automation
 Contributors: mautic,hideokamoto,shulard,escopecz,dbhurley,macbookandrew,dogbytemarketing
 Description: This plugin will allow you to add Mautic (Free Open Source Marketing Automation) tracking to your site
 
-Stable tag: 2.5.1
+Stable tag: 2.6.0
 Requires at least: 4.6
-Tested up to: 6.8
+Tested up to: 7.1
 Author URI: http://mautic.org
 Text Domain: wp-mautic
 License: GPLv2 or later
@@ -20,7 +20,7 @@ Donate link: https://opencollective.com/mautic/donate
 ## Key features
 - You don't have to edit source code of your template to insert tracking code.
 - Plugin adds additional information to tracking image URL so you get better results than using just plain HTML code of tracking image.
-- You can use Mautic form embed with shortcode described below.
+- You can use Mautic form embed with a shortcode, the Gutenberg block, or the Elementor widget.
 - You can choose where the script is injected (header / footer).
 - Tracking image can be used as fallback when JavaScript is disabled.
 
@@ -61,11 +61,15 @@ The returned attributes will be added to Mautic payload.
 
 ### Mautic Forms
 
-To load a Mautic Form to your WP post, insert this shortcode to the place you want the form to appear:
+You can insert a Mautic form in three ways:
 
-    [mautic type="form" id="1"]
+* Shortcode: `[mautic type="form" id="1"]`
+* Gutenberg: add the Mautic Form block and enter the form ID.
+* Elementor: add the Mautic Form widget from the Mautic category and enter the form ID.
 
 Replace "1" with the form ID you want to load. To get the ID of the form, go to your Mautic, open the form detail and look at the URL. The ID is right there. For example in this URL: http://yourmautic.com/s/forms/view/3 the ID is 3.
+
+The Gutenberg block and Elementor widget preview the standalone Mautic form in the editor. The published page uses the same `form/generate.js` embed as the shortcode, so Mautic theme styles carry over when Use theme style? is enabled on the form.
 
 ### Mautic Focus
 
@@ -132,6 +136,15 @@ Fix a bug introduced in the 2.0.2 version, you must upgrade asap because the asy
 Fix a bug introduced in the 2.0.2 version, you must upgrade asap because there was a typo in the option page name which forbid option to be saved.
 
 == Changelog ==
+
+= v2.6.0 =
+
+Release date: 2026-11-16
+
+* Changes
+  * Added: Form widget to Gutenberg and Elementor
+  * Updated: Settings style
+  * Bugfix: No way to track users
 
 = v2.5.1 =
 

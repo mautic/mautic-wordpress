@@ -14,6 +14,7 @@ class Admin {
   public function init() {
 		add_action('admin_menu', array($this, 'wpmautic_settings'));
     add_action('admin_init', array($this, 'wpmautic_admin_init'));
+    add_action('admin_enqueue_scripts', array($this, 'wpmautic_admin_assets'));
     add_filter('plugin_action_links_' . plugin_basename(VPMAUTIC_PLUGIN_FILE), array($this, 'wpmautic_plugin_actions'), 10, 2);
   }
 
@@ -34,40 +35,112 @@ class Admin {
    * HTML for the Mautic option page
    */
   public function wpmautic_options_page() {
+    $brand_mark = plugins_url( 'assets/images/mautic-brand-mark.svg', VPMAUTIC_PLUGIN_FILE );
     ?>
-    <div>
-      <h2><?php esc_html_e( 'WP Mautic', 'wp-mautic' ); ?></h2>
-      <p><?php esc_html_e( 'Add Mautic tracking capabilities to your website.', 'wp-mautic' ); ?></p>
-      <form action="options.php" method="post">
-        <?php settings_fields( 'wpmautic' ); ?>
-        <?php do_settings_sections( 'wpmautic' ); ?>
-        <?php submit_button(); ?>
-      </form>
-      <h3><?php esc_html_e( 'Shortcode Examples:', 'wp-mautic' ); ?></h3>
-      <ul>
-        <li><?php esc_html_e( 'Mautic Form Embed:', 'wp-mautic' ); ?> <code>[mautic type="form" id="1"]</code></li>
-        <li><?php esc_html_e( 'Mautic Dynamic Content:', 'wp-mautic' ); ?> <code>[mautic type="content" slot="slot_name"]<?php esc_html_e( 'Default Text', 'wp-mautic' ); ?>[/mautic]</code></li>
-      </ul>
-      <h3><?php esc_html_e( 'Quick Links', 'wp-mautic' ); ?></h3>
-      <ul>
-        <li>
-          <a href="https://github.com/mautic/mautic-wordpress#mautic-wordpress-plugin" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Plugin docs', 'wp-mautic' ); ?></a>
-        </li>
-        <li>
-          <a href="https://github.com/mautic/mautic-wordpress/issues" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Plugin support', 'wp-mautic' ); ?></a>
-        </li>
-        <li>
-          <a href="https://mautic.org" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Mautic project', 'wp-mautic' ); ?></a>
-        </li>
-        <li>
-          <a href="http://docs.mautic.org/" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Mautic docs', 'wp-mautic' ); ?></a>
-        </li>
-        <li>
-          <a href="https://www.mautic.org/community/" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Mautic forum', 'wp-mautic' ); ?></a>
-        </li>
-      </ul>
+    <div class="wrap wpmautic-settings">
+      <?php // Core moves admin notices to after this, which keeps them above the card. ?>
+      <hr class="wp-header-end" />
+      <header class="wpmautic-settings__header">
+        <img
+          class="wpmautic-settings__mark"
+          src="<?php echo esc_url( $brand_mark ); ?>"
+          alt="<?php esc_attr_e( 'Mautic', 'wp-mautic' ); ?>"
+          width="56"
+          height="56"
+        />
+        <div class="wpmautic-settings__intro">
+          <h1 class="wpmautic-settings__title"><?php esc_html_e( 'WP Mautic', 'wp-mautic' ); ?></h1>
+          <p class="wpmautic-settings__lead"><?php esc_html_e( 'Add Mautic tracking capabilities to your website.', 'wp-mautic' ); ?></p>
+        </div>
+      </header>
+
+      <div class="wpmautic-settings__layout">
+        <div class="wpmautic-card">
+          <form action="options.php" method="post">
+            <?php settings_fields( 'wpmautic' ); ?>
+            <?php do_settings_sections( 'wpmautic' ); ?>
+            <?php submit_button(); ?>
+          </form>
+        </div>
+
+        <aside class="wpmautic-settings__aside">
+          <section class="wpmautic-card">
+            <h2 class="wpmautic-card__title"><?php esc_html_e( 'Shortcode Examples:', 'wp-mautic' ); ?></h2>
+            <ul class="wpmautic-shortcodes">
+              <li>
+                <span class="wpmautic-shortcodes__label"><?php esc_html_e( 'Mautic Form Embed:', 'wp-mautic' ); ?></span>
+                <code>[mautic type="form" id="1"]</code>
+                <p class="wpmautic-shortcodes__help"><?php esc_html_e( 'You can also insert a form with the Mautic Form Gutenberg block or the Elementor widget.', 'wp-mautic' ); ?></p>
+              </li>
+              <li>
+                <span class="wpmautic-shortcodes__label"><?php esc_html_e( 'Mautic Dynamic Content:', 'wp-mautic' ); ?></span>
+                <code>[mautic type="content" slot="slot_name"]<?php esc_html_e( 'Default Text', 'wp-mautic' ); ?>[/mautic]</code>
+              </li>
+            </ul>
+          </section>
+
+          <section class="wpmautic-card">
+            <h2 class="wpmautic-card__title"><?php esc_html_e( 'Quick Links', 'wp-mautic' ); ?></h2>
+            <ul class="wpmautic-links">
+              <li>
+                <a href="https://github.com/mautic/mautic-wordpress#mautic-wordpress-plugin" target="_blank" rel="noopener noreferrer">
+                  <span class="dashicons dashicons-media-document" aria-hidden="true"></span>
+                  <span><?php esc_html_e( 'Plugin docs', 'wp-mautic' ); ?></span>
+                  <span class="dashicons dashicons-external" aria-hidden="true"></span>
+                </a>
+              </li>
+              <li>
+                <a href="https://github.com/mautic/mautic-wordpress/issues" target="_blank" rel="noopener noreferrer">
+                  <span class="dashicons dashicons-sos" aria-hidden="true"></span>
+                  <span><?php esc_html_e( 'Plugin support', 'wp-mautic' ); ?></span>
+                  <span class="dashicons dashicons-external" aria-hidden="true"></span>
+                </a>
+              </li>
+              <li>
+                <a href="https://mautic.org" target="_blank" rel="noopener noreferrer">
+                  <span class="dashicons dashicons-admin-site-alt3" aria-hidden="true"></span>
+                  <span><?php esc_html_e( 'Mautic project', 'wp-mautic' ); ?></span>
+                  <span class="dashicons dashicons-external" aria-hidden="true"></span>
+                </a>
+              </li>
+              <li>
+                <a href="http://docs.mautic.org/" target="_blank" rel="noopener noreferrer">
+                  <span class="dashicons dashicons-book" aria-hidden="true"></span>
+                  <span><?php esc_html_e( 'Mautic docs', 'wp-mautic' ); ?></span>
+                  <span class="dashicons dashicons-external" aria-hidden="true"></span>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.mautic.org/community/" target="_blank" rel="noopener noreferrer">
+                  <span class="dashicons dashicons-groups" aria-hidden="true"></span>
+                  <span><?php esc_html_e( 'Mautic forum', 'wp-mautic' ); ?></span>
+                  <span class="dashicons dashicons-external" aria-hidden="true"></span>
+                </a>
+              </li>
+            </ul>
+          </section>
+        </aside>
+      </div>
     </div>
     <?php
+  }
+
+  /**
+   * Styles for the settings screen only.
+   *
+   * @param string $hook Current admin page hook.
+   */
+  public function wpmautic_admin_assets( $hook ) {
+    if ( 'settings_page_wpmautic' !== $hook ) {
+      return;
+    }
+
+    wp_enqueue_style(
+      'wpmautic-admin',
+      plugins_url( 'assets/css/admin.css', VPMAUTIC_PLUGIN_FILE ),
+      array( 'dashicons' ),
+      (string) filemtime( VPMAUTIC_PLUGIN_DIR . 'assets/css/admin.css' )
+    );
   }
 
   
@@ -160,7 +233,7 @@ class Admin {
             ?>
             checked<?php endif; ?>
         />
-        <?php echo wp_kses( __( 'Added in the <code>wp_head</code> action.<br/>Inserts the tracking code before the <code>&lt;head&gt;</code> tag; can be slightly slower since page load is delayed until all scripts in <code><head></code> are loaded and processed.', 'wp-mautic' ), $allowed_tags ); ?>
+        <span class="wpmautic-choice__text"><?php echo wp_kses( __( 'Added in the <code>wp_head</code> action.<br/>Inserts the tracking code before the <code>&lt;head&gt;</code> tag; can be slightly slower since page load is delayed until all scripts in <code>&lt;head&gt;</code> are loaded and processed.', 'wp-mautic' ), $allowed_tags ); ?></span>
       </label>
       <br/>
       <label>
@@ -173,7 +246,7 @@ class Admin {
             ?>
             checked<?php endif; ?>
         />
-        <?php echo wp_kses( __( 'Embedded within the <code>wp_footer</code> action.<br/>Inserts the tracking code before the <code>&lt;/body&gt;</code> tag; slightly better for performance but may track less reliably if users close the page before the script has loaded.', 'wp-mautic' ), $allowed_tags ); ?>
+        <span class="wpmautic-choice__text"><?php echo wp_kses( __( 'Embedded within the <code>wp_footer</code> action.<br/>Inserts the tracking code before the <code>&lt;/body&gt;</code> tag; slightly better for performance but may track less reliably if users close the page before the script has loaded.', 'wp-mautic' ), $allowed_tags ); ?></span>
       </label>
       <br />
       <label>
@@ -186,9 +259,11 @@ class Admin {
             ?>
             checked<?php endif; ?>
         />
-        <?php echo wp_kses( __( 'Visitor will not be tracked when rendering the page. Use this option to comply with GDPR regulations. If the visitor accept cookies you must execute the <code>wpmautic_send()</code> JavaScript function to start tracking.', 'wp-mautic' ), $allowed_tags ); ?>
-        <br/>
-        <?php echo wp_kses( __( 'However when using shortcodes, a tracking cookie will be added everytime even when tracking is disabled. This is because loading a Mautic resource (javascript or image) generate that cookie.', 'wp-mautic' ), $allowed_tags ); ?>
+        <span class="wpmautic-choice__text">
+          <?php echo wp_kses( __( 'Visitor will not be tracked when rendering the page. Use this option to comply with GDPR regulations. If the visitor accept cookies you must execute the <code>wpmautic_send()</code> JavaScript function to start tracking.', 'wp-mautic' ), $allowed_tags ); ?>
+          <br/>
+          <?php echo wp_kses( __( 'However when using shortcodes, a tracking cookie will be added everytime even when tracking is disabled. This is because loading a Mautic resource (javascript or image) generate that cookie.', 'wp-mautic' ), $allowed_tags ); ?>
+        </span>
       </label>
     </fieldset>
     <?php
@@ -269,6 +344,9 @@ class Admin {
     } else {
       $options['fallback_activated'] = '0'; // Default to disabled
     }
+
+    // Unchecked checkboxes are omitted from the request, so always store an explicit boolean.
+    $options['track_logged_user'] = isset( $input['track_logged_user'] ) && ( true === $input['track_logged_user'] || '1' === $input['track_logged_user'] );
 
     return $options;
   }

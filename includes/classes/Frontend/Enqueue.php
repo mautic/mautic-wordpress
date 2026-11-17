@@ -210,9 +210,9 @@ class Enqueue {
       // Following Mautic fields has to be created manually and the fields must match these names.
       $attrs['wp_user']              = $current_user->user_login;
       $attrs['wp_alias']             = $current_user->display_name;
-      $attrs['wp_registration_date'] = date(
+      $attrs['wp_registration_date'] = gmdate(
         'Y-m-d',
-        strtotime( $current_user->user_registered )
+        strtotime( $current_user->user_registered . ' GMT' )
       );
     }
 
