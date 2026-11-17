@@ -47,6 +47,10 @@ class BlocksTest extends WPMauticTestCase
 
     public function test_editor_script_uses_available_block_editor_handle()
     {
+        if (!function_exists('register_block_type')) {
+            $this->markTestSkipped('Form block script registration requires WordPress 5.0 or later.');
+        }
+
         $previous = $this->unregister_form_block();
 
         try {
