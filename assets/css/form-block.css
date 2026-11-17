@@ -54,6 +54,10 @@
 	margin: 0 0 14px;
 }
 
+.wpmautic-form-block__setup + * {
+	margin-top: 14px;
+}
+
 .wpmautic-form-preview {
 	display: block;
 	width: 100%;

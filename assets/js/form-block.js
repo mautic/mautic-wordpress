@@ -43,6 +43,7 @@
 
 	function formIdControl( formId, setAttributes ) {
 		return el( TextControl, {
+			key: 'wpmautic-form-id',
 			label: __( 'Form ID', 'wp-mautic' ),
 			type: 'number',
 			min: 1,
@@ -83,20 +84,21 @@
 					)
 				)
 				: null;
+			var setup = el(
+				'div',
+				{ className: 'wpmautic-form-block__setup' },
+				el( 'p', { className: 'wpmautic-form-block__title' }, __( 'Mautic Form', 'wp-mautic' ) ),
+				el( 'p', { className: 'wpmautic-form-block__help' }, __( 'Enter a form ID to insert the form and preview it here.', 'wp-mautic' ) ),
+				formIdControl( formId, props.setAttributes )
+			);
 			var preview = formId && ServerSideRender
 				? el( ServerSideRender, {
 					block: 'wp-mautic/form',
 					attributes: props.attributes
 				} )
-				: el(
-					'div',
-					{ className: 'wpmautic-form-block__setup' },
-					el( 'p', { className: 'wpmautic-form-block__title' }, __( 'Mautic Form', 'wp-mautic' ) ),
-					el( 'p', { className: 'wpmautic-form-block__help' }, __( 'Enter a form ID to insert the form and preview it here.', 'wp-mautic' ) ),
-					formIdControl( formId, props.setAttributes )
-				);
+				: null;
 
-			return el( 'div', blockProps, inspector, preview );
+			return el( 'div', blockProps, inspector, setup, preview );
 		},
 		save: function () {
 			return null;
