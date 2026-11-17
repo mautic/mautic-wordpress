@@ -47,18 +47,24 @@ class BlocksTest extends WPMauticTestCase
 
     public function test_editor_script_uses_available_block_editor_handle()
     {
-        $this->blocks->wpmautic_register_form_block();
-        $script = wp_scripts()->query('wpmautic-form-block');
+        $previous = $this->unregister_form_block();
 
-        $this->assertNotFalse($script);
+        try {
+            $this->blocks->wpmautic_register_form_block();
+            $script = wp_scripts()->query('wpmautic-form-block');
 
-        global $wp_version;
-        if (version_compare($wp_version, '5.3', '>=')) {
-            $this->assertContains('wp-block-editor', $script->deps);
-            $this->assertContains('wp-server-side-render', $script->deps);
-        } else {
-            $this->assertContains('wp-editor', $script->deps);
-            $this->assertNotContains('wp-block-editor', $script->deps);
+            $this->assertNotFalse($script);
+
+            global $wp_version;
+            if (version_compare($wp_version, '5.3', '>=')) {
+                $this->assertContains('wp-block-editor', $script->deps);
+                $this->assertContains('wp-server-side-render', $script->deps);
+            } else {
+                $this->assertContains('wp-editor', $script->deps);
+                $this->assertNotContains('wp-block-editor', $script->deps);
+            }
+        } finally {
+            $this->restore_form_block($previous);
         }
     }
 
@@ -116,5 +122,50 @@ class BlocksTest extends WPMauticTestCase
         }
 
         $GLOBALS['wp']->query_vars['rest_route'] = $route;
+    }
+
+    /**
+     * Remove the bootstrap-registered form block so this test can register it once.
+     *
+     * @return WP_Block_Type|null
+     */
+    private function unregister_form_block()
+    {
+        $previous = null;
+
+        if (class_exists('WP_Block_Type_Registry')) {
+            $registry = WP_Block_Type_Registry::get_instance();
+            if ($registry->is_registered('wp-mautic/form')) {
+                $previous = $registry->get_registered('wp-mautic/form');
+                $registry->unregister('wp-mautic/form');
+            }
+        }
+
+        wp_deregister_script('wpmautic-form-block');
+        wp_deregister_style('wpmautic-form-block-editor');
+
+        return $previous;
+    }
+
+    /**
+     * Restore the bootstrap form block after an isolated registration test.
+     *
+     * @param WP_Block_Type|null $previous Previously registered block type.
+     * @return void
+     */
+    private function restore_form_block($previous)
+    {
+        if (!class_exists('WP_Block_Type_Registry')) {
+            return;
+        }
+
+        $registry = WP_Block_Type_Registry::get_instance();
+        if ($registry->is_registered('wp-mautic/form')) {
+            $registry->unregister('wp-mautic/form');
+        }
+
+        if ($previous instanceof WP_Block_Type) {
+            $registry->register($previous);
+        }
     }
 }
